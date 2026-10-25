@@ -414,12 +414,12 @@
             {
               "id": "d13-first-repo",
               "title": "Репозиторий с документами для ИИ",
-              "minutes": 8
+              "minutes": 6
             },
             {
               "id": "d14-connect",
               "title": "Подключить GitHub к Claude и ChatGPT",
-              "minutes": 12
+              "minutes": 15
             },
             {
               "id": "dm4-control",
@@ -551,12 +551,12 @@
             {
               "id": "p13-first-repo",
               "title": "Репозиторий с карточками товаров для ИИ",
-              "minutes": 8
+              "minutes": 6
             },
             {
               "id": "p14-connect",
               "title": "Подключить GitHub к Claude и ChatGPT",
-              "minutes": 12
+              "minutes": 15
             },
             {
               "id": "pm4-control",
@@ -573,7 +573,7 @@
             {
               "id": "p15-first-task",
               "title": "Первая задача: ИИ сам делает и сохраняет",
-              "minutes": 12
+              "minutes": 10
             },
             {
               "id": "p16-codex-copilot",
@@ -688,12 +688,12 @@
             {
               "id": "k13-first-repo",
               "title": "Репозиторий с контентом и отчётами для ИИ",
-              "minutes": 8
+              "minutes": 6
             },
             {
               "id": "k14-connect",
               "title": "Подключить GitHub к Claude и ChatGPT",
-              "minutes": 12
+              "minutes": 15
             },
             {
               "id": "km4-control",
