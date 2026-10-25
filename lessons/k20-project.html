@@ -14,7 +14,7 @@
   <h1>Проект: проверка постов по чеклисту</h1>
   <p class="lead">За час-полтора у вас появится первый инструмент: программа, которая проверяет каждый пост по вашему чеклисту и собирает сводную таблицу по постам и кампаниям — с CTR и ценой клика. Пишет и запускает её агент; вы ставите задачу, читаете отчёты и принимаете pull request.</p>
 
-  <div class="note"><p><strong>Что понадобится.</strong> Аккаунт Claude на Pro, Max или Team; приватный репозиторий <code>marketing</code>, к которому подключено Claude GitHub App (урок 14); 4–6 обезличенных постов в папке <code>posts/</code>, файл <code>checklist.md</code>, выгрузка <code>campaigns/campaigns.csv</code> и шаблон <code>templates/otchet.md</code>. В Codex (<a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a>) то же ТЗ отправляют через <b>Start a new task</b> (урок 16).</p></div>
+  <div class="note"><p><strong>Что понадобится.</strong> Аккаунт Claude на Pro, Max или Team; приватный репозиторий <code>marketing</code>, к которому подключено Claude GitHub App (урок 14); 4–6 постов в папке <code>posts/</code>, файл <code>checklist.md</code>, выгрузка <code>campaigns/campaigns.csv</code> и шаблон <code>templates/otchet.md</code>. В Codex (<a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a>) то же ТЗ отправляют через <b>Start a new task</b> (урок 16).</p></div>
 
   <h2>От ТЗ до работающего инструмента</h2>
   <p>По одному шагу, в соседней вкладке. Имена постов и цифры кампаний в примерах условные.</p>
@@ -131,10 +131,10 @@
           <div class="table-wrap"><table>
             <thead><tr><th>Файл</th><th>Площадка</th><th>Дата</th><th>Не выполнено</th></tr></thead>
             <tbody>
-              <tr><td>anons-vebinara.md</td><td>Telegram</td><td>14.10</td><td>1</td></tr>
-              <tr><td>post-keis.md</td><td>VK</td><td>03.10</td><td>2</td></tr>
-              <tr><td>post-rassylka.md</td><td>рассылка</td><td>21.10</td><td>2</td></tr>
-              <tr><td>post-akciya.md</td><td>Telegram</td><td>28.10</td><td>1</td></tr>
+              <tr><td>anons-vebinara.md</td><td>Telegram</td><td>14.11</td><td>1</td></tr>
+              <tr><td>post-keis.md</td><td>VK</td><td>05.11</td><td>2</td></tr>
+              <tr><td>post-rassylka.md</td><td>email-рассылка</td><td>28.11</td><td>2</td></tr>
+              <tr><td>post-akciya.md</td><td>Telegram</td><td>21.11</td><td>1</td></tr>
             </tbody>
           </table></div>
           <div class="table-wrap"><table>
@@ -151,7 +151,7 @@
     </section>
 
     <section class="step" data-title="Новый пост — повторный запуск" data-hint="Второй PR слит; у нового поста есть отчёт и строка в summary.md">
-      <p>Так инструмент будет работать дальше. Откройте папку <code>posts/</code> → <b>Add file</b> → <b>Upload files</b> → перетащите новый обезличенный пост → <b>Commit changes</b>. На claude.ai/code начните новую сессию (<code>marketing</code>, ветка <b>main</b>) и отправьте:</p>
+      <p>Так инструмент будет работать дальше. Откройте папку <code>posts/</code> → <b>Add file</b> → <b>Upload files</b> → перетащите новый пост → <b>Commit changes</b>. На claude.ai/code начните новую сессию (<code>marketing</code>, ветка <b>main</b>) и отправьте:</p>
       <div class="prompt"><div class="prompt-label">Запрос к агенту — повторный запуск</div><pre>Запусти проверку для новых постов в posts/ — тех, у которых ещё нет отчёта в reports/. Старые отчёты не пересоздавай, программу не меняй. Добавь строки по новым постам в summary.md, остальные строки не трогай. В описании PR перечисли, какие файлы проверил.</pre></div>
       <p>Дальше тот же цикл: <b>Create PR</b> → сверить три строки нового отчёта → <b>Merge pull request</b> → <b>Confirm merge</b> → <b>Delete branch</b>.</p>
     </section>
@@ -160,7 +160,7 @@
   <h2>Что здесь произошло</h2>
   <div class="flow"><span class="node">ТЗ</span><span class="arrow">→</span><span class="node">агент пишет программу</span><span class="arrow">→</span><span class="node hl">запускает её у себя на постах</span><span class="arrow">→</span><span class="node">отчёты в PR</span><span class="arrow">→</span><span class="node">вы проверяете</span><span class="arrow">→</span><span class="node">Merge</span></div>
   <p>Программа <code>check_posts.py</code> лежит в репозитории и стала частью инструмента: в новой сессии агент получает свежую машину, забирает посты, выгрузку и программу, запускает её и присылает результат. Вы ничего не устанавливали: Python живёт в машине агента, которая засыпает при простое и просыпается от нового сообщения.</p>
-  <p>Данные никуда не уходили: посты и выгрузка попали из приватного репозитория в машину агента и вернулись отчётами. Сетевой доступ окружения Default — только к GitHub и типовым хранилищам пакетов; статистика кампаний появляется в репозитории одним способом — вы выгрузили CSV из кабинета и положили в <code>campaigns/</code>. Приватный репозиторий видите вы и Claude GitHub App. Обезличивание всё равно обязательно.</p>
+  <p>Данные никуда не уходили: посты и выгрузка попали из приватного репозитория в машину агента и вернулись отчётами. Сетевой доступ окружения Default — только к GitHub и типовым хранилищам пакетов; статистика кампаний появляется в репозитории одним способом — вы выгрузили CSV из кабинета и положили в <code>campaigns/</code>. Приватный репозиторий видите вы и Claude GitHub App. Персональные данные клиентов и подписчиков туда всё равно не кладём.</p>
 
   <h2>Сколько это стоит</h2>
   <p>Сессия агента расходует лимиты тарифа — те же скользящие 5-часовые окна и недельный лимит, что и чат; одна такая задача — десятки обращений к модели, то есть заметно больше вопроса в чате (точных чисел курс не называет). Виртуальная машина отдельно не оплачивается. Для нескольких задач в неделю достаточно Pro ($20/мес); Max — если инструментов много.</p>
