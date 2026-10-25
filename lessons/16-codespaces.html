@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codespaces: компьютер в облаке — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="16-codespaces">
+<main class="content">
+<article>
+  <h1>Codespaces: компьютер в облаке</h1>
+  <p class="lead">github.dev — редактор без терминала. Codespaces — тот же редактор плюс настоящий компьютер, который GitHub выдаёт вам на время работы: с терминалом, возможностью запускать код и устанавливать что угодно — внутри него, а не у вас. Через десять минут вы сделаете коммит из терминала и выключите машину.</p>
+
+  <h2>Что это и зачем</h2>
+  <p><dfn data-def="Виртуальная машина GitHub с VS Code, терминалом и копией репозитория; открывается во вкладке браузера.">Codespace</dfn> — виртуальная машина (компьютер, живущий на серверах GitHub) с уже установленным VS Code, терминалом и копией вашего репозитория. Вы открываете её во вкладке браузера, работаете, закрываете. На вашем компьютере не остаётся ничего: ни программ, ни файлов.</p>
+  <p>Зачем это не-программисту? Во-первых, инструменты, которые напишут для вас агенты, иногда нужно запустить и посмотреть, — для этого нужен терминал. Во-вторых, когда агент из модуля 6 скажет «выполните команду», у вас будет где её выполнить, не ставя ничего на рабочий ноутбук. В-третьих, внутри Codespaces уже есть ИИ-помощник, который может делать правки за вас, — об этом ниже.</p>
+
+  <div class="stepper" data-id="codespaces">
+    <section class="step" data-title="Нажмите Code → Codespaces" data-hint="Под кнопкой Code открылась панель, активна вкладка Codespaces">
+      <p>На главной странице репозитория <code>hello-ai</code> нажмите зелёную кнопку <b>Code</b>. В выпавшей панели перейдите на вкладку <b>Codespaces</b> (вторая вкладка панели — для работы на своём компьютере, она нам не нужна).</p>
+      <div class="mock" data-title="github.com/username/hello-ai">
+        <div class="mock-body">
+          <div class="mock-row"><span class="mock-btn">main ▾</span><span style="flex:1"></span><span class="mock-btn primary">&lt;&gt; Code ▾</span></div>
+          <div class="mock-nav"><span>…</span><span class="active">Codespaces</span></div>
+          <p><span class="mock-btn primary">Create codespace on main</span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Create codespace on main" data-hint="Открылась новая вкладка с экраном подготовки">
+      <p>Нажмите <b>Create codespace on main</b> — «создать codespace на ветке main». Откроется новая вкладка браузера с экраном подготовки: GitHub создаёт виртуальную машину, ставит на неё VS Code и копирует репозиторий. Это занимает 1–2 минуты; закрывать вкладку не нужно.</p>
+    </section>
+
+    <section class="step" data-title="Осмотритесь: редактор и терминал" data-hint="Слева файлы, в центре редактор, внизу панель TERMINAL с мигающим курсором">
+      <p>Интерфейс — тот же VS Code из урока 15, с одним важным дополнением: внизу панель с вкладкой <b>TERMINAL</b>. Это командная строка виртуальной машины. В ней мигает курсор после приглашения, которое заканчивается знаком <code>$</code>.</p>
+      <div class="mock" data-title="Codespaces — hello-ai">
+        <div class="mock-sidebar">
+          <div class="mock-side">
+            <div><b>EXPLORER</b></div>
+            <div><b>HELLO-AI</b></div>
+            <div>&nbsp;&nbsp;README.md</div>
+            <div>&nbsp;&nbsp;index.html</div>
+            <div>&nbsp;&nbsp;notes.md</div>
+          </div>
+          <div class="mock-main">
+            <p class="muted">Редактор: откройте файл слева</p>
+            <p><b>TERMINAL</b></p>
+            <div class="term"><span class="p">$</span> ▌</div>
+          </div>
+        </div>
+      </div>
+      <p>Если панели с терминалом нет — откройте её через меню редактора: <b>Terminal</b> → <b>New Terminal</b>.</p>
+    </section>
+
+    <section class="step" data-title="Введите ls" data-hint="В терминале напечатались имена трёх файлов">
+      <p>Щёлкните в терминал, введите <code>ls</code> и нажмите <kbd>Enter</kbd>. Команда показывает содержимое текущей папки — а это ваш репозиторий.</p>
+      <div class="term"><span class="p">$</span> ls<br>README.md  index.html  notes.md<br><span class="c"># те же файлы, что на github.com: это копия репозитория внутри машины</span></div>
+    </section>
+
+    <section class="step" data-title="Измените index.html" data-hint="Файл сохранён, git status показывает modified: index.html">
+      <p>В Explorer откройте <code>index.html</code>, добавьте в список строку <code>&lt;li&gt;Сделал(а) коммит из облачного терминала&lt;/li&gt;</code> и сохраните: <kbd>Ctrl</kbd>+<kbd>S</kbd>. В терминале введите <code>git status</code> — git перечислит изменённые файлы.</p>
+      <div class="term"><span class="p">$</span> git status<br>On branch main<br>Changes not staged for commit:<br>  modified:   index.html<br><span class="c"># «изменён, но ещё не подготовлен к коммиту»</span></div>
+    </section>
+
+    <section class="step" data-title="Сделайте коммит и отправьте его" data-hint="Терминал ответил на git push без слова error — или панель Source Control опустела">
+      <p>Два равноценных способа. Выберите любой — результат один.</p>
+      <div class="tabs" data-group="commit-way">
+        <div class="tab" data-tab="Через Source Control">
+          <p>Как в уроке 15: иконка <b>Source Control</b> слева → <b>+</b> у <code>index.html</code> → сообщение <code>Добавить пункт про облачный терминал</code> → кнопка <b>Commit</b>. В Codespaces коммит не уходит на GitHub сам: после коммита на месте кнопки появится кнопка синхронизации (<b>Sync Changes</b>) — нажмите её, чтобы отправить коммит в репозиторий.</p>
+        </div>
+        <div class="tab" data-tab="Через терминал">
+          <p>Три команды, по одной на строку, после каждой — <kbd>Enter</kbd>:</p>
+          <div class="term"><span class="p">$</span> git add .<br><span class="c"># подготовить все изменённые файлы (точка — «всё в этой папке»)</span><br><span class="p">$</span> git commit -m "Добавить пункт про облачный терминал"<br><span class="c"># создать коммит с сообщением в кавычках</span><br><span class="p">$</span> git push<br><span class="c"># отправить коммит на GitHub</span></div>
+          <p>Если <code>git push</code> напечатал несколько строк и вернул приглашение <code>$</code> без слова <i>error</i> — всё получилось.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Проверьте на GitHub" data-hint="В истории репозитория новый коммит с вашим сообщением">
+      <p>Откройте <code>github.com/ваш-username/hello-ai</code> в другой вкладке: счётчик коммитов вырос, у <code>index.html</code> — ваше сообщение. Через несколько минут строка появится на сайте.</p>
+    </section>
+
+    <section class="step" data-title="Остановите codespace" data-hint="В списке на github.com/codespaces ваш codespace показан как остановленный">
+      <p>Машина работает и тратит ваши бесплатные часы, пока запущена. Закрыть вкладку недостаточно — сама она остановится только через 30 минут простоя. Остановите вручную: откройте <a href="https://github.com/codespaces" target="_blank" rel="noopener">github.com/codespaces</a>, найдите свой codespace, нажмите <b>…</b> справа от него → <b>Stop codespace</b>.</p>
+      <div class="mock" data-title="github.com/codespaces">
+        <div class="mock-body">
+          <div class="mock-row"><span><b>hello-ai</b> <span class="muted">· username/hello-ai · main</span></span><span style="flex:1"></span><span class="mark"><span class="mock-btn">…</span><span class="mark-label">1</span></span></div>
+          <p class="muted">Меню под «…»:</p>
+          <p><span class="mark"><b>Stop codespace</b><span class="mark-label">2</span></span></p>
+          <p><span class="mock-btn danger">Delete</span> <span class="muted">— когда codespace больше не нужен</span></p>
+        </div>
+      </div>
+      <p>Остановленный codespace сохраняет ваши файлы, и его можно запустить снова через ту же кнопку <b>Code</b> → <b>Codespaces</b>. Когда он точно не нужен — удалите (<b>Delete</b>), чтобы не занимать хранилище. Репозиторий на GitHub от этого не пострадает.</p>
+    </section>
+  </div>
+
+  <h2>Лимиты и деньги</h2>
+  <p>Бесплатный личный аккаунт включает <strong>120 core-часов</strong> Codespaces в месяц и <strong>15 ГБ</strong> хранилища. Core-час — час работы одного ядра процессора; стандартная машина двухъядерная, поэтому 120 core-часов — это <strong>60 часов работы</strong> в месяц. На курс уйдёт часа три, на регулярную работу с агентами — 10–20 часов в месяц. Лимита хватает, если соблюдать два правила.</p>
+  <div class="grid">
+    <div class="card"><h3>Часы тратятся, пока машина запущена</h3><p>Не пока вы печатаете, а пока codespace работает. Ушли на обед — остановите его. Забыли — он выключится сам через 30 минут без активности, но эти полчаса будут потрачены.</p></div>
+    <div class="card"><h3>Хранилище тратится, пока codespace существует</h3><p>Остановленный codespace часов не ест, но занимает место из 15 ГБ. Закончили проект — удалите его (<b>Delete</b>). Всё, что закоммичено и отправлено на GitHub, останется в репозитории.</p></div>
+  </div>
+
+  <h2>Три команды терминала, которых достаточно</h2>
+  <p>Терминал — тот же проводник, только текстом: вы пишете, что сделать, он отвечает. Запомнить нужно три команды. Остальные за вас напишет ИИ, когда понадобятся.</p>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Команда</th><th>Что делает</th><th>Когда нужна</th></tr></thead>
+    <tbody>
+      <tr><td><code>ls</code></td><td>Показывает файлы и папки там, где вы сейчас находитесь</td><td>Убедиться, что файл на месте и называется правильно</td></tr>
+      <tr><td><code>cat index.html</code></td><td>Печатает содержимое файла прямо в терминал</td><td>Быстро заглянуть в файл, не открывая его в редакторе; скопировать текст в чат с ИИ</td></tr>
+      <tr><td><code>git status</code></td><td>Показывает, какие файлы изменены и что ещё не закоммичено</td><td>Перед коммитом и когда непонятно, «а сохранилось ли»</td></tr>
+    </tbody>
+  </table></div>
+  <p>Всё остальное — установить программу, запустить инструмент, который написал агент, заменить текст во всех файлах — попросите написать ИИ. Хороший запрос выглядит так:</p>
+  <div class="prompt"><div class="prompt-label">Запрос к ИИ</div><pre>Я работаю в терминале GitHub Codespaces (Linux), в папке своего репозитория с файлами index.html, README.md и notes.md. Я не программист.
+Задача: найти во всех файлах репозитория название «ООО Ромашка» и заменить его на «ООО Василёк».
+Дай команду или несколько команд, по одной на строку, и к каждой пояснение в одну строку: что она делает и что я увижу на экране. Если команда что-то удаляет или перезаписывает — предупреди отдельно, до самой команды.</pre></div>
+  <div class="warn"><p><strong>Правило безопасности.</strong> Не вставляйте в терминал команды, смысла которых не понимаете, — сначала попросите ИИ объяснить. Сломать свой компьютер из Codespaces невозможно, но можно потерять незакоммиченные правки. Что закоммичено и отправлено на GitHub — в безопасности.</p></div>
+
+  <div class="note"><p><strong>Внутри уже есть Copilot.</strong> В Codespaces встроен GitHub Copilot. На бесплатном Copilot Free доступны чат с ИИ по вашим файлам и agent mode — режим, в котором ИИ сам правит файлы и запускает команды, спрашивая вашего подтверждения. Это ваш первый ИИ-агент, и он уже здесь. Подробно — в модуле 6.</p></div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="codespaces-quiz">
+    <div class="q">
+      <p class="q-text">Чем Codespaces отличается от github.dev?</p>
+      <ul class="q-options">
+        <li>Только оформлением: это один и тот же редактор</li>
+        <li data-correct>В Codespaces есть виртуальная машина с терминалом — можно запускать код и устанавливать программы внутри неё</li>
+        <li>Codespaces работает без интернета, а github.dev — нет</li>
+      </ul>
+      <p class="q-explain">Редактор одинаковый. Разница — в компьютере за ним: у github.dev его нет, у Codespaces есть, поэтому там работает терминал.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Сколько часов работы на двухъядерной машине даёт бесплатный лимит 120 core-часов в месяц?</p>
+      <ul class="q-options">
+        <li>120 часов</li>
+        <li>240 часов</li>
+        <li data-correct>60 часов</li>
+      </ul>
+      <p class="q-explain">Core-час — час одного ядра. Два ядра тратят два core-часа за час работы: 120 / 2 = 60.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Вы закрыли вкладку с codespace и ушли. Что происходит с бесплатными часами?</p>
+      <ul class="q-options">
+        <li data-correct>Машина продолжает работать до 30 минут простоя, затем остановится сама; надёжнее остановить её вручную</li>
+        <li>Машина остановилась мгновенно при закрытии вкладки</li>
+        <li>Машина будет работать до конца месяца</li>
+      </ul>
+      <p class="q-explain">Закрытие вкладки не останавливает машину. Привычка: закончили — github.com/codespaces → … → Stop codespace.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Вы выполнили в терминале git add . и git commit -m "…", но на github.com изменений нет. Что забыли?</p>
+      <ul class="q-options">
+        <li>Выполнить git status</li>
+        <li data-correct>Выполнить git push — отправить коммит на GitHub</li>
+        <li>Перезапустить codespace</li>
+      </ul>
+      <p class="q-explain">Коммит в Codespaces создаётся внутри виртуальной машины. На GitHub он попадает только после git push (или кнопки синхронизации в Source Control).</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Пройдите цикл целиком: создать, поработать в терминале, закоммитить, остановить.</p>
+  <ul class="checklist" data-id="codespaces-practice">
+    <li>Создал(а) codespace для <code>hello-ai</code>, вижу редактор и панель TERMINAL.</li>
+    <li>Команда <code>ls</code> показала файлы репозитория, <code>cat README.md</code> напечатала текст README.</li>
+    <li>Изменил(а) <code>index.html</code> и отправил(а) коммит на GitHub — из терминала (<code>git add .</code>, <code>git commit -m</code>, <code>git push</code>) или через Source Control с синхронизацией.</li>
+    <li>На github.com в истории есть этот коммит с моим сообщением.</li>
+    <li>Остановил(а) codespace на github.com/codespaces и знаю, где кнопка Delete.</li>
+  </ul>
+
+  <div class="win"><p><strong>У вас есть компьютер в облаке.</strong> Редактор, терминал и место, где можно запускать всё, что напишут агенты, — и ничего на вашем ноутбуке. Следующий урок — ветки и pull request на симуляторе: без риска для настоящего репозитория.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>
