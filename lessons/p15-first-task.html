@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Первая задача: ИИ сам делает коммит и pull request — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="p15-first-task">
+<main class="content">
+<article>
+  <h1>Первая задача: ИИ сам делает коммит и pull request</h1>
+  <p class="lead">Агент прочитает ваши карточки товаров и выгрузку отзывов, перепишет README, сохранит изменения и пришлёт их на согласование. Вы увидите коммит, ветку и pull request в деле — и ни одного из них не сделаете руками.</p>
+
+  <h2>Что сейчас произойдёт</h2>
+  <div class="flow">
+    <span class="node">Вы: задача</span><span class="arrow">→</span>
+    <span class="node hl">Агент читает файлы</span><span class="arrow">→</span>
+    <span class="node hl">Пишет README, сохраняет (коммит)</span><span class="arrow">→</span>
+    <span class="node">Pull request</span><span class="arrow">→</span>
+    <span class="node hl">Вы: проверка</span><span class="arrow">→</span>
+    <span class="node">Merge</span>
+  </div>
+  <p>Три слова, которые встретятся на экране. <dfn data-def="Сохранённый снимок файлов с подписью: кто, когда, что изменил. Делает агент.">Коммит</dfn> — агент сохранил версию файлов и подписал, что изменил. <dfn data-def="Отдельная линия изменений рядом с main. Агент работает в ней, main не трогает.">Ветка</dfn> — он сделал это не в основной версии репозитория (<code>main</code>), а в отдельной копии, поэтому ваши карточки в main нетронуты. <dfn data-def="Pull request: предложение перенести изменения из ветки в main, со списком того, что изменится.">Pull request</dfn> — предложение «перенесите мои изменения в main», с точным списком, что изменится. Ваша роль — прочитать предложение и нажать <b>Merge</b> или вернуть на доработку.</p>
+
+  <h2>По шагам</h2>
+  <div class="stepper" data-id="p15-first-task">
+    <section class="step" data-title="Откройте сессию с репозиторием shop" data-hint="Под полем ввода: shop, main, Accept edits">
+      <p>На <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a> выберите в селекторе <code>shop</code>, ветку <b>main</b>, режим <b>Accept edits</b> — как в прошлом уроке. Напомним: Claude Code в браузере на октябрь 2026 доступен на тарифах Pro, Max и Team.</p>
+    </section>
+    <section class="step" data-title="Вставьте задачу и нажмите Enter" data-hint="Агент начал работу: пишет, что читает файлы">
+      <p>Задача составлена по правилам модуля 3: что сделать, откуда брать данные, чего не делать, что написать в описании.</p>
+      <div class="prompt"><div class="prompt-label">Запрос к агенту</div><pre>Прочитай все файлы в репозитории. Ничего в карточках не меняй.
+Сделай две вещи:
+1. Перепиши README.md: что лежит в репозитории, список товаров таблицей (файл — название товара — цена — остаток — сколько отзывов в otzyvy/otzyvy.csv и средняя оценка; данные бери только из файлов, если чего-то нет — ставь «не указано»).
+2. В конце README предложи 3 задачи, которые ты можешь выполнить по этим файлам автоматически, с оценкой: что получится на выходе.
+Открой pull request и в его описании напиши, какие файлы ты прочитал и что в них непонятно.</pre></div>
+    </section>
+    <section class="step" data-title="Наблюдайте или уйдите" data-hint="Агент сообщил, что README готов и ветка отправлена">
+      <p>Агент работает в облачной машине: читает карточки и выгрузку отзывов, пишет README, сохраняет. Можно смотреть, можно закрыть вкладку — сессия продолжится. Обычно это одна-три минуты.</p>
+      <div class="mock" data-title="claude.ai/code — сессия">
+        <div class="mock-chat">
+          <div class="msg user">Прочитай все файлы в репозитории. Ничего в карточках не меняй. Сделай две вещи: … (задача целиком)</div>
+          <div class="msg ai">Прочитал 8 файлов: README.md, checklist.md, 4 карточки в tovary/, выгрузку otzyvy/otzyvy.csv, шаблон в templates/. Переписал README: описание папок, таблица из 4 товаров. В карточке лампы остаток не указан — поставил «не указано». Отзывы посчитал по строкам otzyvy.csv. Предложил 3 задачи: проверка карточек по чеклисту, свод цен и остатков перед акцией, черновики ответов на отзывы с оценкой 1–3. Карточки не трогал. Ветка отправлена.</div>
+        </div>
+      </div>
+    </section>
+    <section class="step" data-title="Карточка Changes: что изменилось" data-hint="В списке изменённых файлов только README.md">
+      <p>Справа — карточка <b>Changes</b> с числами вроде «+41 −2»: столько строк добавлено и удалено. Нажмите её. Первое, что проверяете, — список файлов: должен быть один, <code>README.md</code>. Если в списке есть что-то из <code>tovary/</code> или <code>otzyvy/</code> — агент нарушил условие «ничего не меняй», и это замечание номер один.</p>
+      <div class="mock" data-title="claude.ai/code — Changes">
+        <div class="mock-body">
+          <p><b>Changes</b> <span class="badge ok">+41</span> <span class="badge danger">−2</span></p>
+          <p><code>README.md</code></p>
+          <div class="mock-code">- # shop
++ # Репозиторий shop
++ Обезличенные карточки товаров, выгрузка отзывов и шаблоны ответов для работы с ИИ.
++ | Файл | Товар | Цена | Остаток | Отзывы | Оценка |
++ | tovary/termokruzhka.md | Термокружка стальная 450 мл | 1290 ₽ | 42 | 18 | 4,6 |</div>
+          <div class="mock-row"><span class="mock-btn primary">Create PR</span></div>
+        </div>
+      </div>
+    </section>
+    <section class="step" data-title="Замечание прямо в diff" data-hint="Агент ответил, карточка Changes обновилась">
+      <p>Откройте одну карточку на GitHub во второй вкладке и сверьте её строку в таблице: цена и остаток — с карточкой, число отзывов — с <code>otzyvy/otzyvy.csv</code>. Нашли расхождение — выделите строку в diff, напишите замечание и отправьте. Например: «у рюкзака остаток 150, а в карточке tovary/ryukzak.md — 15. Проверь, откуда взял число, и исправь только эту строку». Агент внесёт правку, и числа в карточке Changes изменятся.</p>
+      <div class="tip"><p><strong>Если расхождений нет</strong> — всё равно отправьте одно замечание ради тренировки, например: «добавь в таблицу столбец „есть отзывы с оценкой 1–2: да/нет“». Так вы увидите цикл «замечание → правка» до того, как он понадобится всерьёз.</p></div>
+    </section>
+    <section class="step" data-title="Create PR" data-hint="В чате появилась ссылка на pull request">
+      <p>Нажмите <b>Create PR</b>. Агент создаст pull request с заголовком и описанием — там будет то, что вы просили: какие файлы прочитал и что непонятно. Сессия остаётся живой: замечания можно присылать и после.</p>
+    </section>
+    <section class="step" data-title="На GitHub: Conversation и Files changed" data-hint="Вы видите описание PR и изменения в README">
+      <p>Откройте ссылку. Вкладка <b>Conversation</b> — описание от агента и обсуждение. Вкладка <b>Files changed</b> — тот же diff: зелёное добавлено, красное удалено. У файлов <code>.md</code> GitHub умеет показывать результат как оформленный текст, а не как разметку — ищите кнопку просмотра над файлом. Так таблицу в README удобнее читать.</p>
+      <div class="mock" data-title="github.com/username/shop/pull/1">
+        <div class="mock-nav"><span class="active">Conversation</span><span>Commits 2</span><span>Files changed 1</span></div>
+        <div class="mock-body">
+          <p><b>Переписать README: структура репозитория и таблица товаров</b> <span class="badge ok">Open</span></p>
+          <p class="muted">Прочитал: README.md, checklist.md, tovary/termokruzhka.md, tovary/ryukzak.md, tovary/lampa.md, tovary/pled.md, otzyvy/otzyvy.csv, templates/otvet-na-otzyv.md. Непонятно: в карточке лампы не указан остаток; в otzyvy.csv две строки без артикула.</p>
+          <div class="mock-row"><span class="mock-btn primary">Merge pull request</span></div>
+        </div>
+      </div>
+      <p>Обратите внимание на <b>Commits 2</b>: два коммита — первая версия README и правка по вашему замечанию. Оба подписаны агентом, в каждом ссылка на сессию, где он работал.</p>
+    </section>
+    <section class="step" data-title="Merge pull request → Confirm merge → Delete branch" data-hint="PR помечен Merged; в репозитории README новый">
+      <p>Если всё верно — <b>Merge pull request</b>, затем <b>Confirm merge</b>. Появится <b>Delete branch</b> — нажмите: ветка агента больше не нужна, её коммиты уже в main. Откройте главную страницу репозитория: под списком файлов новый README с таблицей товаров.</p>
+    </section>
+  </div>
+
+  <h2>Что вы только что видели</h2>
+  <p>Один цикл работы с ИИ-агентом целиком, и это тот же цикл, что у команд программистов. Агент сделал коммиты в своей ветке. Вы получили pull request — список изменений с описанием. Проверили не код, а результат: таблицу в README против карточек и выгрузки отзывов. Отправили замечание — получили правку. Нажали Merge — изменения попали в main. Главное правило всего пути помещается в одну фразу.</p>
+  <div class="why"><p><strong>Пока вы не нажали Merge, в репозитории ничего не изменилось.</strong> Всё, что делает агент, лежит в его ветке и ждёт вашего решения. Не нравится — закрываете pull request кнопкой <b>Close pull request</b>, и следов не остаётся. Слили, а потом передумали — у слитого PR есть кнопка <b>Revert</b>. Об этом урок «Когда ИИ сделал не то».</p></div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="p15-quiz">
+    <div class="q">
+      <p class="q-text">Агент написал README и отправил ветку. Что видят коллеги, у которых есть доступ к репозиторию, на главной странице?</p>
+      <ul class="q-options">
+        <li>Новый README</li>
+        <li data-correct>Старый README: изменения в ветке агента, в main они попадут после Merge</li>
+        <li>Пустую страницу, пока PR открыт</li>
+      </ul>
+      <p class="q-explain">Ветка не трогает main. Это и есть защита: вы решаете, что попадёт в основную версию.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Что вы проверяете в pull request в первую очередь?</p>
+      <ul class="q-options">
+        <li data-correct>Список изменённых файлов и цифры в таблице против карточек и otzyvy.csv</li>
+        <li>Правильность кода</li>
+        <li>Количество коммитов</li>
+      </ul>
+      <p class="q-explain">Тронут только README — агент не вышел за рамки. Цены, остатки и оценки сверены с файлами — результат верный. Код здесь не писался, а когда будет писаться, проверять всё равно результат.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Где оставить замечание так, чтобы агент сам внёс правку?</p>
+      <ul class="q-options">
+        <li>В письме в поддержку Anthropic</li>
+        <li data-correct>В сессии на claude.ai/code: к строке в diff или сообщением в чат</li>
+        <li>Исправить README руками через карандаш на GitHub</li>
+      </ul>
+      <p class="q-explain">Сессия живёт и после создания PR. Правка руками сломала бы правило пути: git делает ИИ, вы ставите задачи и проверяете.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Что делает Delete branch после слияния?</p>
+      <ul class="q-options">
+        <li>Удаляет изменения агента из репозитория</li>
+        <li>Удаляет pull request из истории</li>
+        <li data-correct>Убирает ветку-черновик; её коммиты уже перенесены в main</li>
+      </ul>
+      <p class="q-explain">После Merge ветка — пустой ярлык. История коммитов и сам PR остаются.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <ul class="checklist" data-id="p15-practice">
+    <li>Задача отправлена в режиме Accept edits; в карточке Changes тронут только README.md.</li>
+    <li>Я сверил(а) хотя бы одну строку таблицы с карточкой товара и выгрузкой отзывов и отправил(а) одно замечание; агент его учёл.</li>
+    <li>PR создан кнопкой Create PR; на GitHub я прочитал(а) описание во вкладке Conversation и diff во вкладке Files changed.</li>
+    <li>PR слит: Merge pull request → Confirm merge → Delete branch; новый README виден на главной странице репозитория.</li>
+    <li>Я могу объяснить коллеге, почему до Merge в репозитории ничего не меняется.</li>
+  </ul>
+
+  <div class="win"><p><strong>Первый pull request от ИИ принят.</strong> Вы ни разу не нажали «коммит» и не создавали ветку — и всё равно прошли полный цикл. Дальше — то же самое в ChatGPT (Codex) и Copilot, чтобы не зависеть от одного сервиса.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>
