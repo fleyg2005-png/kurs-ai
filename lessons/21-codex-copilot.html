@@ -49,10 +49,10 @@
           <p>Перейдите на <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a>. В приложении ChatGPT тот же раздел: <b>Codex</b> → <b>Work in</b> → <b>Cloud</b>; на телефоне — раздел Codex.</p>
         </section>
         <section class="step" data-title="Подключите GitHub" data-hint="Репозиторий hello-ai доступен Codex">
-          <p>Нажмите <b>Connect GitHub</b>. GitHub предложит установить приложение Codex на ваш аккаунт и спросит, какие репозитории открыть: <b>Select repositories</b> → <code>hello-ai</code> или <b>All repositories</b>. Для курса достаточно одного.</p>
+          <p>Нажмите <b>Connect GitHub</b>. GitHub предложит установить приложение Codex на ваш аккаунт и спросит, какие репозитории открыть: <b>Select repositories</b> → <code>hello-ai</code> или <b>All repositories</b>.</p>
         </section>
         <section class="step" data-title="Создайте окружение" data-hint="В окружении выбран hello-ai">
-          <p><b>Select environment</b> → <b>Create environment</b> → выберите репозиторий <code>hello-ai</code>. <dfn data-def="Настроенная копия проекта в облаке OpenAI, в которой Codex выполняет задачи.">Окружение</dfn> создаётся один раз на репозиторий, дальше все задачи идут в нём.</p>
+          <p><b>Select environment</b> → <b>Create environment</b> → выберите репозиторий <code>hello-ai</code>. <dfn data-def="Настроенная копия проекта в облаке OpenAI, в которой Codex выполняет задачи.">Окружение</dfn> создаётся один раз, дальше все задачи идут в нём.</p>
           <div class="mock" data-title="chatgpt.com/codex — Create environment">
             <div class="mock-body">
               <div class="mock-field"><label>Repository</label><div class="mock-input">ivan-petrov/hello-ai ▾</div></div>
@@ -70,7 +70,7 @@
           <p>Нажмите <b>Start a new task</b>, вставьте ТЗ, приведённое выше, и отправьте. Обратите внимание: вы ничего не меняли в тексте — ТЗ одинаковое для любого агента.</p>
         </section>
         <section class="step" data-title="Смотрите изменённые файлы и логи" data-hint="В списке изменённых файлов только index.html">
-          <p>Задача выполняется в отдельной изолированной среде с копией репозитория, обычно от 1 до 30 минут. Codex показывает изменённые файлы, логи команд и результаты проверок. Проверьте список файлов: должен быть один — <code>index.html</code>.</p>
+          <p>Задача выполняется в изолированной среде с копией репозитория, обычно от 1 до 30 минут. Codex показывает изменённые файлы, логи команд и результаты проверок. В списке файлов должен быть один — <code>index.html</code>.</p>
           <div class="mock" data-title="chatgpt.com/codex — задача">
             <div class="mock-body">
               <p><b>Добавлен раздел «Калькулятор пени»</b> <span class="badge ok">Done</span></p>
@@ -88,10 +88,10 @@
     </div>
 
     <div class="tab" data-tab="Copilot cloud agent">
-      <p>Нужен <b>Copilot Pro</b> — $10/мес, бесплатно для студентов, преподавателей и мейнтейнеров популярных open source-проектов. Агент живёт на GitHub: задача — это issue, результат — pull request, всё в одном месте.</p>
+      <p>Нужен <b>Copilot Pro</b> — $10/мес, бесплатно для студентов, преподавателей и мейнтейнеров популярных open source-проектов. Агент живёт на GitHub: задача — issue, результат — pull request.</p>
       <div class="stepper" data-id="copilot-cloud">
         <section class="step" data-title="Создайте issue" data-hint="Открыта форма новой issue с полями заголовка и описания">
-          <p>В репозитории <code>hello-ai</code> откройте вкладку <b>Issues</b> → <b>New issue</b>. <dfn data-def="Карточка задачи в репозитории: заголовок, описание, обсуждение, исполнитель.">Issue</dfn> — задачник репозитория, вы видели его в модуле 4.</p>
+          <p>В репозитории <code>hello-ai</code> откройте вкладку <b>Issues</b> → <b>New issue</b>. <dfn data-def="Карточка задачи в репозитории: заголовок, описание, обсуждение, исполнитель.">Issue</dfn> — задачник репозитория.</p>
         </section>
         <section class="step" data-title="Заголовок и ТЗ" data-hint="Issue создана, у неё появился номер">
           <p>Заголовок: «Калькулятор пени на главной странице». В описание вставьте ТЗ целиком и создайте issue.</p>
@@ -204,7 +204,7 @@
         <li data-correct>Агент работает внутри редактора в Codespaces, а ветку, коммит и PR вы делаете сами</li>
         <li>Он доступен только студентам</li>
       </ul>
-      <p class="q-explain">Copilot Free в режиме Agent правит файлы и запускает команды с вашего подтверждения, но за публикацию изменений отвечаете вы. Лимиты есть, но на учебные задачи хватает.</p>
+      <p class="q-explain">Copilot Free в режиме Agent правит файлы и запускает команды с вашего подтверждения, но за публикацию изменений отвечаете вы.</p>
     </div>
   </div>
 
