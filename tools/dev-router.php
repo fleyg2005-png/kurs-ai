@@ -1,0 +1,12 @@
+<?php
+/* Роутер для встроенного сервера PHP (только для разработки): повторяет правила .htaccess.
+   Запуск: php -S localhost:8790 tools/dev-router.php */
+$path = rawurldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+$root = dirname(__DIR__);
+if (preg_match('~(^|/)\.(?!well-known/)~', $path) || preg_match('~^/(app|database|content|tools|tests|vendor)(/|$)~', $path) || preg_match('~^/(config\.php|config\.sample\.php|.+\.md|.+\.sql|.+\.log)$~', $path)) {
+    http_response_code(403); echo 'Forbidden'; return true;
+}
+if (str_starts_with($path, '/assets/') && is_file($root . $path)) return false;
+$_SERVER['SCRIPT_NAME'] = '/index.php';
+require $root . '/index.php';
+return true;

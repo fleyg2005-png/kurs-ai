@@ -1,4 +1,5 @@
-.DS_Store
-Thumbs.db
+config.php
 *.log
+.DS_Store
 node_modules/
+Thumbs.db
