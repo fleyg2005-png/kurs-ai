@@ -12,28 +12,40 @@
 <main class="content">
 <article>
   <h1>То же в ChatGPT (Codex) и Copilot</h1>
-  <p class="lead">В прошлом уроке Claude Code переписал README репозитория <code>contracts</code> и прислал pull request. Теперь ту же задачу — слово в слово — получат два других агента: Codex в ChatGPT и облачный агент Copilot на GitHub. Выберите вкладку под свою подписку.</p>
+  <p class="lead">Основной инструмент курса — Claude Code. Но ту же задачу, слово в слово, умеют выполнять ещё два агента: Codex в ChatGPT и облачный агент Copilot на GitHub. Это запасной вариант на случай, если Claude недоступен или в команде уже есть другая подписка. Одно отличие важно знать заранее: оба оставляют результат pull request'ом и сами его в main не сливают. Как и тогда ничего не нажимать на GitHub — в этом уроке.</p>
 
   <h2>Одна задача — любой агент</h2>
-  <p>Агенты различаются кнопками, а не языком общения. Задача описывает результат — что прочитать, что написать, чего не трогать, что положить в описание PR — и ничего не говорит о том, кто её выполняет. Поэтому текст из прошлого урока отдаём без единой правки:</p>
+  <p>Агенты различаются кнопками, а не языком общения. Задача описывает результат — что прочитать, что написать, чего не трогать, что сообщить в отчёте — и ничего не говорит о том, кто её выполняет. Поэтому текст из прошлого урока отдаём без единой правки:</p>
   <div class="prompt"><div class="prompt-label">Задача агенту — та же, что в прошлом уроке</div><pre>Прочитай все файлы в репозитории. Ничего в документах не меняй.
 Сделай две вещи:
 1. Перепиши README.md: что лежит в репозитории, список договоров таблицей (файл — стороны — предмет — дата — срок действия; данные бери только из текста, если чего-то нет — ставь «не указано»).
 2. В конце README предложи 3 задачи, которые ты можешь выполнить по этим документам автоматически, с оценкой: что получится на выходе.
-Открой pull request и в его описании напиши, какие файлы ты прочитал и что в них непонятно.</pre></div>
-  <p>README уже переписан Claude — это не мешает, а помогает: второй агент сделает то же по-своему, и вы впервые сравните два результата — у кого таблица полнее, кто честнее ставит «не указано». Понравился второй вариант — слейте его PR; первый лучше — закройте PR кнопкой <b>Close pull request</b>. Оба решения правильные, если приняты глядя на <b>Files changed</b>.</p>
-  <p>Общее у всех трёх агентов: задача выполняется в изолированной копии репозитория, агент может ставить библиотеки и запускать программы на Python, результат приходит как pull request, а сливаете вы его на GitHub.</p>
+В отчёте напиши, какие файлы ты прочитал и что в них непонятно.
+Сохрани результат сам, как в правилах.</pre></div>
+  <p>Codex и Copilot прочитают те же правила из <code>AGENTS.md</code>: не трогать договоры, никуда не отправлять файлы. Задачу они сделают и результат подготовят, но последнего шага — слить его в main — не сделают.</p>
+
+  <h2>Честно о главном отличии</h2>
+  <div class="key">
+    <p class="key-title">⭐ Самое важное в этом уроке</p>
+    <p><strong>Codex и Copilot результат не сливают.</strong> Они тоже работают с вашим репозиторием, но изменения оставляют pull request'ом — заявкой «перенести в main» — и ждут. Чтобы ничего не делать на GitHub руками:</p>
+    <ul>
+      <li>в Codex нажмите его кнопку <b>Create PR</b> — это кнопка в самом Codex, а не на GitHub;</li>
+      <li>слить попросите Claude Code в его сессии: «Слей открытый pull request от Codex в main и удали его ветку»;</li>
+      <li>в Copilot задачу пишут в issue и назначают Copilot — это как написать задачу. Его pull request сливается так же, через Claude Code.</li>
+    </ul>
+  </div>
+  <p>README уже переписан Claude, и это не мешает, а помогает: второй агент сделает то же по-своему, и вы впервые сравните два результата — у кого таблица полнее, кто честнее ставит «не указано». Сравнивать удобно через Claude Code: он покажет README второго агента прямо в чате.</p>
 
   <h2>Два агента — два пути</h2>
   <div class="tabs" data-group="agent">
     <div class="tab" data-tab="Codex">
-      <p>Нужен ChatGPT Plus ($20/мес), Pro или Business — на Free и Go агента нет. Откройте <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a> в соседней вкладке.</p>
+      <p>Нужен ChatGPT Plus ($20/мес), Pro или Business — на Free и Go агента нет. Если вы подключали Codex в уроке 14, шаги 2–5 уже сделаны. Откройте <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a> в соседней вкладке.</p>
       <div class="stepper" data-id="codex">
         <section class="step" data-title="Откройте Codex" data-hint="Видите экран Codex с предложением подключить GitHub или начать задачу">
           <p>Перейдите на <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a>. В приложении ChatGPT тот же раздел: <b>Codex</b> → <b>Work in</b> → <b>Cloud</b>; на телефоне — раздел Codex.</p>
         </section>
         <section class="step" data-title="Подключите GitHub" data-hint="Репозиторий contracts открыт приложению Codex">
-          <p>Нажмите <b>Connect GitHub</b>. GitHub предложит установить приложение Codex на ваш аккаунт и спросит, какие репозитории ему открыть: <b>Select repositories</b> → <code>contracts</code> (или <b>All repositories</b>). Тот же принцип, что Claude GitHub App: приватный репозиторий агент видит только через своё приложение.</p>
+          <p>Нажмите <b>Connect GitHub</b>. GitHub предложит установить приложение Codex на ваш аккаунт и спросит, какие репозитории ему открыть: <b>Select repositories</b> → <code>contracts</code>. Тот же принцип, что у Claude GitHub App: приватный репозиторий агент видит только через своё приложение.</p>
         </section>
         <section class="step" data-title="Создайте окружение" data-hint="В окружении выбран репозиторий contracts">
           <p><b>Select environment</b> → <b>Create environment</b> → выберите <code>contracts</code>. <dfn data-def="Настроенная копия репозитория в облаке OpenAI, в которой Codex выполняет задачи.">Окружение</dfn> создаётся один раз — дальше все задачи по этому репозиторию идут в нём.</p>
@@ -53,30 +65,38 @@
         <section class="step" data-title="Start a new task" data-hint="Задача отправлена, Codex начал работу">
           <p>Нажмите <b>Start a new task</b>, вставьте задачу из начала урока и отправьте. Обратите внимание: вы ничего не меняли в тексте.</p>
         </section>
-        <section class="step" data-title="Смотрите изменённые файлы и логи" data-hint="В списке изменённых файлов только README.md">
-          <p>Задача выполняется в изолированной среде с копией репозитория, обычно от 1 до 30 минут. Codex показывает изменённые файлы и логи команд: видно, как он читает папку <code>contracts/</code>. Изменённый файл должен быть один — <code>README.md</code>; если есть другие, агент нарушил условие «ничего в документах не меняй» — повод для замечания.</p>
+        <section class="step" data-title="Прочитайте отчёт Codex" data-hint="Codex сообщил, что изменён только README.md">
+          <p>Задача выполняется в изолированной среде с копией репозитория, обычно от 1 до 30 минут. Codex показывает, какие файлы изменил, и записи о своих действиях — видно, как он читает папку <code>contracts/</code>. Построчно это читать не нужно: посмотрите только список файлов. Изменённый файл должен быть один — <code>README.md</code>. Есть другие — напишите замечание в ту же задачу: «Верни файлы в contracts/ как были, меняй только README.md».</p>
           <div class="mock" data-title="chatgpt.com/codex — задача">
             <div class="mock-body">
               <p><b>Переписать README: состав репозитория и таблица договоров</b> <span class="badge ok">Done</span></p>
-              <p class="muted">Files changed: README.md · +41 −2</p>
+              <p class="muted">Изменён: README.md · +41 −2</p>
               <div class="mock-code">$ ls contracts/ templates/
 contracts/dogovor-arendy.docx  contracts/dogovor-postavki.md
 contracts/dogovor-uslug.docx   templates/pretenziya.md</div>
             </div>
           </div>
+          <p>Нужна правка в самой таблице — тоже пишите её в эту задачу: «В таблице у договора аренды срок действия не указан, хотя в тексте он есть — поправь». Codex учтёт её до следующего шага.</p>
         </section>
-        <section class="step" data-title="Pull request и приёмка на GitHub" data-hint="Во вкладке Pull requests репозитория есть PR от Codex">
-          <p>Нужна правка — напишите её в той же задаче: «В таблице у договора аренды срок действия не указан, хотя в тексте он есть — поправь». Когда всё устраивает, попросите Codex открыть pull request, если он не сделал этого сам по тексту задачи. Дальше на GitHub: <b>Pull requests</b> → PR → <b>Files changed</b> → <b>Merge pull request</b> → <b>Confirm merge</b> → <b>Delete branch</b>; или <b>Close pull request</b>, если версия Claude лучше.</p>
+        <section class="step" data-title="Create PR — кнопка в Codex" data-hint="Codex сообщил, что pull request открыт">
+          <p>Когда результат устраивает, нажмите в Codex кнопку <b>Create PR</b>. Это кнопка самого Codex, на GitHub идти не нужно. Codex откроет pull request в вашем репозитории и на этом остановится: в main пока ничего не изменилось.</p>
+        </section>
+        <section class="step" data-title="Сравнить и слить — через Claude Code" data-hint="Claude Code сообщил, что pull request от Codex слит в main или закрыт">
+          <p>Откройте <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a>, новая сессия: окружение full, <code>contracts</code>, main, режим Auto. Сначала попросите показать результат:</p>
+          <div class="prompt"><div class="prompt-label">Запрос к Claude Code — показать</div><pre>В репозитории открыт pull request от Codex. Покажи README.md из него целиком прямо здесь, в чате, и коротко скажи, чем он отличается от README в main. Ничего пока не сливай и не меняй.</pre></div>
+          <p>Сверьте таблицу Codex с договорами, как в прошлом уроке. Версия Codex лучше — сливайте; лучше версия Claude — закрывайте без слияния. Одна фраза:</p>
+          <div class="prompt"><div class="prompt-label">Запрос к Claude Code — слить</div><pre>Слей открытый pull request от Codex в main и удали его ветку.</pre></div>
+          <div class="prompt"><div class="prompt-label">Запрос к Claude Code — не сливать</div><pre>Закрой открытый pull request от Codex без слияния и удали его ветку. README в main не меняй.</pre></div>
         </section>
       </div>
-      <div class="note"><p><strong>Codex на GitHub.</strong> Codex также есть в GitHub Agent HQ: его можно назначить на issue так же, как Copilot на следующей вкладке.</p></div>
+      <div class="note"><p><strong>Codex на GitHub.</strong> Codex также есть в GitHub Agent HQ: его можно назначить на issue так же, как Copilot на следующей вкладке. Результат и там приходит pull request'ом, и сливает его тоже Claude Code.</p></div>
     </div>
 
     <div class="tab" data-tab="Copilot cloud agent">
-      <p>Нужен <b>Copilot Pro</b> — $10/мес; бесплатно для студентов, преподавателей и мейнтейнеров популярных open source-проектов. Агент живёт на GitHub: задача — issue, результат — pull request.</p>
+      <p>Нужен <b>Copilot Pro</b> — $10/мес; бесплатно для студентов, преподавателей и мейнтейнеров популярных open source-проектов. Агент живёт на GitHub: задачу ему пишут в issue — это как карточка задачи, — а результат он оставляет pull request'ом.</p>
       <div class="stepper" data-id="copilot-cloud">
         <section class="step" data-title="Создайте issue" data-hint="Открыта форма новой issue с полями заголовка и описания">
-          <p>В репозитории <code>contracts</code> откройте вкладку <b>Issues</b> → <b>New issue</b>. <dfn data-def="Карточка задачи в репозитории: заголовок, описание, обсуждение, исполнитель.">Issue</dfn> — задачник репозитория.</p>
+          <p>В репозитории <code>contracts</code> откройте вкладку <b>Issues</b> → <b>New issue</b>. <dfn data-def="Карточка задачи в репозитории: заголовок, описание, обсуждение, исполнитель.">Issue</dfn> — задачник репозитория. Написать issue — то же, что написать задачу в чате.</p>
         </section>
         <section class="step" data-title="Заголовок и задача" data-hint="Issue создана, у неё появился номер">
           <p>Заголовок: «Переписать README: состав репозитория и таблица договоров». В описание вставьте задачу из начала урока целиком и создайте issue.</p>
@@ -90,30 +110,14 @@ contracts/dogovor-uslug.docx   templates/pretenziya.md</div>
             </div>
           </div>
         </section>
-        <section class="step" data-title="Агент создаёт PR с планом" data-hint="В Pull requests появился PR от Copilot с чеклистом">
-          <p>Вскоре Copilot создаст pull request и напишет в нём план в виде чеклиста, отмечая пункты по мере работы. Работает он в <b>GitHub Actions</b> — облачных машинах GitHub. Можно уйти: когда закончит, попросит у вас ревью.</p>
+        <section class="step" data-title="Агент работает и оставляет pull request" data-hint="В issue видно, что Copilot взял задачу и открыл pull request">
+          <p>Вскоре Copilot создаст pull request и напишет в нём план в виде чеклиста, отмечая пункты по мере работы. Работает он в <b>GitHub Actions</b> — облачных машинах GitHub. Можно уйти. Закончив, Copilot попросит у вас ревью — отвечать на это на GitHub не нужно: дальше работает Claude Code.</p>
         </section>
-        <section class="step" data-title="Files changed" data-hint="Изменён только README.md; в таблице столько строк, сколько договоров">
-          <p>Откройте PR → <b>Files changed</b>. Проверьте две вещи: изменён только <code>README.md</code>, а в таблице столько строк, сколько файлов в <code>contracts/</code>. У файла <code>.md</code> есть кнопка просмотра «как отрендерено» — таблицу так читать удобнее.</p>
-          <div class="mock" data-title="github.com/ivan-petrov-law/contracts/pull/2">
-            <div class="mock-nav"><b>🐙 GitHub</b><span>Conversation</span><span class="active">Files changed</span></div>
-            <div class="mock-body">
-              <p><b>README.md</b> <span class="badge ok">+41</span> <span class="badge danger">−2</span></p>
-              <div class="mock-code">- # contracts
-+ # Договоры и шаблоны для проверки с помощью ИИ
-+
-+ | Файл | Стороны | Предмет | Дата | Срок действия |
-+ | contracts/dogovor-postavki.md | Поставщик, Покупатель | Поставка офисной мебели | 12.03.2026 | до 31.12.2026 |
-+ | contracts/dogovor-arendy.docx | Арендодатель, Арендатор | Аренда нежилого помещения | 15.01.2026 | не указано |</div>
-              <div class="mock-row"><span class="mock-btn primary">Merge pull request</span></div>
-            </div>
-          </div>
-        </section>
-        <section class="step" data-title="Замечание в комментарии" data-hint="В PR появились новые коммиты Copilot в ответ на замечание">
-          <p>Нашли ошибку — наведите на строку в diff, нажмите «+» и напишите замечание: «Срок действия договора аренды указан в пункте 7.1 — 11 месяцев. Исправь „не указано“». Агент прочитает и пришлёт правку новыми коммитами в тот же PR. Проверьте снова.</p>
-        </section>
-        <section class="step" data-title="Merge" data-hint="На главной странице репозитория README с таблицей договоров">
-          <p><b>Merge pull request</b> → <b>Confirm merge</b> → <b>Delete branch</b>. Issue закроется, README на главной странице обновится. Версия Claude лучше — <b>Close pull request</b>: в репозитории ничего не изменится.</p>
+        <section class="step" data-title="Сравнить и слить — через Claude Code" data-hint="Claude Code сообщил, что pull request от Copilot слит в main или закрыт">
+          <p>Новая сессия на <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a>: окружение full, <code>contracts</code>, main, Auto. Тот же порядок, что для Codex: сначала «Покажи README.md из открытого pull request от Copilot целиком прямо здесь, в чате, и скажи, чем он отличается от README в main. Ничего пока не сливай». Проверьте две вещи: в таблице столько строк, сколько файлов в <code>contracts/</code>, и данные совпадают с договорами. Затем одна из двух фраз:</p>
+          <div class="prompt"><div class="prompt-label">Запрос к Claude Code — слить</div><pre>Слей открытый pull request от Copilot в main и удали его ветку.</pre></div>
+          <div class="prompt"><div class="prompt-label">Запрос к Claude Code — не сливать</div><pre>Закрой открытый pull request от Copilot без слияния и удали его ветку. README в main не меняй.</pre></div>
+          <p>Issue после слияния закроется сама. Нашли в таблице Copilot мелкую ошибку — слейте и попросите Claude Code поправить строку в той же сессии: Copilot принимает замечания комментариями на GitHub, а этого в нашем пути мы не делаем.</p>
         </section>
       </div>
     </div>
@@ -124,9 +128,9 @@ contracts/dogovor-uslug.docx   templates/pretenziya.md</div>
   <table>
     <thead><tr><th>Ситуация</th><th>Путь</th><th>Почему</th></tr></thead>
     <tbody>
-      <tr><td>Есть Claude Pro или Max</td><td>Claude Code в браузере (прошлый урок)</td><td>Короче всего от задачи до PR; замечания прямо в diff; сессия живёт после PR</td></tr>
-      <tr><td>Есть ChatGPT Plus или Pro</td><td>Codex</td><td>Окружение настраивается один раз, дальше — Start a new task; видны логи и изменённые файлы</td></tr>
-      <tr><td>Работа в команде на GitHub</td><td>Copilot cloud agent (или Codex через Agent HQ)</td><td>Задача — issue, обсуждение — в PR, коллеги видят всё в одном месте; нужен Copilot Pro</td></tr>
+      <tr><td>Есть Claude Pro или Max</td><td>Claude Code в браузере (прошлый урок)</td><td>Основной инструмент: сам делает, сам сохраняет, замечания — сообщением в сессию</td></tr>
+      <tr><td>Есть ChatGPT Plus или Pro</td><td>Codex — запасной вариант</td><td>Окружение настраивается один раз, дальше — Start a new task. Результат — pull request, слить просите Claude Code</td></tr>
+      <tr><td>Команда уже работает на GitHub</td><td>Copilot cloud agent (или Codex через Agent HQ) — запасной вариант</td><td>Задача — issue, коллеги видят её в репозитории. Нужен Copilot Pro; результат сливает Claude Code</td></tr>
     </tbody>
   </table>
   </div>
@@ -150,39 +154,48 @@ contracts/dogovor-uslug.docx   templates/pretenziya.md</div>
         <li>Написать задачу в комментарии к последнему коммиту</li>
         <li>Открыть README и нажать кнопку Copilot</li>
       </ul>
-      <p class="q-explain">Назначение issue на Copilot — и есть запуск. Агент сам создаст pull request с планом и попросит ревью.</p>
+      <p class="q-explain">Назначение issue на Copilot — и есть запуск, как написать задачу. Агент сам создаст pull request с планом; слить его вы попросите Claude Code.</p>
     </div>
     <div class="q">
       <p class="q-text">Что нужно изменить в тексте задачи, переходя от Claude Code к Codex или Copilot?</p>
       <ul class="q-options">
-        <li>Убрать пункт про pull request — другие агенты его не делают</li>
+        <li>Убрать пункт про отчёт — другие агенты его не пишут</li>
         <li data-correct>Ничего: задача описывает результат и границы, а не исполнителя</li>
         <li>Переписать на английский</li>
       </ul>
-      <p class="q-explain">Хорошая задача говорит, что прочитать, что сделать, чего не трогать и что написать в PR. Всё это одинаково для любого агента.</p>
+      <p class="q-explain">Хорошая задача говорит, что прочитать, что сделать, чего не трогать и что написать в отчёте. Всё это одинаково для любого агента.</p>
     </div>
     <div class="q">
-      <p class="q-text">Codex закончил и показал изменённые файлы. Где принимается решение слить результат?</p>
+      <p class="q-text">Codex закончил задачу. Как результат попадёт в main, если на GitHub вы ничего не нажимаете?</p>
       <ul class="q-options">
-        <li>В окне Codex: там есть кнопка Merge</li>
-        <li>Слияние происходит само, когда задача завершена</li>
-        <li data-correct>На GitHub: Pull requests → Files changed → Merge pull request; или Close pull request, если результат не нужен</li>
+        <li>Codex сам сливает результат, когда задача завершена</li>
+        <li data-correct>Нажать Create PR в самом Codex, затем попросить Claude Code: «Слей открытый pull request от Codex в main и удали его ветку»</li>
+        <li>Никак: с Codex без кнопок на GitHub не обойтись</li>
       </ul>
-      <p class="q-explain">Codex показывает изменения и по просьбе открывает pull request. Приёмка и слияние — всегда на GitHub и всегда ваше решение.</p>
+      <p class="q-explain">Codex оставляет результат pull request'ом и сам его не сливает. Кнопка Create PR — в интерфейсе Codex, а слияние одной фразой делает Claude Code.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Как сравнить README от Codex с версией Claude, не открывая pull request на GitHub?</p>
+      <ul class="q-options">
+        <li>Скачать репозиторий на компьютер</li>
+        <li data-correct>Попросить Claude Code показать README из pull request прямо в чате и сказать, чем он отличается от main</li>
+        <li>Сравнить нельзя, можно только сразу слить</li>
+      </ul>
+      <p class="q-explain">Агент может показать любой файл текстом в чате. Вы сверяете результат с договорами и решаете: слить или закрыть без слияния.</p>
     </div>
   </div>
 
   <h2>Практика</h2>
   <p>Пройдите один из двух путей до pull request и сравните README второго агента с версией Claude: у кого таблица полнее, чьи три предложенные задачи вы бы поручили.</p>
   <ul class="checklist" data-id="d16-practice">
-    <li>Я выбрал агента под свою подписку и дошёл по степперу до pull request.</li>
+    <li>Я выбрал(а) агента под свою подписку и прошёл(ла) по степперу до pull request.</li>
     <li>Агент получил задачу слово в слово — ту же, что Claude Code в прошлом уроке.</li>
-    <li>В PR изменён только <code>README.md</code>; я открыл Files changed и сверил таблицу договоров с файлами в <code>contracts/</code>.</li>
-    <li>Если агент ошибся в таблице, я оставил замечание и получил правку в тот же PR.</li>
-    <li>PR от второго агента слит (Merge pull request → Confirm merge) или закрыт (Close pull request) — и я могу назвать одну причину своего решения.</li>
+    <li>По отчёту агента изменён только <code>README.md</code>.</li>
+    <li>Claude Code показал мне README второго агента в чате, и я сверил(а) таблицу с файлами в <code>contracts/</code>.</li>
+    <li>По моей просьбе Claude Code слил pull request в main или закрыл его без слияния — и я могу назвать одну причину своего решения.</li>
   </ul>
 
-  <div class="win"><p><strong>Теперь вы умеете работать с любым из трёх агентов.</strong> Следующий урок — как проверять pull request и оставлять замечания так, чтобы агент понял с первого раза.</p></div>
+  <div class="win"><p><strong>Теперь вы умеете работать с любым из трёх агентов</strong> и ни разу не нажали на GitHub кнопку слияния. Следующий урок — как проверять результат и писать замечания так, чтобы агент понял с первого раза.</p></div>
 </article>
 </main>
 <script src="../assets/app.js"></script>
