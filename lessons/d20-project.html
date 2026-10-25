@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проект: проверка договоров по чеклисту — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="d20-project">
+<main class="content">
+<article>
+  <h1>Проект: проверка договоров по чеклисту</h1>
+  <p class="lead">За час-полтора у вас появится первый инструмент: программа, которая проверяет каждый договор из репозитория по вашему чеклисту и собирает сводную таблицу сроков и штрафов. Программу пишет и запускает агент. Вы ставите задачу, читаете отчёты и принимаете pull request.</p>
+
+  <div class="note"><p><strong>Что понадобится.</strong> Аккаунт Claude на Pro, Max или Team; приватный репозиторий <code>contracts</code>, к которому подключено Claude GitHub App (урок d14); 3–5 обезличенных договоров в папке <code>contracts/</code>, файл <code>checklist.md</code> и шаблон <code>templates/pretenziya.md</code>. Если работаете в Codex, то же ТЗ отправляется через <b>Start a new task</b> на <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a> — остальные шаги совпадают с точностью до названий кнопок (урок d16).</p></div>
+
+  <h2>Одиннадцать шагов: от ТЗ до работающего инструмента</h2>
+  <p>Делайте в соседней вкладке, по одному шагу. Имена файлов в примерах — условные: у вас договоры называются по-своему.</p>
+
+  <div class="stepper" data-id="project">
+    <section class="step" data-title="Проверьте репозиторий" data-hint="В contracts/ лежат 3–5 договоров, рядом checklist.md и templates/">
+      <p>Откройте репозиторий <code>contracts</code> на GitHub. В нём должны быть <code>README.md</code>, <code>checklist.md</code> с 10–12 пунктами проверки, папка <code>contracts/</code> с договорами (.docx или .md) и <code>templates/pretenziya.md</code>. Чего-то не хватает — <b>Add file</b> → <b>Upload files</b>, перетащите файлы и нажмите <b>Commit changes</b>.</p>
+      <p>Агент прочитает договоры целиком, поэтому в них не должно быть ФИО, реквизитов и коммерческой тайны (урок 09). В ТЗ есть критерий про файл <code>contracts/dogovor-postavki.md</code>: если ваш договор поставки называется иначе, замените имя файла в ТЗ.</p>
+      <div class="mock" data-title="github.com/username/contracts">
+        <div class="mock-nav"><b>🐙 contracts</b> <span class="badge warn">Private</span><span class="active">Code</span><span>Pull requests</span></div>
+        <div class="mock-body">
+          <p>📁 <code>contracts/</code> &nbsp;·&nbsp; dogovor-postavki.md · dogovor-podryada.docx · dogovor-arendy.docx</p>
+          <p>📁 <code>templates/</code> &nbsp;·&nbsp; pretenziya.md</p>
+          <p>📄 <code>README.md</code> &nbsp;&nbsp; 📄 <code>checklist.md</code></p>
+          <div class="mock-row"><span class="mock-btn">Add file ▾</span><span class="mock-btn primary">Code ▾</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Откройте claude.ai/code и выберите contracts" data-hint="Под полем ввода: contracts · main · Accept edits">
+      <p>Перейдите на <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a>. В селекторе репозитория под полем ввода выберите <code>contracts</code>, ветку оставьте <b>main</b>. Режим разрешений — <b>Accept edits</b>: агент сам правит файлы и пушит ветку, а результат всё равно пройдёт через ваш PR. Если <code>contracts</code> в списке нет — для него не установлено Claude GitHub App: <a href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">github.com/apps/claude/installations/new</a>.</p>
+      <div class="mock" data-title="claude.ai/code">
+        <div class="mock-body">
+          <div class="mock-field"><label>Задача</label><div class="mock-input">Опишите, что нужно сделать в репозитории…</div></div>
+          <div class="mock-row"><span class="mark">username/contracts ▾<span class="mark-label">1</span></span><span class="mark">main ▾<span class="mark-label">2</span></span><span class="mark">Accept edits ▾<span class="mark-label">3</span></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Вставьте ТЗ и отправьте" data-hint="Текст ТЗ ушёл целиком одним сообщением, агент начал работать">
+      <p>Это ТЗ построено по структуре из прошлого урока: что есть, что сделать, ограничения, критерии готовности. Скопируйте целиком, при необходимости поправьте имя файла в критерии и нажмите <kbd>Enter</kbd>.</p>
+      <div class="prompt"><div class="prompt-label">ТЗ проекта — запрос к агенту</div><pre>Сделай инструмент для проверки договоров по чеклисту.
+
+Что есть: папка contracts/ с договорами (.docx и .md), файл checklist.md с пунктами проверки.
+
+Что сделать:
+1. Напиши программу на Python (файл check_contracts.py), которая для каждого договора из contracts/ проходит по пунктам checklist.md и пишет отчёт reports/&lt;имя договора&gt;.md: таблица «пункт чеклиста — найдено / не найдено / неясно — цитата из договора (до 2 предложений) — комментарий».
+2. Собери сводную таблицу summary.md по всем договорам: файл — стороны — срок действия — сумма — штрафы и пени (точная формулировка) — сколько пунктов чеклиста не выполнено.
+3. Запусти программу у себя на всех договорах и положи готовые отчёты и summary.md в репозиторий.
+4. В README добавь раздел «Как пользоваться»: как добавить новый договор и как попросить тебя запустить проверку снова.
+
+Ограничения: данные брать только из текста договоров, ничего не додумывать — если в договоре нет пункта, так и писать «не найдено». Документы никуда не отправлять, кроме твоей рабочей машины. Библиотеки для чтения .docx выбери сам. Не меняй файлы в contracts/ и checklist.md.
+
+Критерии готовности: для каждого договора есть отчёт; в summary.md столько строк, сколько договоров; в отчёте по договору contracts/dogovor-postavki.md пункт «Ответственность и штрафы» помечен «найдено» с цитатой про пени. В описании PR перечисли, что сделано, что не получилось и как мне проверить результат за 5 минут.</pre></div>
+    </section>
+
+    <section class="step" data-title="Что делает агент — и почему можно уйти" data-hint="Агент отчитался: программа написана и запущена, отчёты и summary.md лежат в ветке">
+      <p>Агент клонирует репозиторий в свою <dfn data-def="Отдельный компьютер в облаке, который Claude получает на время сессии. На нём уже стоят Python и другие инструменты; всё, что агент устанавливает, остаётся там, а не у вас.">виртуальную машину</dfn>. Там он читает <code>checklist.md</code> и договоры, пишет <code>check_contracts.py</code>, ставит библиотеку для чтения .docx — у себя, не на вашем компьютере, — запускает программу на всех договорах, смотрит на результат, правит и запускает снова. Потом коммитит и пушит ветку. Это занимает минуты; вкладку можно закрыть и вернуться позже — сессия продолжается в облаке.</p>
+      <div class="mock" data-title="claude.ai/code — сессия">
+        <div class="mock-chat">
+          <div class="msg user">Сделай инструмент для проверки договоров по чеклисту. Что есть: папка contracts/ с договорами… (ТЗ целиком)</div>
+          <div class="msg ai">Прочитал checklist.md — 11 пунктов — и три файла в contracts/: dogovor-postavki.md, dogovor-podryada.docx, dogovor-arendy.docx. Для чтения .docx поставил библиотеку в своей рабочей машине. Написал check_contracts.py и запустил на всех трёх договорах: созданы reports/dogovor-postavki.md, reports/dogovor-podryada.md, reports/dogovor-arendy.md и summary.md (3 строки). В README добавил раздел «Как пользоваться». Файлы в contracts/ и checklist.md не менял. Ветка запушена.</div>
+          <div class="msg ai">Что не получилось: в dogovor-arendy.docx пункт «Подсудность» помечен «неясно» — формулировка «споры разрешаются в установленном порядке» не называет суд. Как проверить за 5 минут: откройте reports/dogovor-postavki.md, строка «Ответственность и штрафы» — цитата из п. 6.2 про неустойку 0,1 % в день; сравните с текстом договора. Затем summary.md: три строки, по одной на договор.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Карточка Changes: что тронуто" data-hint="В списке check_contracts.py, reports/, summary.md, README.md — и ничего из contracts/">
+      <p>Справа — карточка <b>Changes</b> с числами вида «+310 −4». Нажмите на неё: откроется <dfn data-def="Построчное сравнение версий: зелёные строки добавлены, красные удалены.">diff</dfn>. Код читать не нужно — смотрите на список файлов. Ожидаемо: новый <code>check_contracts.py</code>, новые отчёты в <code>reports/</code> (по одному на договор), новый <code>summary.md</code>, изменённый <code>README.md</code>. Файлов из <code>contracts/</code> и <code>checklist.md</code> в списке быть не должно — ТЗ это запретило. Появились — напишите в сессию: «Верни contracts/ и checklist.md в исходное состояние и объясни, зачем ты их менял».</p>
+      <div class="mock" data-title="claude.ai/code — карточка Changes (справа)">
+        <div class="mock-body">
+          <p><b>Changes</b> <span class="badge ok">+310</span> <span class="badge danger">−4</span></p>
+          <p><code>check_contracts.py</code> <span class="badge accent">новый</span><br><code>reports/dogovor-postavki.md</code> <span class="badge accent">новый</span><br><code>reports/dogovor-podryada.md</code> <span class="badge accent">новый</span><br><code>reports/dogovor-arendy.md</code> <span class="badge accent">новый</span><br><code>summary.md</code> <span class="badge accent">новый</span><br><code>README.md</code> <span class="badge ok">+18</span> <span class="badge danger">−4</span></p>
+          <div class="mock-row"><span class="mock-btn primary">Create PR</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Create PR" data-hint="В чате появилась ссылка на pull request на GitHub">
+      <p>Нажмите <b>Create PR</b>. Агент создаст pull request с заголовком и описанием: что сделано, что не получилось и как проверить за 5 минут — вы просили об этом в ТЗ. Нужен черновик — правый клик по кнопке → <b>Create draft PR</b>. Сессия остаётся живой: замечания можно присылать и после, они попадут в тот же PR. Откройте ссылку.</p>
+    </section>
+
+    <section class="step" data-title="На GitHub: прочитайте отчёт по одному договору" data-hint="Три строки таблицы сошлись с текстом договора">
+      <p>В PR откройте вкладку <b>Files changed</b> и найдите <code>reports/dogovor-postavki.md</code>. Для .md-файлов GitHub показывает кнопку просмотра в отрендеренном виде — нажмите её, чтобы увидеть таблицу, а не зелёные строки. Выберите три строки: «Ответственность и штрафы», «Срок действия» и любую со статусом «не найдено». Откройте сам договор (файл .md читается в репозитории прямо в браузере; .docx придётся скачать кнопкой <b>Download</b>) и сверьте: цитата есть в договоре дословно, пункт действительно об этом, а «не найдено» в тексте действительно отсутствует.</p>
+      <div class="mock" data-title="github.com/username/contracts/pull/3 — reports/dogovor-postavki.md">
+        <div class="mock-body">
+          <div class="table-wrap"><table>
+            <thead><tr><th>Пункт чеклиста</th><th>Статус</th><th>Цитата</th><th>Комментарий</th></tr></thead>
+            <tbody>
+              <tr><td>Срок действия</td><td>найдено</td><td>«Договор вступает в силу с момента подписания и действует до 31.12.2026»</td><td>п. 9.1</td></tr>
+              <tr><td>Ответственность и штрафы</td><td>найдено</td><td>«…уплачивает Покупателю неустойку в размере 0,1 % от стоимости не поставленного в срок Товара за каждый день просрочки»</td><td>п. 6.2; верхнего предела нет</td></tr>
+              <tr><td>Конфиденциальность</td><td>не найдено</td><td>—</td><td>раздела о конфиденциальности в тексте нет</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Замечание — в сессию агента" data-hint="Агент исправил отчёт, объяснил причину; карточка Changes и PR обновились">
+      <p>Нашли расхождение — не правьте отчёт руками: это результат программы, и при следующем запуске ошибка вернётся. Напишите в ту же сессию с конкретикой: какой договор, какая строка, что на самом деле в тексте. И обязательно — «остальное не трогай», иначе агент заодно «улучшит» то, что было верно.</p>
+      <div class="prompt"><div class="prompt-label">Замечание агенту (пример)</div><pre>В отчёте по договору подряда пункт «претензионный порядок» помечен «найдено», а в договоре его нет — исправь и объясни, почему ошибся; остальное не трогай.</pre></div>
+      <div class="mock" data-title="claude.ai/code — сессия">
+        <div class="mock-chat">
+          <div class="msg user">В отчёте по договору подряда пункт «претензионный порядок» помечен «найдено», а в договоре его нет — исправь и объясни, почему ошибся; остальное не трогай.</div>
+          <div class="msg ai">Вы правы: в dogovor-podryada.docx раздела о претензионном порядке нет. Программа приняла за совпадение слово «претензии» в п. 5.4 — там речь о претензиях к качеству работ при приёмке. Уточнил проверку этого пункта: теперь нужна формулировка о порядке или сроке рассмотрения претензии до обращения в суд. Перезапустил проверку только для договора подряда: пункт помечен «не найдено», в summary.md у этого договора теперь 3 невыполненных пункта вместо 2. Остальные отчёты не трогал. Изменения запушены в ту же ветку.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Слейте PR на GitHub" data-hint="PR помечен Merged, ветка удалена">
+      <p>Замечаний не осталось — на странице PR нажмите <b>Merge pull request</b> → <b>Confirm merge</b>, затем <b>Delete branch</b>. Программа, отчёты и сводка теперь в <code>main</code>. Если позже окажется, что что-то не так, у слитого PR есть кнопка <b>Revert</b> — она вернёт всё как было одним коммитом (урок d18).</p>
+      <div class="mock" data-title="github.com/username/contracts/pull/3">
+        <div class="mock-nav"><b>🐙 GitHub</b><span class="active">Conversation</span><span>Files changed 6</span></div>
+        <div class="mock-body">
+          <p><b>Инструмент проверки договоров по чеклисту</b> <span class="badge ok">Open</span></p>
+          <p class="muted">6 files changed · +310 −4 · описание: что сделано, что не получилось, как проверить</p>
+          <div class="mock-row"><span class="mock-btn primary">Merge pull request</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Откройте summary.md" data-hint="В summary.md по строке на каждый договор, таблица читается без скачивания">
+      <p>Вернитесь на вкладку <b>Code</b> и откройте <code>summary.md</code>: GitHub покажет таблицу как отформатированный текст. Это и есть ваш инструмент в работе — не программа «где-то лежит», а сводка, которую можно показать коллеге: файл, стороны, срок, сумма, точная формулировка про штрафы, число невыполненных пунктов. Рядом папка <code>reports/</code> с подробностями по каждому договору.</p>
+      <div class="mock" data-title="github.com/username/contracts/blob/main/summary.md">
+        <div class="mock-body">
+          <div class="table-wrap"><table>
+            <thead><tr><th>Файл</th><th>Стороны</th><th>Срок действия</th><th>Сумма</th><th>Штрафы и пени</th><th>Не выполнено</th></tr></thead>
+            <tbody>
+              <tr><td>dogovor-postavki.md</td><td>Поставщик — Покупатель</td><td>до 31.12.2026</td><td>по спецификациям</td><td>неустойка 0,1 % от стоимости не поставленного Товара за каждый день просрочки</td><td>2</td></tr>
+              <tr><td>dogovor-podryada.docx</td><td>Заказчик — Подрядчик</td><td>до подписания акта приёмки</td><td>480 000 руб.</td><td>не найдено</td><td>3</td></tr>
+              <tr><td>dogovor-arendy.docx</td><td>Арендодатель — Арендатор</td><td>11 месяцев с даты акта</td><td>65 000 руб. в месяц</td><td>пени 0,5 % от суммы задолженности за каждый день просрочки</td><td>1</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Новый договор — повторный запуск" data-hint="Второй PR слит; у нового договора есть отчёт и строка в summary.md">
+      <p>Так инструмент будет работать дальше. Положите новый обезличенный договор в репозиторий: откройте папку <code>contracts/</code> → <b>Add file</b> → <b>Upload files</b> → перетащите файл → <b>Commit changes</b>. Затем на claude.ai/code начните новую сессию (репозиторий <code>contracts</code>, ветка <b>main</b>) и отправьте короткую задачу:</p>
+      <div class="prompt"><div class="prompt-label">Запрос к агенту — повторный запуск</div><pre>Запусти проверку для новых договоров в contracts/ — тех, у которых ещё нет отчёта в reports/. Старые отчёты не пересоздавай, программу не меняй. Добавь строки по новым договорам в summary.md, остальные строки не трогай. В описании PR перечисли, какие файлы проверил.</pre></div>
+      <p>Дальше тот же цикл: <b>Create PR</b> → три строки нового отчёта сверить с договором → <b>Merge pull request</b> → <b>Confirm merge</b> → <b>Delete branch</b>.</p>
+    </section>
+  </div>
+
+  <h2>Что здесь произошло</h2>
+  <div class="flow"><span class="node">ТЗ</span><span class="arrow">→</span><span class="node">агент пишет программу</span><span class="arrow">→</span><span class="node hl">запускает её у себя на договорах</span><span class="arrow">→</span><span class="node">отчёты в PR</span><span class="arrow">→</span><span class="node">вы проверяете</span><span class="arrow">→</span><span class="node">Merge</span></div>
+  <p>Программа <code>check_contracts.py</code> лежит в репозитории и стала частью инструмента. В каждой новой сессии агент получает свежую машину, забирает из репозитория документы и программу, запускает её и присылает результат. Вы не устанавливали ничего: Python и библиотеки живут в машине агента, которая создаётся на сессию, засыпает при простое и просыпается от нового сообщения.</p>
+  <p>Данные никуда не уходили. Договоры попали из вашего приватного репозитория в машину агента и вернулись в репозиторий отчётами. Сетевой доступ окружения Default — только к GitHub и типовым хранилищам пакетов, откуда агент берёт библиотеки. Приватный репозиторий видите вы и Claude GitHub App. Обезличивание при этом остаётся обязательным: агент — не ваш сотрудник под NDA.</p>
+
+  <h2>Сколько это стоит</h2>
+  <p>Сессия агента расходует лимиты тарифа — те же скользящие 5-часовые окна и недельный лимит, что и чат. Одна задача вроде этой — десятки обращений к модели, поэтому стоит заметно больше одного вопроса в чате; точных чисел курс не называет, они меняются. Виртуальная машина агента отдельно не оплачивается. Для нескольких таких задач в неделю достаточно Pro ($20/мес, $17/мес при годовой оплате); Max — если инструментов будет много.</p>
+
+  <h2>Если агент говорит, что не смог прочитать .docx</h2>
+  <p>Бывает: библиотека не справилась с конкретным файлом, документ сохранён в старом формате, внутри — картинка вместо текста. Не пытайтесь чинить сами. Два пути: попросить агента выбрать другую библиотеку (доступ к хранилищу пакетов у него есть) или сохранить проблемные договоры как обычный текст (.md или .txt) и загрузить через <b>Upload files</b>. Скан без текстового слоя агент прочитать не сможет — и должен прямо сказать об этом, а не написать отчёт «по памяти».</p>
+  <div class="prompt"><div class="prompt-label">Запрос к агенту</div><pre>Ты написал, что не смог прочитать contracts/dogovor-podryada.docx. Попробуй другую библиотеку для чтения .docx и запусти проверку этого договора снова. Если и так не получится — напиши точно, в чём ошибка, а в summary.md поставь для этого договора «не прочитан» во всех колонках. Ничего не придумывай и остальные отчёты не трогай.</pre></div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="project-quiz">
+    <div class="q">
+      <p class="q-text">Где была установлена библиотека для чтения .docx и где выполнялась программа?</p>
+      <ul class="q-options">
+        <li>На вашем компьютере — поэтому нужен был Python</li>
+        <li data-correct>В виртуальной машине агента в облаке; на вашем компьютере ничего не появилось</li>
+        <li>На серверах GitHub при слиянии PR</li>
+      </ul>
+      <p class="q-explain">Агент клонирует репозиторий в свою машину, там ставит библиотеки и запускает программу. GitHub при Merge ничего не запускает — он просто принимает готовые файлы.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">В карточке Changes кроме check_contracts.py, reports/ и summary.md оказался изменённым файл contracts/dogovor-arendy.docx. Что делать?</p>
+      <ul class="q-options">
+        <li>Слить: раз агент поправил договор, значит, в нём была ошибка</li>
+        <li data-correct>Не сливать; написать в сессию: верни contracts/ в исходное состояние и объясни, зачем менял</li>
+        <li>Закрыть PR и удалить репозиторий</li>
+      </ul>
+      <p class="q-explain">ТЗ запрещало менять документы: инструмент читает их, а не редактирует. Одно конкретное замечание решает вопрос за минуту.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Появился новый договор. Как получить по нему отчёт?</p>
+      <ul class="q-options">
+        <li data-correct>Загрузить через Upload files и в новой сессии попросить проверить только новые договоры</li>
+        <li>Ничего не делать: агент следит за репозиторием и запустит проверку сам</li>
+        <li>Открыть check_contracts.py карандашом и добавить имя файла</li>
+      </ul>
+      <p class="q-explain">Агент видит только то, что лежит в репозитории, и работает только когда вы ставите задачу. Программу вы не редактируете — вы просите агента её запустить.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">В отчёте пункт помечен «найдено», а в договоре такого условия нет. Правильное действие?</p>
+      <ul class="q-options">
+        <li>Исправить строку в отчёте карандашом на GitHub и слить</li>
+        <li>Слить — одна ошибка на три договора приемлема</li>
+        <li data-correct>Написать агенту замечание с договором, строкой и тем, что на самом деле в тексте, и слить только после исправления</li>
+      </ul>
+      <p class="q-explain">Отчёт — результат программы; поправленная руками строка вернётся при следующем запуске. Исправлять надо причину — это делает агент.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Доведите степпер до конца на своём репозитории и отметьте только то, что проверили сами.</p>
+  <ul class="checklist" data-id="project-practice">
+    <li>PR с инструментом слит на GitHub (Merge pull request → Confirm merge), ветка удалена.</li>
+    <li>В <code>reports/</code> лежит отчёт по каждому договору из <code>contracts/</code>; файлы в <code>contracts/</code> и <code>checklist.md</code> не изменились.</li>
+    <li>Три строки одного отчёта я сверил(а) с текстом договора: цитаты дословные, статусы верные.</li>
+    <li><code>summary.md</code> открывается в репозитории как таблица, строк в ней столько же, сколько договоров.</li>
+    <li>Новый договор загружен через Upload files и проверен отдельным PR, который тоже слит.</li>
+  </ul>
+
+  <div class="win"><p><strong>У вас есть инструмент, который работает на ваших документах.</strong> Дальше — доработки: претензия из шаблона по данным договора и правила, по которым инструмент не ломается от каждой новой просьбы.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>
