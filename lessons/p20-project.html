@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проект: проверка карточек товаров по чеклисту — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="p20-project">
+<main class="content">
+<article>
+  <h1>Проект: проверка карточек товаров по чеклисту</h1>
+  <p class="lead">За час-полтора у вас появится первый инструмент: программа, которая проверяет каждую карточку товара по вашему чеклисту и собирает сводную таблицу с ценами, остатками и оценками. Пишет и запускает её агент; вы ставите задачу, читаете отчёты и принимаете pull request.</p>
+
+  <div class="note"><p><strong>Что понадобится.</strong> Аккаунт Claude на Pro, Max или Team; приватный репозиторий <code>shop</code>, к которому подключено Claude GitHub App (урок 14); 4–5 обезличенных карточек в папке <code>tovary/</code>, файл <code>checklist.md</code>, выгрузка <code>otzyvy/otzyvy.csv</code> и шаблон <code>templates/otvet-na-otzyv.md</code>. В Codex (<a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a>) то же ТЗ отправляют через <b>Start a new task</b> (урок 16).</p></div>
+
+  <h2>От ТЗ до работающего инструмента</h2>
+  <p>По одному шагу, в соседней вкладке. Названия товаров и цифры в примерах условные.</p>
+
+  <div class="stepper" data-id="p20-project">
+    <section class="step" data-title="Проверьте репозиторий" data-hint="В tovary/ лежат 4–5 карточек, рядом checklist.md, otzyvy/ и templates/">
+      <p>Откройте репозиторий <code>shop</code> на GitHub: <code>README.md</code>, <code>checklist.md</code> с 10–12 пунктами (название по формуле, описание от 500 знаков, характеристики, комплектация, ключевые слова, цена и цена до скидки, остаток, условия возврата…), папка <code>tovary/</code> с карточками (.md), выгрузка <code>otzyvy/otzyvy.csv</code> и шаблон <code>templates/otvet-na-otzyv.md</code>. Чего-то нет — <b>Add file</b> → <b>Upload files</b>, перетащите файлы, <b>Commit changes</b>.</p>
+      <p>Агент прочитает все файлы целиком — в них не должно быть реальных артикулов, брендов-клиентов, имён покупателей и закупочных цен (урок 09). Если карточка термокружки называется у вас не <code>termokruzhka.md</code>, замените имя файла в критерии ТЗ.</p>
+      <div class="mock" data-title="github.com/username/shop">
+        <div class="mock-nav"><b>🐙 shop</b> <span class="badge warn">Private</span><span class="active">Code</span><span>Pull requests</span></div>
+        <div class="mock-body">
+          <p>📁 <code>tovary/</code> &nbsp;·&nbsp; termokruzhka.md · ryukzak.md · lampa.md · pled.md</p>
+          <p>📁 <code>otzyvy/</code> &nbsp;·&nbsp; otzyvy.csv &nbsp;&nbsp; 📁 <code>templates/</code> &nbsp;·&nbsp; otvet-na-otzyv.md</p>
+          <p>📄 <code>README.md</code> &nbsp;&nbsp; 📄 <code>checklist.md</code></p>
+          <div class="mock-row"><span class="mock-btn">Add file ▾</span><span class="mock-btn primary">Code ▾</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Откройте claude.ai/code и выберите shop" data-hint="Под полем ввода: shop · main · Accept edits">
+      <p>На <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a> в селекторе под полем ввода выберите <code>shop</code>, ветку оставьте <b>main</b>, режим разрешений — <b>Accept edits</b>: агент правит файлы и пушит ветку сам, результат всё равно пройдёт через ваш PR. Нет <code>shop</code> в списке — для него не установлено Claude GitHub App: <a href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">github.com/apps/claude/installations/new</a>.</p>
+      <div class="mock" data-title="claude.ai/code">
+        <div class="mock-body">
+          <div class="mock-field"><label>Задача</label><div class="mock-input">Опишите, что нужно сделать в репозитории…</div></div>
+          <div class="mock-row"><span class="mark">username/shop ▾<span class="mark-label">1</span></span><span class="mark">main ▾<span class="mark-label">2</span></span><span class="mark">Accept edits ▾<span class="mark-label">3</span></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Вставьте ТЗ и отправьте" data-hint="Текст ТЗ ушёл целиком одним сообщением, агент начал работать">
+      <p>ТЗ построено по структуре прошлого урока: что есть, что сделать, ограничения, критерии готовности. Скопируйте целиком и нажмите <kbd>Enter</kbd>.</p>
+      <div class="prompt"><div class="prompt-label">ТЗ проекта — запрос к агенту</div><pre>Сделай инструмент для проверки карточек товаров по чеклисту.
+
+Что есть: папка tovary/ с карточками товаров (.md), файл checklist.md с пунктами проверки, выгрузка отзывов otzyvy/otzyvy.csv.
+
+Что сделать:
+1. Напиши программу на Python (файл check_cards.py), которая для каждой карточки из tovary/ проходит по пунктам checklist.md и пишет отчёт reports/&lt;имя товара&gt;.md: таблица «пункт чеклиста — выполнено / не выполнено / неясно — цитата из карточки (до 2 предложений) — комментарий».
+2. Собери сводную таблицу summary.md по всем товарам: файл — название — цена — остаток — число отзывов и средняя оценка из otzyvy.csv — сколько пунктов чеклиста не выполнено.
+3. Запусти программу у себя на всех карточках и положи готовые отчёты и summary.md в репозиторий.
+4. В README добавь раздел «Как пользоваться»: как добавить новую карточку и как попросить тебя запустить проверку снова.
+
+Ограничения: данные брать только из файлов репозитория, ничего не додумывать — если в карточке нет пункта, так и писать «не выполнено». Файлы никуда не отправлять, кроме твоей рабочей машины. Не меняй файлы в tovary/, checklist.md и otzyvy/.
+
+Критерии готовности: для каждой карточки есть отчёт; в summary.md столько строк, сколько карточек; в отчёте по tovary/termokruzhka.md пункт «Ключевые слова» помечен «не выполнено» (в этой карточке их нет). В описании PR перечисли, что сделано, что не получилось и как мне проверить результат за 5 минут.</pre></div>
+    </section>
+
+    <section class="step" data-title="Что делает агент — и почему можно уйти" data-hint="Агент отчитался: программа написана и запущена, отчёты и summary.md лежат в ветке">
+      <p>Агент клонирует репозиторий в свою <dfn data-def="Отдельный компьютер в облаке, который Claude получает на время сессии. На нём уже стоят Python и другие инструменты; всё, что агент устанавливает, остаётся там, а не у вас.">виртуальную машину</dfn>, читает <code>checklist.md</code>, карточки и выгрузку отзывов, пишет <code>check_cards.py</code>, запускает программу на всех карточках, правит и запускает снова, затем пушит ветку. Это занимает минуты; вкладку можно закрыть — сессия продолжается в облаке.</p>
+      <div class="mock" data-title="claude.ai/code — сессия">
+        <div class="mock-chat">
+          <div class="msg user">Сделай инструмент для проверки карточек товаров по чеклисту… (ТЗ целиком)</div>
+          <div class="msg ai">Прочитал checklist.md (11 пунктов), четыре карточки в tovary/ и otzyvy/otzyvy.csv (28 отзывов). Написал check_cards.py, запустил на всех карточках: созданы четыре отчёта в reports/ и summary.md (4 строки). В README добавил раздел «Как пользоваться». tovary/, checklist.md и otzyvy/ не менял. Ветка запушена.</div>
+          <div class="msg ai">Что не получилось: в tovary/lampa.md пункт «Ответ на частый вопрос покупателя» помечен «неясно» — раздел «Вопросы» в карточке есть, но он пустой. Как проверить за 5 минут: в reports/termokruzhka.md пункт «Ключевые слова» должен быть «не выполнено», а в summary.md — четыре строки, у термокружки 9 отзывов и средняя оценка 4,0.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Карточка Changes: что тронуто" data-hint="В списке check_cards.py, reports/, summary.md, README.md — и ничего из tovary/">
+      <p>Справа — карточка <b>Changes</b> с числами вида «+360 −4». Нажмите: откроется <dfn data-def="Построчное сравнение версий: зелёные строки добавлены, красные удалены.">diff</dfn>. Код читать не нужно — смотрите на список файлов. Ожидаемо: новые <code>check_cards.py</code>, отчёты в <code>reports/</code> и <code>summary.md</code>, изменённый <code>README.md</code>. Файлов из <code>tovary/</code>, <code>checklist.md</code> и <code>otzyvy/</code> быть не должно — ТЗ это запретило. Появились — пишите в сессию: «Верни tovary/, checklist.md и otzyvy/ в исходное состояние и объясни, зачем менял».</p>
+      <div class="mock" data-title="claude.ai/code — карточка Changes (справа)">
+        <div class="mock-body">
+          <p><b>Changes</b> <span class="badge ok">+360</span> <span class="badge danger">−4</span></p>
+          <p><code>check_cards.py</code> <span class="badge accent">новый</span><br><code>reports/termokruzhka.md</code> <span class="badge accent">новый</span><br><code>reports/ryukzak.md</code> <span class="badge accent">новый</span><br><code>reports/lampa.md</code> <span class="badge accent">новый</span><br><code>reports/pled.md</code> <span class="badge accent">новый</span><br><code>summary.md</code> <span class="badge accent">новый</span><br><code>README.md</code> <span class="badge ok">+18</span> <span class="badge danger">−4</span></p>
+          <div class="mock-row"><span class="mock-btn primary">Create PR</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Create PR" data-hint="В чате появилась ссылка на pull request на GitHub">
+      <p>Нажмите <b>Create PR</b>. Агент создаст pull request с заголовком и описанием: что сделано, что не получилось, как проверить за 5 минут — вы просили об этом в ТЗ. Сессия остаётся живой: замечания после этого попадут в тот же PR. Откройте ссылку.</p>
+    </section>
+
+    <section class="step" data-title="На GitHub: прочитайте отчёт по одной карточке" data-hint="Три строки таблицы сошлись с текстом карточки">
+      <p>В PR откройте <b>Files changed</b> и найдите <code>reports/termokruzhka.md</code>. У .md-файлов GitHub показывает кнопку просмотра в отрендеренном виде — нажмите, чтобы увидеть таблицу вместо зелёных строк. Выберите три строки: «Цена и цена до скидки», «Остаток» и любую «не выполнено». Откройте карточку <code>tovary/termokruzhka.md</code> — она читается в браузере — и сверьте: цитата есть дословно, значение взято из нужной строки, «не выполнено» в карточке действительно нет.</p>
+      <div class="mock" data-title="github.com/username/shop/pull/3 — reports/termokruzhka.md">
+        <div class="mock-body">
+          <div class="table-wrap"><table>
+            <thead><tr><th>Пункт чеклиста</th><th>Статус</th><th>Цитата</th><th>Комментарий</th></tr></thead>
+            <tbody>
+              <tr><td>Цена и цена до скидки</td><td>выполнено</td><td>«Цена: 1 290 ₽. Цена до скидки: 1 590 ₽»</td><td>указаны обе</td></tr>
+              <tr><td>Остаток</td><td>выполнено</td><td>«Остаток: 84»</td><td>совпадает с карточкой</td></tr>
+              <tr><td>Ключевые слова</td><td>не выполнено</td><td>—</td><td>раздела в карточке нет</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Замечание — в сессию агента" data-hint="Агент исправил сводку, объяснил причину; карточка Changes и PR обновились">
+      <p>Нашли расхождение — не правьте отчёт руками: это результат программы, при следующем запуске ошибка вернётся. Напишите в ту же сессию конкретно: файл, строка, что на самом деле в карточке. И обязательно «остальное не трогай», иначе агент заодно «улучшит» верное.</p>
+      <div class="mock" data-title="claude.ai/code — сессия">
+        <div class="mock-chat">
+          <div class="msg user">В summary.md у ryukzak.md остаток 150, а в карточке 15 — проверь, откуда число, исправь и объясни. Остальное не трогай.</div>
+          <div class="msg ai">Вы правы: в карточке рюкзака «Остаток: 15». Цена до скидки в ней записана как «3 150 ₽» — с пробелом; программа прочитала её как два числа и приняла «150» за остаток. Поправил: остаток берётся только из строки «Остаток:», а числа с пробелами читаются целиком. Перезапустил проверку рюкзака: в summary.md теперь 15, строка «Остаток» в его отчёте исправлена. Остальные отчёты и строки не менял.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Слейте PR на GitHub" data-hint="PR помечен Merged, ветка удалена">
+      <p>Замечаний не осталось — на странице PR: <b>Merge pull request</b> → <b>Confirm merge</b> → <b>Delete branch</b>. Программа, отчёты и сводка теперь в <code>main</code>. Если позже что-то окажется не так, у слитого PR есть кнопка <b>Revert</b> — вернёт всё как было одним коммитом (урок 18).</p>
+      <div class="mock" data-title="github.com/username/shop/pull/3">
+        <div class="mock-nav"><b>🐙 GitHub</b><span class="active">Conversation</span><span>Files changed 7</span></div>
+        <div class="mock-body">
+          <p><b>Инструмент проверки карточек по чеклисту</b> <span class="badge ok">Open</span></p>
+          <div class="mock-row"><span class="mock-btn primary">Merge pull request</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Откройте summary.md" data-hint="В summary.md по строке на каждый товар, таблица читается без скачивания">
+      <p>Вернитесь на вкладку <b>Code</b> и откройте <code>summary.md</code>: GitHub покажет таблицу как отформатированный текст. Это и есть ваш инструмент в работе — не программа «где-то лежит», а сводка, которую можно показать коллеге перед акцией. Рядом папка <code>reports/</code> с подробностями по каждой карточке.</p>
+      <div class="mock" data-title="github.com/username/shop/blob/main/summary.md">
+        <div class="mock-body">
+          <div class="table-wrap"><table>
+            <thead><tr><th>Файл</th><th>Название</th><th>Цена</th><th>Остаток</th><th>Отзывы / средняя</th><th>Не выполнено</th></tr></thead>
+            <tbody>
+              <tr><td>termokruzhka.md</td><td>Термокружка стальная 450 мл</td><td>1 290 ₽</td><td>84</td><td>9 / 4,0</td><td>2</td></tr>
+              <tr><td>ryukzak.md</td><td>Рюкзак городской 20 л</td><td>2 490 ₽</td><td>15</td><td>12 / 4,5</td><td>1</td></tr>
+              <tr><td>lampa.md</td><td>Лампа настольная с диммером</td><td>1 890 ₽</td><td>37</td><td>5 / 3,8</td><td>3</td></tr>
+              <tr><td>pled.md</td><td>Плед флисовый 150×200 см</td><td>990 ₽</td><td>120</td><td>2 / 5,0</td><td>1</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Новая карточка — повторный запуск" data-hint="Второй PR слит; у нового товара есть отчёт и строка в summary.md">
+      <p>Так инструмент будет работать дальше. Откройте папку <code>tovary/</code> → <b>Add file</b> → <b>Upload files</b> → перетащите новую обезличенную карточку → <b>Commit changes</b>. На claude.ai/code начните новую сессию (<code>shop</code>, ветка <b>main</b>) и отправьте:</p>
+      <div class="prompt"><div class="prompt-label">Запрос к агенту — повторный запуск</div><pre>Запусти проверку для новых карточек в tovary/ — тех, у которых ещё нет отчёта в reports/. Старые отчёты не пересоздавай, программу не меняй. Добавь строки по новым товарам в summary.md, остальные строки не трогай. В описании PR перечисли, какие карточки проверил.</pre></div>
+      <p>Дальше тот же цикл: <b>Create PR</b> → сверить три строки нового отчёта → <b>Merge pull request</b> → <b>Confirm merge</b> → <b>Delete branch</b>.</p>
+    </section>
+  </div>
+
+  <h2>Что здесь произошло</h2>
+  <div class="flow"><span class="node">ТЗ</span><span class="arrow">→</span><span class="node">агент пишет программу</span><span class="arrow">→</span><span class="node hl">запускает её у себя на карточках</span><span class="arrow">→</span><span class="node">отчёты в PR</span><span class="arrow">→</span><span class="node">вы проверяете</span><span class="arrow">→</span><span class="node">Merge</span></div>
+  <p>Программа <code>check_cards.py</code> лежит в репозитории и стала частью инструмента: в новой сессии агент получает свежую машину, забирает файлы и программу, запускает её и присылает результат. Вы ничего не устанавливали: Python живёт в машине агента, которая засыпает при простое и просыпается от нового сообщения.</p>
+  <p>Данные никуда не уходили: карточки и выгрузка отзывов попали из приватного репозитория в машину агента и вернулись отчётами. Сетевой доступ окружения Default — только к GitHub и типовым хранилищам пакетов. Приватный репозиторий видите вы и Claude GitHub App. Обезличивание всё равно обязательно.</p>
+
+  <h2>Сколько это стоит</h2>
+  <p>Сессия агента расходует лимиты тарифа — те же скользящие 5-часовые окна и недельный лимит, что и чат; одна такая задача — десятки обращений к модели, то есть заметно больше вопроса в чате (точных чисел курс не называет). Виртуальная машина отдельно не оплачивается. Для нескольких задач в неделю достаточно Pro ($20/мес); Max — если инструментов много.</p>
+
+  <h2>Если агент говорит, что не смог разобрать выгрузку</h2>
+  <p>Причины разные: Excel сохранил CSV с другим разделителем, редкая кодировка, лишние строки-заголовки, оценка записана словом. Не чините сами. Два пути: попросить агента определить формат самостоятельно или выгрузить отзывы заново и загрузить файл через <b>Upload files</b>. Строки, которые прочитать нельзя, агент должен перечислить, а не пропустить молча — и не заполнять «по памяти».</p>
+  <div class="prompt"><div class="prompt-label">Запрос к агенту</div><pre>Ты написал, что не смог разобрать otzyvy/otzyvy.csv. Определи разделитель и кодировку сам и попробуй снова. Строки, которые всё равно не читаются, перечисли в описании PR с номерами и причиной, а в summary.md у их товаров поставь «отзывы не прочитаны». Ничего не придумывай, карточки и выгрузку не меняй.</pre></div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="p20-quiz">
+    <div class="q">
+      <p class="q-text">Где была запущена программа check_cards.py?</p>
+      <ul class="q-options">
+        <li>На вашем компьютере</li>
+        <li data-correct>В виртуальной машине агента в облаке; на вашем компьютере ничего не появилось</li>
+        <li>На серверах GitHub при слиянии PR</li>
+      </ul>
+      <p class="q-explain">Агент запускает программу в своей облачной машине. GitHub при Merge ничего не запускает — только принимает готовые файлы.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">В карточке Changes среди файлов оказался изменённый tovary/ryukzak.md. Что делать?</p>
+      <ul class="q-options">
+        <li>Слить: раз агент поправил карточку, в ней была ошибка</li>
+        <li>Закрыть PR и удалить репозиторий</li>
+        <li data-correct>Не сливать; написать в сессию: верни tovary/ в исходное состояние и объясни, зачем менял</li>
+      </ul>
+      <p class="q-explain">ТЗ запрещало менять карточки: инструмент их читает, а не редактирует. Одно конкретное замечание решает вопрос.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Появился новый товар. Как получить по нему отчёт?</p>
+      <ul class="q-options">
+        <li data-correct>Загрузить карточку через Upload files и в новой сессии попросить проверить только новые карточки</li>
+        <li>Ничего: агент следит за репозиторием и запустит проверку сам</li>
+        <li>Вписать имя файла в check_cards.py карандашом</li>
+      </ul>
+      <p class="q-explain">Агент видит только репозиторий и работает только по вашей задаче. Программу вы не редактируете — просите агента её запустить.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">В отчёте пункт «комплектация» помечен «выполнено», а в карточке этого раздела нет. Правильное действие?</p>
+      <ul class="q-options">
+        <li>Исправить строку в отчёте карандашом на GitHub и слить</li>
+        <li data-correct>Написать агенту замечание: карточка, строка, что на самом деле в файле — и слить после исправления</li>
+        <li>Слить — одна ошибка на четыре карточки приемлема</li>
+      </ul>
+      <p class="q-explain">Отчёт — результат программы; поправленная руками строка вернётся при следующем запуске. Исправлять надо причину — это делает агент.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Доведите степпер до конца и отметьте только то, что проверили сами.</p>
+  <ul class="checklist" data-id="p20-practice">
+    <li>PR с инструментом слит на GitHub (Merge pull request → Confirm merge), ветка удалена.</li>
+    <li>В <code>reports/</code> лежит отчёт по каждой карточке из <code>tovary/</code>; файлы в <code>tovary/</code>, <code>checklist.md</code> и <code>otzyvy/</code> не изменились.</li>
+    <li>Три строки одного отчёта я сверил(а) с карточкой: цитаты дословные, статусы верные.</li>
+    <li><code>summary.md</code> открывается в репозитории как таблица, строк в ней столько же, сколько карточек.</li>
+    <li>Новая карточка загружена через Upload files и проверена отдельным PR, который тоже слит.</li>
+  </ul>
+
+  <div class="win"><p><strong>Инструмент работает на ваших карточках.</strong> Дальше — доработки: ответы на отзывы по шаблону и правила, по которым инструмент не ломается от новых просьб.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>
