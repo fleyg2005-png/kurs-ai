@@ -12,9 +12,9 @@
 <main class="content">
 <article>
   <h1>Claude Code в браузере</h1>
-  <p class="lead">Двенадцать шагов — и первый pull request, написанный агентом, слит в <code>hello-ai</code>, а сайт обновился. Откройте <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a> в соседней вкладке и идите по шагам.</p>
+  <p class="lead">Двенадцать шагов — и первый pull request, который агент открыл сам, проверен и слит вами в <code>hello-ai</code>, а сайт обновился. Откройте <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a> в соседней вкладке и идите по шагам.</p>
 
-  <div class="note"><p><strong>Что понадобится.</strong> Аккаунт Claude на Pro, Max или Team, репозиторий <code>hello-ai</code> с работающим GitHub Pages и ТЗ из урока 19 — оно повторено в шаге 7.</p></div>
+  <div class="note"><p><strong>Что понадобится.</strong> Аккаунт Claude на Pro, Max или Team, репозиторий <code>hello-ai</code> с работающим GitHub Pages и ТЗ из урока 19 — в шаге 7 оно повторено вместе с правилами для агента.</p></div>
 
   <h2>Первая задача: от входа до обновлённого сайта</h2>
   <div class="stepper" data-id="cc-first">
@@ -33,42 +33,70 @@
       </div>
     </section>
 
-    <section class="step" data-title="Claude GitHub App: установить или пропустить" data-hint="Онбординг закончился, перед вами поле ввода задачи">
-      <p>Claude предложит установить <b>Claude GitHub App</b> — оно открывает агенту доступ к приватным репозиториям. Публичный <code>hello-ai</code> доступен и так, поэтому нажмите <b>Skip</b>. Для приватного репозитория установите приложение позже: <a href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">github.com/apps/claude/installations/new</a> — выбрать аккаунт и репозитории.</p>
+    <section class="step" data-title="Установите Claude GitHub App на hello-ai" data-hint="На GitHub в списке установленных репозиториев — hello-ai; вы вернулись к полю ввода задачи">
+      <p>Claude предложит установить <b>Claude GitHub App</b>. Установите: через него агент отправляет свою ветку и открывает pull request в вашем репозитории. Выберите <b>Only select repositories</b> → <code>hello-ai</code> → <b>Install</b>. Если окно пропустили — установите по адресу <a href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">github.com/apps/claude/installations/new</a>: выбрать аккаунт и репозиторий. Новые репозитории потом добавляются туда же.</p>
     </section>
 
-    <section class="step" data-title="Окружение Default — ничего делать не нужно" data-hint="Просто убедитесь, что сообщений об ошибке окружения нет">
-      <p>На Pro и Max окружение <b>Default</b> создаётся автоматически. <dfn data-def="Настройки виртуальной машины, в которой работает агент: какие сайты ей доступны, что установлено.">Окружение</dfn> Default даёт сетевой доступ <b>Trusted</b>: к вашему репозиторию и типовым хранилищам пакетов. Для сайта из одного файла этого достаточно.</p>
+    <section class="step" data-title="Создайте окружение full" data-hint="Под полем ввода, в кнопке окружения, написано full">
+      <p><dfn data-def="Настройки виртуальной машины, в которой работает агент: какие сайты ей доступны, что установлено.">Окружение</dfn> создаётся один раз, дальше все задачи идут в нём. На экране новой сессии, под полем ввода, первая кнопка — выбор окружения, по умолчанию там <b>Default</b>. Откройте её и внизу меню выберите <b>New environment</b>. В окне New environment:</p>
+      <ul>
+        <li><b>Name</b> — <code>full</code>;</li>
+        <li><b>Network access</b> — <b>Full</b>, любой адрес в интернете. У Default стоит <b>Trusted</b>: только магазины пакетов и GitHub, поэтому агент иногда не может скачать нужное;</li>
+        <li><b>Network secrets</b>, <b>Setup script</b>, <b>Environment variables</b> не трогайте, курсу они не нужны. Environment variables — это строки вида <code>KEY=value</code> на случай, если инструменту понадобится ключ. Ключи и пароли в чат не вставляйте никогда.</li>
+      </ul>
+      <div class="mock" data-title="claude.ai/code — New environment">
+        <div class="mock-body">
+          <p><b>New environment</b></p>
+          <div class="mock-field"><label>Name</label><div class="mock-input">full</div></div>
+          <div class="mock-field"><label>Network access</label><div class="mock-input">Full ▾</div></div>
+          <div class="mock-field"><label>Network secrets</label><div class="mock-input">—</div></div>
+          <div class="mock-field"><label>Setup script</label><div class="mock-input">—</div></div>
+          <div class="mock-field"><label>Environment variables</label><div class="mock-input">—</div></div>
+          <div class="mock-row"><span class="mock-btn">Cancel</span><span class="mock-btn primary">Add environment</span></div>
+        </div>
+      </div>
+      <p>Нажмите <b>Add environment</b>: новая сессия пойдёт в окружении full. Изменить его потом можно так: в том же меню наведите на строку окружения, нажмите значок настроек справа, откроется <b>Edit cloud environment</b>, после правок — <b>Save changes</b>. В уже идущей сессии то же окно открывается стрелкой рядом с названием сессии вверху.</p>
     </section>
 
-    <section class="step" data-title="Выберите репозиторий и ветку" data-hint="Под полем ввода написано имя вашего репозитория и main">
+    <section class="step" data-title="Выберите репозиторий и ветку" data-hint="Под полем ввода написаны full, имя вашего репозитория и main">
       <p>Под полем ввода — селектор репозитория: выберите <code>hello-ai</code>. Рядом ветка: оставьте <b>main</b> — Claude сам создаст от неё ветку для задачи.</p>
       <div class="mock" data-title="claude.ai/code">
         <div class="mock-body">
           <div class="mock-field"><label>Задача</label><div class="mock-input">Опишите, что нужно сделать в репозитории…</div></div>
-          <div class="mock-row"><span class="mark">ivan-petrov/hello-ai ▾<span class="mark-label">1</span></span><span class="mark">main ▾<span class="mark-label">2</span></span><span class="mark">Accept edits ▾<span class="mark-label">3</span></span></div>
+          <div class="mock-row"><span class="mark">full ▾<span class="mark-label">1</span></span><span class="mark">ivan-petrov/hello-ai ▾<span class="mark-label">2</span></span><span class="mark">main ▾<span class="mark-label">3</span></span><span class="mark">Auto ▾<span class="mark-label">4</span></span></div>
         </div>
       </div>
       <ol>
+        <li>Окружение (прошлый шаг).</li>
         <li>Селектор репозитория.</li>
         <li>Исходная ветка.</li>
-        <li>Режим разрешений (следующий шаг).</li>
+        <li>Режим (следующий шаг).</li>
       </ol>
     </section>
 
-    <section class="step" data-title="Выберите режим Accept edits" data-hint="В переключателе режима написано Accept edits">
-      <p>Рядом с селектором — <dfn data-def="Permission mode: насколько самостоятельно агент может действовать без вашего подтверждения.">режим разрешений</dfn>. Их три:</p>
+    <section class="step" data-title="Выберите режим Auto" data-hint="В переключателе режима написано Auto">
+      <p>Рядом с полем ввода есть выбор <dfn data-def="Permission mode: насколько самостоятельно агент может действовать без вашего подтверждения.">режима</dfn>, <b>Mode</b>:</p>
       <ul>
-        <li><b>Accept edits</b> — Claude меняет файлы и пушит ветку, не спрашивая. Для учебного репозитория — лучший выбор: результат всё равно пройдёт через ваш PR.</li>
-        <li><b>Plan</b> — сначала предлагает план и ждёт одобрения. Для большой задачи, когда важно сверить подход.</li>
-        <li><b>Auto</b> — действия проверяет автоматический классификатор: безопасные пропускает, рискованные останавливает.</li>
+        <li><b>Auto</b> — Claude сам решает, что можно делать без вопросов;</li>
+        <li><b>Accept edits</b> — сам принимает правки файлов, остальное спрашивает;</li>
+        <li><b>Plan</b> — сначала план, потом изменения.</li>
       </ul>
-      <p>Для первой задачи выберите <b>Accept edits</b>.</p>
+      <p>Выберите <b>Auto</b>: так агент доводит задачу до конца — сам создаёт ветку и открывает pull request. А в main он не сливает: это запрещают правила из следующего шага, merge вы сделаете сами на GitHub.</p>
     </section>
 
-    <section class="step" data-title="Вставьте задачу" data-hint="В поле — текст ТЗ целиком, с примером и критериями">
-      <p>Скопируйте ТЗ и вставьте в поле ввода. Пробегите глазами: назван <code>index.html</code>, есть пример и «не трогай».</p>
-      <div class="prompt"><div class="prompt-label">Запрос к агенту — первая задача</div><pre>Задача: добавь на главную страницу сайта (файл index.html) раздел «Калькулятор пени».
+    <section class="step" data-title="Вставьте первый запрос" data-hint="В поле — запрос целиком: правила для агента, ТЗ с примером и строка про ветки и pull request">
+      <p>Это первый запрос в <code>hello-ai</code>, поэтому сверху к ТЗ из урока 19 добавлены правила для агента. Агент сохранит их в два файла с одинаковым текстом: <code>CLAUDE.md</code> читает Claude Code, <code>AGENTS.md</code> — Codex, облачный агент Copilot читает оба. Главное правило — ветку и pull request агент создаёт сам, а проверяете и сливаете вы.</p>
+      <div class="prompt"><div class="prompt-label">Первый запрос к агенту — правила и первая задача</div><pre>Сначала создай в корне репозитория два файла с одинаковым текстом — CLAUDE.md и AGENTS.md. Это единственное исключение из ограничений задачи ниже.
+
+# Правила для ИИ-агента в этом репозитории
+1. Это публичный сайт: никаких персональных данных, паролей и ключей ни в коде, ни в текстах.
+2. Каждую задачу делай в новой ветке и сам открывай pull request с понятным описанием: что сделано и как проверить.
+3. В main не сливай: pull request проверяю и сливаю я.
+4. В конце ответа дай ссылку на pull request и коротко напиши, какие файлы изменены.
+
+Потом выполни задачу. Файлы правил и калькулятор — в одной ветке и одном pull request.
+
+Задача: добавь на главную страницу сайта (файл index.html) раздел «Калькулятор пени».
 
 Цель: посетитель вводит сумму долга, ставку и срок просрочки и сразу видит сумму пени и формулу расчёта.
 
@@ -90,55 +118,57 @@
 
 Ограничения: без внешних библиотек и загрузки скриптов с других сайтов; весь текст интерфейса на русском; все изменения — только в index.html.
 
+Ветки и pull request создавай сам, как в этих правилах: новая ветка, pull request с описанием, ссылка на него в конце ответа. В main не сливай — проверю и солью я.
+
 Когда закончишь, напиши коротко: что изменил и как мне проверить результат на сайте.</pre></div>
+      <p>Правила пишутся один раз. В следующих запросах к этому репозиторию достаточно последней строкой добавить: «Сделай ветку и pull request сам, как в правилах».</p>
     </section>
 
-    <section class="step" data-title="Enter — и наблюдайте" data-hint="Claude сообщил, что изменения готовы и ветка запушена">
-      <p>Нажмите <kbd>Enter</kbd>. Claude клонирует репозиторий в изолированную виртуальную машину в облаке и работает: изучает файлы, правит <code>index.html</code>, запускает проверки, пушит ветку. Можно следить и подсказывать, а можно закрыть вкладку и вернуться позже — сессия продолжается в облаке.</p>
+    <section class="step" data-title="Enter — и наблюдайте" data-hint="Claude прислал отчёт со ссылкой на pull request">
+      <p>Нажмите <kbd>Enter</kbd>. Claude клонирует репозиторий в изолированную виртуальную машину в облаке и работает: создаёт файлы правил, правит <code>index.html</code>, запускает проверки, создаёт ветку и открывает pull request. Можно следить и подсказывать, а можно закрыть вкладку и вернуться позже — сессия продолжается в облаке.</p>
       <div class="mock" data-title="claude.ai/code — сессия">
         <div class="mock-chat">
-          <div class="msg user">Задача: добавь на главную страницу сайта (файл index.html) раздел «Калькулятор пени». Цель: … (ТЗ целиком)</div>
-          <div class="msg ai">Изучил репозиторий: один файл index.html. Добавил раздел с тремя полями, кнопкой и результатом перед &lt;/body&gt;. Проверил пример: 100 000 × 0,1 / 100 × 30 = 3 000,00 — совпадает; пустое и отрицательное значение дают «Проверьте введённые значения». Ветка запушена. Проверить: открыть сайт, прокрутить вниз, ввести пример.</div>
+          <div class="msg user">Сначала создай в корне репозитория два файла с одинаковым текстом — CLAUDE.md и AGENTS.md… (запрос целиком)</div>
+          <div class="msg ai">Создал CLAUDE.md и AGENTS.md с правилами. Добавил в index.html раздел с тремя полями, кнопкой и результатом перед &lt;/body&gt;. Проверил пример: 100 000 × 0,1 / 100 × 30 = 3 000,00 — совпадает; пустое и отрицательное значение дают «Проверьте введённые значения». Создал ветку и открыл pull request: github.com/ivan-petrov/hello-ai/pull/1. Изменены: index.html, CLAUDE.md, AGENTS.md. В main не сливал. Проверить: после слияния открыть сайт, прокрутить вниз, ввести пример.</div>
         </div>
       </div>
     </section>
 
-    <section class="step" data-title="Откройте карточку Changes" data-hint="В списке изменённых файлов только index.html">
-      <p>Справа — карточка <b>Changes</b> с числами вида «+64 −2»: строк добавлено и удалено. Нажмите — откроется <dfn data-def="Разница между версиями файла: зелёные строки добавлены, красные удалены.">diff</dfn>. Первое, что проверяете, — список файлов: должен быть один, <code>index.html</code>. Иначе — повод для замечания.</p>
+    <section class="step" data-title="Откройте карточку Changes" data-hint="В списке изменённых файлов index.html, CLAUDE.md и AGENTS.md">
+      <p>Справа — карточка <b>Changes</b> с числами вида «+74 −2»: строк добавлено и удалено. Нажмите — откроется <dfn data-def="Разница между версиями файла: зелёные строки добавлены, красные удалены.">diff</dfn>. Первое, что проверяете, — список файлов: <code>index.html</code> и два файла правил, <code>CLAUDE.md</code> и <code>AGENTS.md</code>. Есть что-то ещё — повод для замечания.</p>
       <div class="mock" data-title="claude.ai/code — карточка Changes (справа)">
         <div class="mock-body">
-          <p><b>Changes</b> <span class="badge ok">+64</span> <span class="badge danger">−2</span></p>
-          <p><code>index.html</code></p>
+          <p><b>Changes</b> <span class="badge ok">+74</span> <span class="badge danger">−2</span></p>
+          <p><code>index.html</code> · <code>CLAUDE.md</code> · <code>AGENTS.md</code></p>
           <div class="mock-code">+ &lt;section id="penalty"&gt;
 +   &lt;h2&gt;Калькулятор пени&lt;/h2&gt;
 +   &lt;label&gt;Сумма долга, ₽ &lt;input id="sum" type="number"&gt;&lt;/label&gt;
 …</div>
-          <div class="mock-row"><span class="mock-btn primary">Create PR</span></div>
         </div>
       </div>
     </section>
 
-    <section class="step" data-title="Оставьте замечание прямо в diff" data-hint="Claude ответил, числа в карточке Changes изменились">
-      <p>Выделите в diff строку, которую хотите поправить, и напишите замечание — например: «Добавь к результату знак ₽ и разделители тысяч: 3 000,00 ₽». Замечание прикрепится к строке и уйдёт с вашим следующим сообщением. Отправьте его и дождитесь: Claude внесёт правку, карточка Changes обновится.</p>
+    <section class="step" data-title="Оставьте замечание прямо в diff" data-hint="Claude ответил, что правка добавлена в тот же pull request">
+      <p>Выделите в diff строку, которую хотите поправить, и напишите замечание — например: «Добавь к результату знак ₽ и разделители тысяч: 3 000,00 ₽». Замечание прикрепится к строке и уйдёт с вашим следующим сообщением. Отправьте его и дождитесь: Claude внесёт правку и допишет её в ту же ветку — она появится в том же pull request.</p>
       <div class="mock" data-title="claude.ai/code — сессия">
         <div class="mock-chat">
           <div class="msg user">Добавь к результату знак ₽ и разделители тысяч: 3 000,00 ₽.</div>
-          <div class="msg ai">Готово: результат выводится как «3 000,00 ₽». Изменена одна строка в функции расчёта, остальное не трогал.</div>
+          <div class="msg ai">Готово: результат выводится как «3 000,00 ₽». Изменена одна строка в функции расчёта в index.html, правка добавлена в тот же pull request, остальное не трогал.</div>
         </div>
       </div>
     </section>
 
-    <section class="step" data-title="Create PR" data-hint="В чате появилась ссылка на pull request на GitHub">
-      <p>Нажмите <b>Create PR</b>. Claude создаст в репозитории pull request с заголовком и описанием сделанного. Нужен черновик для коллеги — правый клик по кнопке → <b>Create draft PR</b>. Сессия остаётся живой: правки можно присылать и после, они попадут в тот же PR.</p>
+    <section class="step" data-title="Откройте pull request по ссылке" data-hint="Открылась страница pull request на GitHub, в описании — что сделано и как проверить">
+      <p>Нажимать в Claude Code ничего не нужно: pull request агент открыл сам, как велят правила. Откройте ссылку из его отчёта — вида <code>github.com/ivan-petrov/hello-ai/pull/1</code>. В описании агент написал, что сделано и как проверить. Сессия остаётся живой: правки можно присылать и после, они попадут в тот же pull request.</p>
     </section>
 
     <section class="step" data-title="На GitHub: проверить и слить" data-hint="На сайте есть калькулятор, пример даёт 3 000,00 ₽">
-      <p>Откройте ссылку на PR. Вкладка <b>Files changed</b> — тот же diff. Прочитайте описание и нажмите <b>Merge pull request</b> → <b>Confirm merge</b>, затем <b>Delete branch</b>. Через 1–10 минут откройте <code>https://username.github.io/hello-ai/</code> и введите пример из ТЗ: 100 000, 0,1, 30 → 3 000,00 ₽.</p>
+      <p>Слияние — ваша часть работы: агенту сливать в main правила запрещают. Вкладка <b>Files changed</b> — тот же diff. Прочитайте описание, сверьте список файлов и нажмите <b>Merge pull request</b> → <b>Confirm merge</b>, затем <b>Delete branch</b>. Через 1–10 минут откройте <code>https://username.github.io/hello-ai/</code> и введите пример из ТЗ: 100 000, 0,1, 30 → 3 000,00 ₽.</p>
       <div class="mock" data-title="github.com/ivan-petrov/hello-ai/pull/1">
         <div class="mock-nav"><b>🐙 GitHub</b><span>Conversation</span><span class="active">Files changed</span></div>
         <div class="mock-body">
-          <p><b>Добавлен раздел «Калькулятор пени»</b> <span class="badge ok">Open</span></p>
-          <p class="muted">1 file changed · +64 −2</p>
+          <p><b>Калькулятор пени и правила для агента</b> <span class="badge ok">Open</span></p>
+          <p class="muted">3 files changed · +74 −2</p>
           <div class="mock-row"><span class="mock-btn primary">Merge pull request</span></div>
         </div>
       </div>
@@ -149,28 +179,39 @@
   <p>Сессии Claude Code расходуют лимиты тарифа — те же, что и чат: скользящие 5-часовые окна плюс недельный лимит. Виртуальная машина отдельно не оплачивается. Одна задача агента — десятки обращений к модели, поэтому расходует она заметно больше, чем вопрос в чате; точные числа меняются, курс их не называет.</p>
 
   <h2>Несколько задач параллельно</h2>
-  <p>Каждая задача — отдельная сессия и ветка; можно запустить две-три одновременно: калькулятор в одной, раздел «Контакты» в другой. Одно правило: две сессии не должны менять одно место в одном файле, иначе при слиянии второго PR получите конфликт (урок 18). Безопаснее — разные разделы и слияние по одной.</p>
+  <p>Каждая задача — отдельная сессия, ветка и pull request, их агент создаёт сам; можно запустить две-три одновременно: калькулятор в одной, раздел «Контакты» в другой. Одно правило: две сессии не должны менять одно место в одном файле, иначе при слиянии второго PR получите конфликт (урок 18). Безопаснее — разные разделы и слияние по одной.</p>
 
   <h2>С телефона</h2>
-  <p>Задачу можно поставить из приложения Claude: вкладка <b>Code</b>. Отправьте ТЗ в дороге, а diff проверьте и PR слейте за компьютером — сессия та же.</p>
+  <p>Задачу можно поставить из приложения Claude: вкладка <b>Code</b>. Отправьте ТЗ в дороге — агент сам откроет pull request, а проверите и сольёте вы его за компьютером.</p>
 
   <h2>Типовые проблемы</h2>
   <div class="grid">
-    <div class="card"><h3>В списке нет моего репозитория</h3><p>Он приватный, а Claude GitHub App не установлено. Установите по адресу <a href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">github.com/apps/claude/installations/new</a>, выберите аккаунт и репозиторий, вернитесь и обновите список.</p></div>
+    <div class="card"><h3>В списке нет моего репозитория</h3><p>Чаще всего на него не установлено Claude GitHub App. Установите по адресу <a href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">github.com/apps/claude/installations/new</a>, выберите аккаунт и репозиторий, вернитесь и обновите список.</p></div>
     <div class="card"><h3>«Claude Code isn't available on your account»</h3><p>Вы на тарифе Free. Агент доступен на Pro ($20/мес), Max и Team; бесплатная альтернатива — Codespaces + Copilot Free из урока 21.</p></div>
     <div class="card"><h3>Claude задаёт вопрос и ждёт</h3><p>Ответьте в чате — он продолжит. Его вопрос — ровно то, чего не хватало в ТЗ; в следующий раз пишите сразу.</p></div>
+    <div class="card"><h3>В отчёте нет ссылки на pull request</h3><p>Напишите в ту же сессию: «Сделай ветку и pull request сам, как в правилах, и пришли ссылку». Если в репозитории ещё нет <code>CLAUDE.md</code> и <code>AGENTS.md</code>, начните с первого запроса из шага 7.</p></div>
+    <div class="card"><h3>Агент пишет, что не может скачать нужное</h3><p>Скорее всего, сессия идёт в окружении Default с доступом Trusted. Проверьте кнопку окружения под полем ввода: должно быть <b>full</b> с Network access <b>Full</b> (шаг 4).</p></div>
   </div>
 
   <h2>Проверьте себя</h2>
   <div class="quiz" data-id="cc-quiz">
     <div class="q">
-      <p class="q-text">В каком режиме Claude сначала показывает план и ждёт вашего одобрения?</p>
+      <p class="q-text">Какой режим выбрать, чтобы агент сам довёл задачу до pull request?</p>
       <ul class="q-options">
-        <li data-correct>Plan</li>
+        <li data-correct>Auto</li>
         <li>Accept edits</li>
-        <li>Auto</li>
+        <li>Plan</li>
       </ul>
-      <p class="q-explain">Accept edits правит и пушит без вопросов, Auto пропускает действия через автоматический классификатор. План перед работой показывает только Plan.</p>
+      <p class="q-explain">В Auto Claude сам решает, что можно делать без вопросов, и доводит задачу до конца. Accept edits сам принимает только правки файлов, остальное спрашивает; Plan сначала показывает план и ждёт одобрения.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Зачем создавать окружение full вместо Default?</p>
+      <ul class="q-options">
+        <li>Без него агент не видит репозиторий</li>
+        <li data-correct>У full сетевой доступ Full — любой адрес в интернете; у Default — Trusted, только магазины пакетов и GitHub</li>
+        <li>В full можно вставить пароль от GitHub, чтобы агент работал быстрее</li>
+      </ul>
+      <p class="q-explain">С доступом Trusted агент иногда не может скачать нужное. Пароль от GitHub агенту не нужен — доступ дал вход через GitHub. Ключи и пароли в чат не вставляйте никогда.</p>
     </div>
     <div class="q">
       <p class="q-text">Вы закрыли вкладку браузера, пока Claude работал над задачей. Что произошло?</p>
@@ -182,13 +223,13 @@
       <p class="q-explain">Агент работает в облачной машине, а не в вашей вкладке; её закрытие сессию не останавливает.</p>
     </div>
     <div class="q">
-      <p class="q-text">Что делает кнопка Create PR?</p>
+      <p class="q-text">Кто создаёт ветку и pull request для задачи агента и кто его сливает?</p>
       <ul class="q-options">
-        <li>Сразу сливает изменения в main и публикует сайт</li>
-        <li data-correct>Создаёт pull request с заголовком и описанием; сессия остаётся живой для правок</li>
-        <li>Завершает сессию и удаляет виртуальную машину</li>
+        <li>Ветку и pull request создаёте вы на GitHub, агент только правит файлы</li>
+        <li data-correct>Ветку и pull request агент создаёт сам — так написано в первом запросе и в CLAUDE.md и AGENTS.md; проверяете и сливаете вы</li>
+        <li>Агент сразу сливает изменения в main и публикует сайт</li>
       </ul>
-      <p class="q-explain">Слияние остаётся за вами и делается на GitHub. Замечания после Create PR попадают в тот же PR.</p>
+      <p class="q-explain">Правило 2 велит агенту самому открывать pull request, правило 3 — не сливать в main. Вы открываете ссылку из отчёта, проверяете и нажимаете Merge pull request. Замечания после этого попадают в тот же pull request.</p>
     </div>
     <div class="q">
       <p class="q-text">Приватного репозитория нет в селекторе. Самая вероятная причина?</p>
@@ -202,12 +243,15 @@
   </div>
 
   <h2>Практика</h2>
-  <p>Пройдите степпер до конца на своём репозитории. Если калькулятор уже слит — поставьте вторую задачу: «добавь под калькулятором кнопку „Очистить“, которая сбрасывает поля и результат».</p>
+  <p>Пройдите степпер до конца на своём репозитории. Если калькулятор уже слит — поставьте вторую задачу в новой сессии. Правила уже лежат в репозитории, поэтому запрос короткий:</p>
+  <div class="prompt"><div class="prompt-label">Запрос к агенту — вторая задача</div><pre>Добавь под калькулятором пени в index.html кнопку «Очистить»: она сбрасывает все поля и результат. Ничего другого не меняй.
+Сделай ветку и pull request сам, как в правилах.</pre></div>
   <ul class="checklist" data-id="cc-practice">
     <li>Я вошёл в claude.ai/code через Sign in with GitHub и вижу <code>hello-ai</code> в селекторе репозиториев.</li>
-    <li>Задача отправлена в режиме Accept edits; в карточке Changes тронут только <code>index.html</code>.</li>
-    <li>Я оставил хотя бы одно замечание в diff, и Claude его учёл.</li>
-    <li>PR создан кнопкой Create PR и слит на GitHub: Merge pull request → Confirm merge.</li>
+    <li>Я создал окружение full и отправил задачу в режиме Auto.</li>
+    <li>Агент сам создал <code>CLAUDE.md</code> и <code>AGENTS.md</code> с правилами, открыл pull request и прислал ссылку; кроме них тронут только <code>index.html</code>.</li>
+    <li>Я оставил хотя бы одно замечание в diff, и Claude учёл его в том же pull request.</li>
+    <li>Я проверил pull request на GitHub и слил его сам: Merge pull request → Confirm merge.</li>
     <li>Сайт обновился: пример 100 000 / 0,1 / 30 даёт 3 000,00 ₽.</li>
   </ul>
 
