@@ -15,7 +15,7 @@
   <p class="lead">Восемь минут — и у вас есть приватный репозиторий <code>contracts</code>: чеклист проверки договора, шаблон претензии и несколько обезличенных договоров. В следующем уроке к нему подключится ИИ, в модуле 5 — начнёт в нём работать. Войдите на <a href="https://github.com" target="_blank" rel="noopener">github.com</a> в соседней вкладке и идите по шагам.</p>
 
   <h2>Что получится</h2>
-  <p>Это сквозной проект курса: все задачи агентам в следующих модулях будут про этот репозиторий. К концу урока он выглядит так:</p>
+  <p>Это сквозной проект курса: все задачи агентам в следующих модулях — про этот репозиторий. К концу урока он выглядит так:</p>
   <div class="mock" data-title="github.com/username/contracts — состав репозитория">
     <div class="mock-body">
       <div class="mock-code">README.md
@@ -42,7 +42,7 @@ templates/pretenziya.md — шаблон претензии с полями в �
       <p>На странице <i>Create a new repository</i> заполните три вещи, остальное оставьте как есть:</p>
       <ol>
         <li>В поле <b>Repository name</b> введите <code>contracts</code> — латиницей, без пробелов.</li>
-        <li>Выберите <b>Private</b> (приватный). В репозитории будут документы — их должны видеть только вы.</li>
+        <li>Выберите <b>Private</b> (приватный): в репозитории будут документы.</li>
         <li>Поставьте галочку <b>Add a README file</b>: GitHub создаст первый файл — агенту нужен репозиторий с README.</li>
       </ol>
       <div class="mock" data-title="github.com/new">
@@ -59,7 +59,7 @@ templates/pretenziya.md — шаблон претензии с полями в �
     </section>
 
     <section class="step" data-title="Осмотритесь на странице репозитория" data-hint="Рядом с именем значок Private; вверху вкладка Pull requests; над списком файлов кнопка Add file">
-      <p>Вы на главной странице репозитория: <code>github.com/ваш-username/contracts</code>. Три места, которые понадобятся в этом пути:</p>
+      <p>Вы на главной странице репозитория <code>github.com/ваш-username/contracts</code>. Три нужных места:</p>
       <div class="mock" data-title="github.com/username/contracts">
         <div class="mock-nav"><span class="active">&lt;&gt; Code</span><span>Issues</span><span class="mark">Pull requests<span class="mark-label">1</span></span><span style="flex:1"></span><span>⚙ Settings</span></div>
         <div class="mock-body">
@@ -166,7 +166,7 @@ templates/pretenziya.md — шаблон претензии с полями в �
       <p>Вернитесь на главную страницу репозитория (нажмите <b>contracts</b> в заголовке). <b>Add file</b> → <b>Upload files</b>. Перетащите в окно загрузки папку <code>contracts</code> целиком — GitHub сохранит её с именем, и файлы <code>.docx</code> лягут рядом с <code>dogovor-postavki.md</code>.</p>
       <div class="mock" data-title="github.com/username/contracts/upload/main">
         <div class="mock-body">
-          <p class="muted">⬆ Область загрузки — перетащите сюда папку contracts с компьютера</p>
+          <p class="muted">⬆ Область загрузки: перетащите сюда папку contracts</p>
           <div class="mock-code">contracts/dogovor-uslug.docx      ✓
 contracts/dogovor-arendy.docx     ✓
 contracts/dogovor-podryada.docx   ✓</div>
@@ -227,21 +227,21 @@ contracts/dogovor-podryada.docx   ✓</div>
         <li>Через кнопку New folder в меню Add file</li>
         <li>Папки в репозитории может создавать только ИИ-агент</li>
       </ul>
-      <p class="q-explain">Папка появляется вместе с первым файлом, у которого в имени указан путь. Второй способ — перетащить папку целиком в Upload files. А разложить уже загруженные файлы по папкам можно поручить агенту.</p>
+      <p class="q-explain">Папка появляется вместе с первым файлом, у которого в имени указан путь. Второй способ — перетащить папку целиком в Upload files; разложить файлы по папкам можно и поручить агенту.</p>
     </div>
   </div>
 
   <h2>Практика</h2>
   <p>Если шли по степперу — почти всё сделано. Проверьте результат по списку и добавьте то, чего не хватает.</p>
   <ul class="checklist" data-id="d13-practice">
-    <li>Репозиторий <code>contracts</code> существует, рядом с именем значок <b>Private</b>, он открывается по адресу <code>github.com/мой-username/contracts</code>.</li>
+    <li>Репозиторий <code>contracts</code> существует, рядом с именем значок <b>Private</b>, адрес — <code>github.com/мой-username/contracts</code>.</li>
     <li>В корне есть <code>README.md</code> и <code>checklist.md</code> с 10–12 пунктами проверки.</li>
     <li>В папке <code>contracts/</code> не меньше трёх договоров, один из них — <code>dogovor-postavki.md</code> с пунктом о пенях.</li>
     <li>В папке <code>templates/</code> лежит <code>pretenziya.md</code> с полями в фигурных скобках.</li>
     <li>Ни в одном документе нет ФИО, ИНН, адресов, телефонов и паспортных данных — я проверил поиском по каждому файлу.</li>
   </ul>
 
-  <div class="win"><p><strong>Рабочая папка готова.</strong> В ней всё, что нужно агенту: документы, чеклист и шаблон. В следующем уроке вы подключите этот репозиторий к Claude и ChatGPT — и дадите ИИ его прочитать.</p></div>
+  <div class="win"><p><strong>Рабочая папка готова:</strong> документы, чеклист и шаблон. В следующем уроке вы подключите репозиторий к Claude и ChatGPT — и дадите ИИ его прочитать.</p></div>
 </article>
 </main>
 <script src="../assets/app.js"></script>
