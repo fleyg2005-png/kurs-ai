@@ -183,12 +183,55 @@
 
   /* ---------- Хранилище ---------- */
   const PREFIX = 'aikurs:';
+  const TS_KEY = PREFIX + '_ts';
+  function touch() { try { localStorage.setItem(TS_KEY, String(Date.now())); } catch (e) {} }
   const store = {
     get(k, d) { try { const v = localStorage.getItem(PREFIX + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
-    set(k, v) { try { localStorage.setItem(PREFIX + k, JSON.stringify(v)); } catch (e) {} },
-    del(k) { try { localStorage.removeItem(PREFIX + k); } catch (e) {} },
-    clearAll() { try { Object.keys(localStorage).filter(k => k.startsWith(PREFIX) && k !== PREFIX + 'theme').forEach(k => localStorage.removeItem(k)); } catch (e) {} },
+    set(k, v) { try { localStorage.setItem(PREFIX + k, JSON.stringify(v)); touch(); } catch (e) {} },
+    del(k) { try { localStorage.removeItem(PREFIX + k); touch(); } catch (e) {} },
+    clearAll() { try { Object.keys(localStorage).filter(k => k.startsWith(PREFIX) && k !== PREFIX + 'theme').forEach(k => localStorage.removeItem(k)); touch(); } catch (e) {} },
   };
+
+  /* ---------- Курс открыт из файлов (file://) ----------
+     Часть браузеров (например, Firefox) даёт каждой локальной странице или папке свою память,
+     и выбор пути с главной не виден в уроке. Поэтому при открытии из файлов состояние курса
+     едет вместе с адресом при переходе по ссылкам (?aikurs=…); побеждает более свежее.
+     На сайте (http/https) это не нужно и не включается. */
+  const FILE_MODE = location.protocol === 'file:';
+  function snapshot() { const o = {}; try { Object.keys(localStorage).filter(k => k.startsWith(PREFIX)).forEach(k => { o[k] = localStorage.getItem(k); }); } catch (e) {} return o; }
+  if (FILE_MODE) {
+    try {
+      const u = new URL(location.href), raw = u.searchParams.get('aikurs');
+      if (raw) {
+        const snap = JSON.parse(raw);
+        if (+(snap[TS_KEY] || 0) >= +(localStorage.getItem(TS_KEY) || 0)) {
+          Object.keys(localStorage).filter(k => k.startsWith(PREFIX)).forEach(k => localStorage.removeItem(k));
+          Object.keys(snap).forEach(k => { if (k.startsWith(PREFIX)) localStorage.setItem(k, snap[k]); });
+        }
+        u.searchParams.delete('aikurs');
+        try { history.replaceState(null, '', u.href); } catch (e) {}
+      }
+    } catch (e) {}
+  }
+  function withState(href) {
+    if (!FILE_MODE) return href;
+    try {
+      const u = new URL(href, location.href);
+      if (u.protocol !== 'file:' || !/\.html$/i.test(u.pathname)) return href;
+      u.searchParams.set('aikurs', JSON.stringify(snapshot()));
+      return u.href;
+    } catch (e) { return href; }
+  }
+  function go(href) { location.href = withState(href); }
+  if (FILE_MODE) document.addEventListener('click', e => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a.target === '_blank') return;
+    const href = a.getAttribute('href') || '';
+    if (/^(https?:|mailto:|#)/i.test(href)) return;
+    const next = withState(a.href);
+    if (next !== a.href) { e.preventDefault(); location.href = next; }
+  }, true);
 
   /* ---------- Путь и активный список уроков ---------- */
   let TRACK = store.get('track', null);
@@ -204,14 +247,13 @@
     TOTAL_MIN = LESSONS.reduce((a, l) => a + l.minutes, 0);
   }
   function tracksOf(id) { return Object.keys(TRACKS).filter(t => TRACKS[t].modules.some(m => m.lessons.some(l => l.id === id))); }
-  /* Урок из другого пути: показываем его в контексте его пути, но выбор читателя не меняем.
-     Путь не выбран вовсе — выбираем путь урока (человек пришёл в него сам). */
+  /* Урок из другого пути (или путь ещё не выбран): показываем урок в контексте его пути,
+     но сохранённый выбор не трогаем. Путь меняется только кнопкой. */
   let FOREIGN = null;
   if (LESSON_ID) {
     const inTracks = tracksOf(LESSON_ID);
     if (inTracks.length && !inTracks.includes(TRACK)) {
-      if (!TRACK) { TRACK = inTracks[0]; store.set('track', TRACK); }
-      else { FOREIGN = { mine: TRACK, view: inTracks[0] }; TRACK = inTracks[0]; }
+      FOREIGN = { mine: TRACK, view: inTracks[0] }; TRACK = inTracks[0];
     }
   }
   rebuild();
@@ -274,7 +316,9 @@
       if (mi === COMMON.length) {
         const t = TRACKS[TRACK];
         sidebar.appendChild(FOREIGN
-          ? el('div', 'side-track foreign', `<span class="emoji">${t.emoji}</span><span>Вы смотрите путь <b>«${esc(t.name)}»</b>. Ваш путь — «${esc(TRACKS[FOREIGN.mine].name)}».<br><a href="${ROOT}index.html">вернуться к своему</a></span>`)
+          ? el('div', 'side-track foreign', FOREIGN.mine
+              ? `<span class="emoji">${t.emoji}</span><span>Вы смотрите путь <b>«${esc(t.name)}»</b>. Ваш путь — «${esc(TRACKS[FOREIGN.mine].name)}».<br><a href="${ROOT}index.html">вернуться к своему</a></span>`
+              : `<span class="emoji">${t.emoji}</span><span>Вы смотрите путь <b>«${esc(t.name)}»</b>. Путь ещё не выбран.<br><a href="${ROOT}index.html#track">выбрать путь</a></span>`)
           : el('div', 'side-track', `<span class="emoji">${t.emoji}</span><span><b>Путь «${esc(t.name)}»</b><br><a href="${ROOT}index.html#track">сменить путь</a></span>`));
       }
       const box = el('div', 'side-module');
@@ -318,7 +362,7 @@
     const nxt = nextUndone();
     if (PAGE === 'lesson' && nxt && (!CURRENT || nxt.id !== CURRENT.id)) {
       const cont = el('a', 'btn small ghost', '▶ Продолжить');
-      if (FOREIGN) { cont.href = ROOT + 'index.html'; cont.title = 'Продолжить свой путь «' + TRACKS[FOREIGN.mine].name + '»'; }
+      if (FOREIGN) { cont.href = ROOT + 'index.html'; cont.title = FOREIGN.mine ? 'Продолжить свой путь «' + TRACKS[FOREIGN.mine].name + '»' : 'Выбрать путь'; }
       else { cont.href = url(nxt); cont.title = nxt.title; }
       topbar.appendChild(cont);
     }
@@ -346,8 +390,10 @@
       h1.parentNode.insertBefore(k, h1);
     }
     if (FOREIGN && h1 && !article.querySelector('.track-foreign')) {
-      const v = TRACKS[FOREIGN.view], mine = TRACKS[FOREIGN.mine];
-      const box = el('div', 'note track-foreign', `<p><b>Это урок пути «${esc(v.name)}».</b> Ваш путь — «${esc(mine.name)}», выбор не изменился: прогресс и сертификат считаются по нему.</p><div class="row"><button class="btn small primary" type="button">Сделать «${esc(v.name)}» моим путём</button><a class="btn small" href="${ROOT}index.html">Вернуться к пути «${esc(mine.name)}»</a></div>`);
+      const v = TRACKS[FOREIGN.view], mine = FOREIGN.mine ? TRACKS[FOREIGN.mine] : null;
+      const box = el('div', 'note track-foreign', mine
+        ? `<p><b>Это урок пути «${esc(v.name)}».</b> Ваш путь — «${esc(mine.name)}», выбор не изменился: прогресс и сертификат считаются по нему.</p><div class="row"><button class="btn small primary" type="button">Сделать «${esc(v.name)}» моим путём</button><a class="btn small" href="${ROOT}index.html">Вернуться к пути «${esc(mine.name)}»</a></div>`
+        : `<p><b>Это урок пути «${esc(v.name)}».</b> Путь ещё не выбран: модули 4–7 у каждого пути свои.</p><div class="row"><button class="btn small primary" type="button">Выбрать путь «${esc(v.name)}»</button><a class="btn small" href="${ROOT}index.html#track">Выбрать другой путь</a></div>`);
       box.querySelector('button').addEventListener('click', () => { setTrack(FOREIGN.view); location.reload(); });
       h1.parentNode.insertBefore(box, h1);
     }
@@ -391,8 +437,8 @@
     document.addEventListener('keydown', e => {
       if (e.altKey || e.ctrlKey || e.metaKey) return;
       const t = e.target; if (t && /INPUT|TEXTAREA|SELECT/.test(t.tagName)) return;
-      if (e.key === 'ArrowRight' && next) location.href = url(next);
-      if (e.key === 'ArrowLeft' && prev) location.href = url(prev);
+      if (e.key === 'ArrowRight' && next) go(url(next));
+      if (e.key === 'ArrowLeft' && prev) go(url(prev));
     });
   }
 
