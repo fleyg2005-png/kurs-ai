@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Репозиторий с документами для ИИ — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="d13-first-repo">
+<main class="content">
+<article>
+  <h1>Репозиторий с документами для ИИ</h1>
+  <p class="lead">Восемь минут — и у вас есть приватный репозиторий <code>contracts</code>: чеклист проверки договора, шаблон претензии и несколько обезличенных договоров. В следующем уроке к нему подключится ИИ, в модуле 5 — начнёт в нём работать. Войдите на <a href="https://github.com" target="_blank" rel="noopener">github.com</a> в соседней вкладке и идите по шагам.</p>
+
+  <h2>Что получится</h2>
+  <p>Это сквозной проект курса: все задачи агентам в следующих модулях — про этот репозиторий. К концу урока он выглядит так:</p>
+  <div class="mock" data-title="github.com/username/contracts — состав репозитория">
+    <div class="mock-body">
+      <div class="mock-code">README.md
+checklist.md            — чеклист проверки договора (11 пунктов)
+contracts/              — 3–5 обезличенных договоров (.docx или .md)
+templates/pretenziya.md — шаблон претензии с полями в фигурных скобках</div>
+    </div>
+  </div>
+  <p>Папку <code>reports/</code> и сводную таблицу <code>summary.md</code> позже создаст агент — в модуле 6. Сейчас нужны только документы, чеклист и шаблон.</p>
+
+  <div class="stepper" data-id="contracts-repo">
+    <section class="step" data-title="Откройте меню создания" data-hint="Под плюсом раскрылось меню с пунктом New repository">
+      <p>Справа вверху на любой странице GitHub — кнопка <b>＋</b> (плюс со стрелкой). Нажмите её и выберите <b>New repository</b> (новый репозиторий).</p>
+      <div class="mock" data-title="github.com">
+        <div class="mock-nav"><b>🐙 GitHub</b><span>🔍 Search or jump to…</span><span style="flex:1"></span><span class="mark">＋ ▾<span class="mark-label">1</span></span><span>👤</span></div>
+        <div class="mock-body">
+          <p class="muted">Меню под плюсом:</p>
+          <p><span class="mark"><b>New repository</b><span class="mark-label">2</span></span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Заполните форму: contracts, Private, README" data-hint="Имя contracts, выбран Private, стоит галочка Add a README file">
+      <p>На странице <i>Create a new repository</i> заполните три вещи, остальное оставьте как есть:</p>
+      <ol>
+        <li>В поле <b>Repository name</b> введите <code>contracts</code> — латиницей, без пробелов.</li>
+        <li>Выберите <b>Private</b> (приватный): в репозитории будут документы.</li>
+        <li>Поставьте галочку <b>Add a README file</b>: GitHub создаст первый файл — агенту нужен репозиторий с README.</li>
+      </ol>
+      <div class="mock" data-title="github.com/new">
+        <div class="mock-body">
+          <p><b>Create a new repository</b></p>
+          <div class="mock-field"><label>Repository name *</label><div class="mock-input">contracts</div></div>
+          <div class="mock-field"><label>Description (optional)</label><div class="mock-input">Договоры, чеклист и шаблоны для проверки с помощью ИИ</div></div>
+          <p>○ Public &nbsp;&nbsp; ◉ <b>Private</b></p>
+          <p>☑ <b>Add a README file</b></p>
+          <div class="mock-row"><span class="mock-btn primary">Create repository</span></div>
+        </div>
+      </div>
+      <p>Описание (<i>Description</i>) — по желанию. Нажмите зелёную кнопку <b>Create repository</b>.</p>
+    </section>
+
+    <section class="step" data-title="Осмотритесь на странице репозитория" data-hint="Рядом с именем значок Private; вверху вкладка Pull requests; над списком файлов кнопка Add file">
+      <p>Вы на главной странице репозитория <code>github.com/ваш-username/contracts</code>. Три нужных места:</p>
+      <div class="mock" data-title="github.com/username/contracts">
+        <div class="mock-nav"><span class="active">&lt;&gt; Code</span><span>Issues</span><span class="mark">Pull requests<span class="mark-label">1</span></span><span style="flex:1"></span><span>⚙ Settings</span></div>
+        <div class="mock-body">
+          <p><b>contracts</b> <span class="badge">🔒 Private</span></p>
+          <div class="mock-row"><span class="mock-btn">main ▾</span><span class="mark">🕘 1 commit<span class="mark-label">2</span></span><span style="flex:1"></span><span class="mark"><span class="mock-btn">Add file ▾</span><span class="mark-label">3</span></span><span class="mock-btn primary">&lt;&gt; Code ▾</span></div>
+          <div class="mock-code">📄 README.md          Initial commit          1 minute ago</div>
+        </div>
+      </div>
+      <ol>
+        <li>Вкладка <b>Pull requests</b> — сюда агент будет присылать результаты. Пока пусто.</li>
+        <li>Ссылка <b>1 commit</b> с иконкой часов — история: скоро в ней появятся ваши загрузки, потом коммиты агента.</li>
+        <li>Кнопка <b>Add file</b> — единственная нужная в этом уроке; в ней два пункта: <b>Create new file</b> и <b>Upload files</b>.</li>
+      </ol>
+    </section>
+
+    <section class="step" data-title="Подготовьте документы" data-hint="На компьютере папка contracts с 3–5 обезличенными договорами; текст договора поставки скопирован">
+      <p>Нужны 3–5 договоров разных типов — поставка, услуги, аренда. Обезличьте их, как в уроке 09: роль вместо имени (Поставщик, Покупатель), без ИНН, адресов, телефонов и паспортных данных; суммы, номера и даты можно оставить. Быстрее всего — замена в Word через <kbd>Ctrl</kbd>+<kbd>H</kbd>. Сложите файлы в папку <code>contracts</code> на компьютере.</p>
+      <p>Договор <b>поставки с пунктом о пенях</b> понадобится в модуле 6 как контрольный пример — текстовым файлом. Откройте его в Word, выделите всё и скопируйте: вставите на шаге 7.</p>
+      <p>Если подходящих договоров нет, попросите ИИ написать учебные — обезличивать их не нужно:</p>
+      <div class="prompt"><div class="prompt-label">Запрос к ИИ — учебный договор поставки</div><pre>Напиши учебный договор поставки для тренировки проверки договоров по чеклисту. Стороны — ООО «Поставщик» и ООО «Покупатель»: без ИНН, адресов, банковских реквизитов и ФИО; в подписях только должности. Номер и дата: № 17-П от 12.03.2026. Предмет: поставка офисной мебели по спецификации (приложение № 1). Срок действия — до 31.12.2026. Цена — 1 250 000 ₽, в том числе НДС 20%. Оплата: аванс 30% в течение 5 рабочих дней после подписания, остаток — в течение 10 рабочих дней после подписания товарной накладной.
+Обязательные разделы: предмет; срок действия; цена и порядок оплаты; порядок поставки и приёмки; ответственность сторон — пени 0,1% от неоплаченной суммы за каждый день просрочки, но не более 10% от цены договора; порядок расторжения; претензионный порядок со сроком ответа на претензию 15 календарных дней; подсудность — Арбитражный суд города Москвы; конфиденциальность.
+Оформи как обычный договор с нумерованными разделами и пунктами, объём 1,5–2 страницы. Выдай только текст договора, без пояснений.</pre></div>
+      <div class="prompt"><div class="prompt-label">Запрос к ИИ — ещё два учебных договора</div><pre>По той же схеме напиши ещё два учебных договора. Первый — договор оказания юридических услуг № 08-У от 02.02.2026: стороны Исполнитель и Заказчик, абонентское обслуживание 90 000 ₽ в месяц без НДС, срок 12 месяцев с автоматическим продлением, претензионный порядок со сроком ответа 10 рабочих дней. Второй — договор аренды нежилого помещения № 3/А от 15.01.2026: стороны Арендодатель и Арендатор, 180 000 ₽ в месяц включая НДС 20%, срок 11 месяцев. В договоре аренды раздел об ответственности сделай без пеней — только возмещение убытков — и не включай раздел о конфиденциальности. Остальные требования те же: без реквизитов и ФИО, нумерованные разделы и пункты, только текст договоров.</pre></div>
+      <p>Договор аренды специально без пеней и конфиденциальности: инструмент в модуле 6 должен уметь честно написать «не найдено».</p>
+    </section>
+
+    <section class="step" data-title="Создайте checklist.md" data-hint="После Commit changes в списке файлов два файла: README.md и checklist.md">
+      <p>Нажмите <b>Add file</b> → <b>Create new file</b>. В поле имени вверху введите <code>checklist.md</code>, в редактор ниже вставьте чеклист целиком (кнопка «Копировать» у текста):</p>
+      <div class="prompt"><div class="prompt-label">Файл checklist.md — скопируйте целиком</div><pre># Чеклист проверки договора
+
+1. **Стороны** — указаны полные наименования; понятно, кто подписывает от каждой стороны и на каком основании.
+2. **Предмет** — ясно, что именно поставляется, выполняется или передаётся; если предмет раскрыт в спецификации или ТЗ, на них есть ссылка.
+3. **Срок действия** — есть дата начала и окончания (или условие окончания); сказано, что происходит после окончания: продление или прекращение.
+4. **Цена и НДС** — указана сумма; сказано, включён ли НДС и по какой ставке; описан порядок изменения цены.
+5. **Порядок оплаты** — сроки каждого платежа, с какого события они считаются (подписание, поставка, акт) и в каких днях — календарных или рабочих.
+6. **Ответственность и штрафы** — неустойка (пени, штраф): размер, база расчёта, за какое нарушение, есть ли предел; ответственность предусмотрена для обеих сторон.
+7. **Расторжение** — основания и порядок одностороннего отказа, срок уведомления, последствия: возврат аванса, оплата выполненного.
+8. **Претензионный порядок** — обязателен ли, срок ответа на претензию, способ направления.
+9. **Подсудность** — какой суд рассматривает споры; применимое право, если стороны из разных стран.
+10. **Конфиденциальность** — что считается конфиденциальным, срок охраны, ответственность за разглашение.
+11. **Подписи и приложения** — перечислены все приложения, на которые есть ссылки в тексте; есть место для подписей обеих сторон.</pre></div>
+      <div class="mock" data-title="github.com/username/contracts/new/main">
+        <div class="mock-body">
+          <div class="mock-row"><span class="muted">contracts /</span><div class="mock-input">checklist.md</div></div>
+          <div class="mock-code"># Чеклист проверки договора
+
+1. **Стороны** — указаны полные наименования; понятно, кто подписывает…</div>
+          <div class="mock-row"><span style="flex:1"></span><span class="mock-btn primary">Commit changes…</span></div>
+        </div>
+      </div>
+      <p>Нажмите зелёную кнопку <b>Commit changes…</b>. В окне в поле <b>Commit message</b> уже стоит текст вроде <i>Create checklist.md</i> — оставьте или напишите <code>Добавить чеклист проверки договора</code>. Подтвердите кнопкой <b>Commit changes</b>.</p>
+    </section>
+
+    <section class="step" data-title="Создайте шаблон претензии в папке templates" data-hint="В списке файлов появилась папка templates, внутри — pretenziya.md">
+      <p>Снова <b>Add file</b> → <b>Create new file</b>. В поле имени введите <code>templates/pretenziya.md</code> — с косой чертой: как только вы её наберёте, GitHub превратит <code>templates</code> в папку. Папка появляется вместе с первым файлом в ней.</p>
+      <div class="prompt"><div class="prompt-label">Файл templates/pretenziya.md — скопируйте целиком</div><pre># Претензия
+
+**Кому:** {контрагент}
+**От кого:** {заявитель}
+**Основание:** договор {договор} (далее — Договор)
+
+Между {заявитель} и {контрагент} заключён Договор. {заявитель} свои обязательства по Договору исполнил в полном объёме.
+
+{контрагент} обязательства по Договору исполнил ненадлежащим образом, в результате чего по состоянию на дату настоящей претензии образовалась задолженность в размере {сумма}.
+
+На основании раздела Договора об ответственности сторон и статей 309, 310 Гражданского кодекса РФ требуем в течение {срок} с момента получения настоящей претензии:
+
+1. Погасить задолженность в размере {сумма}.
+2. Уплатить неустойку (пени), начисленную по условиям Договора за каждый день просрочки по день фактической оплаты.
+
+В случае неисполнения требований в указанный срок {заявитель} обратится в суд в порядке, предусмотренном Договором, с отнесением на {контрагент} судебных расходов.
+
+Приложение: расчёт суммы задолженности и неустойки.
+
+{заявитель}</pre></div>
+      <div class="mock" data-title="github.com/username/contracts/new/main">
+        <div class="mock-body">
+          <div class="mock-row"><span class="muted">contracts / templates /</span><div class="mock-input">pretenziya.md</div></div>
+          <div class="mock-code"># Претензия
+
+**Кому:** {контрагент}
+**От кого:** {заявитель}…</div>
+          <div class="mock-row"><span style="flex:1"></span><span class="mock-btn primary">Commit changes…</span></div>
+        </div>
+      </div>
+      <p>Слова в фигурных скобках — <code>{контрагент}</code>, <code>{заявитель}</code>, <code>{договор}</code>, <code>{сумма}</code>, <code>{срок}</code> — поля: в модуле 6 программа агента подставит в них данные конкретного договора. Нажмите <b>Commit changes…</b> → <b>Commit changes</b>.</p>
+    </section>
+
+    <section class="step" data-title="Договор поставки — текстовым файлом" data-hint="В списке файлов появилась папка contracts, внутри — dogovor-postavki.md">
+      <p>Тот же приём: <b>Add file</b> → <b>Create new file</b>, имя <code>contracts/dogovor-postavki.md</code>. Вставьте текст договора поставки — из Word или от ИИ; первой строкой можно добавить заголовок <code># Договор поставки № 17-П от 12.03.2026</code>. Таблицы из Word потеряют оформление — для проверки по чеклисту это не важно.</p>
+      <div class="mock" data-title="github.com/username/contracts/new/main">
+        <div class="mock-body">
+          <div class="mock-row"><span class="muted">contracts / contracts /</span><div class="mock-input">dogovor-postavki.md</div></div>
+          <div class="mock-code"># Договор поставки № 17-П от 12.03.2026
+
+ООО «Поставщик», именуемое в дальнейшем «Поставщик», и ООО «Покупатель»…</div>
+          <div class="mock-row"><span style="flex:1"></span><span class="mock-btn primary">Commit changes…</span></div>
+        </div>
+      </div>
+      <p><b>Commit changes…</b> → <b>Commit changes</b>. Почему текстом: файлы <code>.md</code> GitHub показывает в браузере как отформатированный текст, и в модуле 6 этот файл станет контрольным примером для инструмента.</p>
+    </section>
+
+    <section class="step" data-title="Загрузите остальные договоры" data-hint="В окне загрузки перечислены ваши файлы; после Commit changes они лежат в contracts/">
+      <p>Вернитесь на главную страницу репозитория (нажмите <b>contracts</b> в заголовке). <b>Add file</b> → <b>Upload files</b>. Перетащите в окно загрузки папку <code>contracts</code> целиком — GitHub сохранит её с именем, и файлы <code>.docx</code> лягут рядом с <code>dogovor-postavki.md</code>.</p>
+      <div class="mock" data-title="github.com/username/contracts/upload/main">
+        <div class="mock-body">
+          <p class="muted">⬆ Область загрузки: перетащите сюда папку contracts</p>
+          <div class="mock-code">contracts/dogovor-uslug.docx      ✓
+contracts/dogovor-arendy.docx     ✓
+contracts/dogovor-podryada.docx   ✓</div>
+          <div class="mock-field"><label>Commit message</label><div class="mock-input">Загрузить договоры</div></div>
+          <div class="mock-row"><span class="mock-btn primary">Commit changes</span></div>
+        </div>
+      </div>
+      <p>Внизу подпишите загрузку — <code>Загрузить договоры</code> — и нажмите <b>Commit changes</b>. Перетащили файлы по одному, и они легли в корень? Не страшно: в модуле 5 попросите агента разложить их по папкам. Договоры у вас текстом от ИИ — создайте их, как на шаге 7: <code>contracts/dogovor-uslug.md</code>, <code>contracts/dogovor-arendy.md</code>.</p>
+    </section>
+
+    <section class="step" data-title="Проверьте список файлов" data-hint="В корне README.md, checklist.md и папки contracts и templates; над списком — 5 commits">
+      <p>На главной странице репозитория — четыре строки: две папки и два файла. Над ними <b>5 commits</b>: README, чеклист, шаблон, договор поставки, загрузка договоров.</p>
+      <div class="mock" data-title="github.com/username/contracts">
+        <div class="mock-body">
+          <div class="mock-row"><span class="mock-btn">main ▾</span><span>🕘 5 commits</span><span style="flex:1"></span><span class="mock-btn">Add file ▾</span></div>
+          <div class="mock-code">📁 contracts        Загрузить договоры                      1 minute ago
+📁 templates        Create templates/pretenziya.md          6 minutes ago
+📄 README.md        Initial commit                          15 minutes ago
+📄 checklist.md     Добавить чеклист проверки договора      9 minutes ago</div>
+        </div>
+      </div>
+      <p>Зайдите в <code>contracts</code>: там 3–5 файлов. Файлы <code>.md</code> открываются в браузере как текст; <code>.docx</code> GitHub не показывает, только предлагает скачать — агент прочитает их на своей машине. Откройте ссылку с числом коммитов: все пять подписаны вами. Это последний раз, когда коммиты здесь делали вы.</p>
+    </section>
+  </div>
+
+  <h2>Commit changes — это просто «сохранить»</h2>
+  <p>Каждое нажатие <b>Commit changes</b> создавало <dfn data-def="Сохранённая порция изменений с подписью: кто, когда и что изменил.">коммит</dfn> — сохранённую порцию изменений с подписью, которую вы видите в истории. Ничего больше за этим словом нет: «сохранить файлы и подписать, что сделано». Подпись годится любая понятная.</p>
+  <p>Это единственное место в курсе, где вы коммитите сами. С модуля 5 коммиты в <code>contracts</code> делает агент: получает задачу, пишет программу, запускает её на документах и сохраняет результат с подписью и ссылкой на свою сессию. Ваши кнопки с этого момента — <b>Merge pull request</b> и, если что-то пошло не так, <b>Revert</b>.</p>
+
+  <h2>Почему Private и что это значит для агента</h2>
+  <div class="note"><p><strong>Приватный репозиторий</strong> видят только вы и те, кого вы добавили. Для документов — единственный разумный выбор. Следствие: ИИ-агенту он тоже не виден, пока вы не дадите доступ. Публичные репозитории Claude Code видит сразу после входа через GitHub, а для приватного нужно установить приложение <b>Claude GitHub App</b> и выбрать в нём ваш аккаунт и репозиторий <code>contracts</code>; у Codex для этого своё приложение. Как это сделать — в следующем уроке.</p></div>
+  <div class="warn"><p><strong>Private не отменяет обезличивания.</strong> Файлы будет читать агент на своей облачной машине, поэтому правило урока 09 действует и здесь: роль вместо имени, никаких ИНН, адресов, паспортов и телефонов. Перед загрузкой пройдитесь поиском по каждому файлу.</p></div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="d13-quiz">
+    <div class="q">
+      <p class="q-text">Почему репозиторий contracts сделан приватным?</p>
+      <ul class="q-options">
+        <li>Приватные репозитории агент обрабатывает быстрее</li>
+        <li data-correct>В нём документы: приватный репозиторий видят только вы и те, кого вы добавили, а агенту доступ даётся отдельно через приложение</li>
+        <li>Публичные репозитории на бесплатном тарифе недоступны</li>
+      </ul>
+      <p class="q-explain">И публичные, и приватные репозитории бесплатны. Разница — кто видит файлы: публичный — все, приватный — только вы и те, кому открыт доступ.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Что делает кнопка Commit changes при загрузке договоров?</p>
+      <ul class="q-options">
+        <li>Отправляет файлы ИИ-агенту на проверку</li>
+        <li>Публикует файлы в интернете</li>
+        <li data-correct>Сохраняет файлы в репозиторий и записывает это в историю как коммит с подписью</li>
+      </ul>
+      <p class="q-explain">Здесь коммит — просто «сохранить с подписью». Это единственное место в курсе, где вы коммитите сами: дальше коммиты делает агент.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Как в репозитории появилась папка templates?</p>
+      <ul class="q-options">
+        <li data-correct>В имени файла при создании был указан путь templates/pretenziya.md — косая черта создала папку</li>
+        <li>Через кнопку New folder в меню Add file</li>
+        <li>Папки в репозитории может создавать только ИИ-агент</li>
+      </ul>
+      <p class="q-explain">Папка появляется вместе с первым файлом, у которого в имени указан путь. Второй способ — перетащить папку целиком в Upload files; разложить файлы по папкам можно и поручить агенту.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Если шли по степперу — почти всё сделано. Проверьте результат по списку и добавьте то, чего не хватает.</p>
+  <ul class="checklist" data-id="d13-practice">
+    <li>Репозиторий <code>contracts</code> существует, рядом с именем значок <b>Private</b>, адрес — <code>github.com/мой-username/contracts</code>.</li>
+    <li>В корне есть <code>README.md</code> и <code>checklist.md</code> с 10–12 пунктами проверки.</li>
+    <li>В папке <code>contracts/</code> не меньше трёх договоров, один из них — <code>dogovor-postavki.md</code> с пунктом о пенях.</li>
+    <li>В папке <code>templates/</code> лежит <code>pretenziya.md</code> с полями в фигурных скобках.</li>
+    <li>Ни в одном документе нет ФИО, ИНН, адресов, телефонов и паспортных данных — я проверил поиском по каждому файлу.</li>
+  </ul>
+
+  <div class="win"><p><strong>Рабочая папка готова:</strong> документы, чеклист и шаблон. В следующем уроке вы подключите репозиторий к Claude и ChatGPT — и дадите ИИ его прочитать.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>
