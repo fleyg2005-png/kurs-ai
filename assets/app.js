@@ -657,7 +657,7 @@
       else { cont.href = ROOT + 'certificate.html'; cont.textContent = '🎓 Курс пройден — получить сертификат'; }
     }
     const stats = document.getElementById('stats');
-    if (stats) stats.innerHTML = `<span><b>${LESSONS.length}</b> уроков</span><span><b>${COURSE.length}</b> модулей</span><span>≈ <b>${Math.round(TOTAL_MIN / 60 * 10) / 10}</b> ч чистого времени</span><span>пройдено <b>${percent()}%</b></span>`;
+    if (stats) stats.innerHTML = `<span><b>${LESSONS.length}</b> ${plural(LESSONS.length, 'урок', 'урока', 'уроков')}</span><span><b>${COURSE.length}</b> модулей</span><span>≈ <b>${Math.round(TOTAL_MIN / 60 * 10) / 10}</b> ч чистого времени</span><span>пройдено <b>${percent()}%</b></span>`;
     const bar = document.getElementById('index-progress');
     if (bar) bar.innerHTML = `<span style="width:${percent()}%"></span>`;
     const reset = document.getElementById('reset-progress');
@@ -685,7 +685,7 @@
         <h2>Интерактивный курс по ИИ</h2>
         <p class="sub">«От юриста до программиста»: модели, промптинг, GitHub и ИИ-агенты в браузере</p>
         <div class="name" id="cert-name-out">${esc(name) || '______________________'}</div>
-        <p class="sub">${LESSONS.length} уроков · ${COURSE.length} модулей · ${new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+        <p class="sub">${LESSONS.length} ${plural(LESSONS.length, 'урок', 'урока', 'уроков')} · ${COURSE.length} модулей · ${new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
         <div class="skills"><b>Освоено:</b><ul>
           <li>Понимание возможностей и ограничений ИИ-ассистентов (Claude, ChatGPT)</li>
           <li>Структурированные запросы, работа с документами, проверка результатов</li>
