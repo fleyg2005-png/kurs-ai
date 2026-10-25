@@ -150,6 +150,7 @@
   function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
   function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
   function url(l) { return ROOT + 'lessons/' + l.id + '.html'; }
+  function lessonNum(l) { const m = l.id.match(/^d?(\d+)-/); return m ? String(parseInt(m[1], 10)) : ''; }
   function plural(n, one, few, many) { const m10 = n % 10, m100 = n % 100; if (m10 === 1 && m100 !== 11) return one; if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few; return many; }
   let toastEl, toastTimer;
   function toast(msg) {
@@ -205,7 +206,7 @@
       m.lessons.forEach(l => {
         const a = el('a', 'side-lesson' + (isDone(l.id) ? ' done' : '') + (CURRENT && CURRENT.id === l.id ? ' current' : ''));
         a.href = url(l);
-        a.innerHTML = `<span class="dot">${isDone(l.id) ? '✓' : ''}</span><span>${l.control ? '📝 ' : ''}${esc(l.title)}</span>`;
+        a.innerHTML = `<span class="dot">${isDone(l.id) ? '✓' : ''}</span><span>${l.control ? '📝 ' : '<span class="lnum">' + lessonNum(l) + '</span> '}${esc(l.title)}</span>`;
         box.appendChild(a);
       });
       sidebar.appendChild(box);
@@ -262,7 +263,7 @@
     const article = document.querySelector('main.content article') || document.querySelector('main.content');
     const h1 = article.querySelector('h1');
     if (h1 && !article.querySelector('.kicker')) {
-      const k = el('p', 'kicker', `${CURRENT.mi >= COMMON.length ? 'Путь «' + esc(TRACKS[TRACK].name) + '» · ' : ''}Модуль ${CURRENT.mi} · ${esc(CURRENT.module.title)} · ${CURRENT.control ? 'Контрольное задание' : 'Урок ' + (CURRENT.index + 1) + ' из ' + LESSONS.length}`);
+      const k = el('p', 'kicker', `${CURRENT.mi >= COMMON.length ? 'Путь «' + esc(TRACKS[TRACK].name) + '» · ' : ''}Модуль ${CURRENT.mi} · ${esc(CURRENT.module.title)} · ${CURRENT.control ? 'Контрольное задание' : 'Урок ' + lessonNum(CURRENT)}`);
       h1.parentNode.insertBefore(k, h1);
     }
     if (!article.querySelector('.meta')) {
@@ -734,7 +735,7 @@
         const ul = el('ul', 'module-lessons');
         m.lessons.forEach(l => {
           const li = el('li', isDone(l.id) ? 'done' : '');
-          li.innerHTML = `<a href="${url(l)}"><span class="dot">${isDone(l.id) ? '✓' : ''}</span><span class="t">${l.control ? '📝 ' : ''}${esc(l.title)}</span><span class="min">${l.minutes} мин</span></a>`;
+          li.innerHTML = `<a href="${url(l)}"><span class="dot">${isDone(l.id) ? '✓' : ''}</span><span class="t">${l.control ? '📝 ' : '<span class="lnum">' + lessonNum(l) + '</span> '}${esc(l.title)}</span><span class="min">${l.minutes} мин</span></a>`;
           ul.appendChild(li);
         });
         box.appendChild(ul); map.appendChild(box);
