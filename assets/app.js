@@ -107,6 +107,74 @@
         ]},
       ],
     },
+    mp: {
+      id: 'mp', name: 'Маркетплейсы', emoji: '📦',
+      tagline: 'Карточки и отзывы в репозитории, git делает ИИ',
+      desc: 'GitHub как рабочая папка менеджера маркетплейсов: карточки товаров, отзывы, шаблоны ответов. Вы ставите задачи, ИИ сам пишет и запускает программы, делает коммиты и pull request, вы проверяете и принимаете. Никакого ручного git и никакого кода.',
+      modules: [
+        { id: 'pm4', title: 'GitHub: аккаунт и подключение к ИИ', lessons: [
+          { id: 'p11-why-github', title: 'Зачем GitHub менеджеру маркетплейсов', minutes: 6 },
+          { id: '12-signup', title: 'Регистрация на GitHub: шаг за шагом', minutes: 8 },
+          { id: 'p13-first-repo', title: 'Репозиторий с карточками товаров для ИИ', minutes: 8 },
+          { id: 'p14-connect', title: 'Подключить GitHub к Claude и ChatGPT', minutes: 12 },
+          { id: 'pm4-control', title: 'Контрольная 4: GitHub подключён к ИИ', minutes: 15, control: true },
+        ]},
+        { id: 'pm5', title: 'ИИ работает в вашем репозитории', lessons: [
+          { id: 'p15-first-task', title: 'Первая задача: ИИ сам делает коммит и pull request', minutes: 12 },
+          { id: 'p16-codex-copilot', title: 'То же в ChatGPT (Codex) и Copilot', minutes: 10 },
+          { id: 'p17-review', title: 'Проверить PR и оставить замечания', minutes: 10 },
+          { id: 'p18-broken', title: 'Когда ИИ сделал не то', minutes: 6 },
+          { id: 'pm5-control', title: 'Контрольная 5: два PR от ИИ и один откат', minutes: 20, control: true },
+        ]},
+        { id: 'pm6', title: 'Инструмент для маркетплейса', lessons: [
+          { id: 'p19-tools', title: 'Какие инструменты для маркетплейса может сделать ИИ', minutes: 8 },
+          { id: 'p20-project', title: 'Проект: проверка карточек товаров по чеклисту', minutes: 15 },
+          { id: 'p21-iterate', title: 'Доработки и повторные запуски', minutes: 8 },
+          { id: 'p22-verify-tool', title: 'Как проверять результат инструмента', minutes: 8 },
+          { id: 'pm6-control', title: 'Контрольная 6: инструмент по вашему ТЗ', minutes: 30, control: true },
+        ]},
+        { id: 'pm7', title: 'От менеджера до программиста', lessons: [
+          { id: 'p23-next', title: 'Следующие инструменты и шаблон ТЗ', minutes: 8 },
+          { id: 'p24-grow', title: 'Как расти: читать код, который пишет ИИ', minutes: 6 },
+          { id: 'pm7-control', title: 'Финальная контрольная: ваш инструмент в работе', minutes: 60, control: true },
+          { id: 'p25-finish', title: 'Финал: что дальше', minutes: 4 },
+        ]},
+      ],
+    },
+    mkt: {
+      id: 'mkt', name: 'Маркетолог', emoji: '📣',
+      tagline: 'Контент и отчёты в репозитории, git делает ИИ',
+      desc: 'GitHub как рабочая папка маркетолога: посты, выгрузки рекламных кампаний, шаблоны отчётов. Вы ставите задачи, ИИ сам пишет и запускает программы, делает коммиты и pull request, вы проверяете и принимаете. Никакого ручного git и никакого кода.',
+      modules: [
+        { id: 'km4', title: 'GitHub: аккаунт и подключение к ИИ', lessons: [
+          { id: 'k11-why-github', title: 'Зачем GitHub маркетологу', minutes: 6 },
+          { id: '12-signup', title: 'Регистрация на GitHub: шаг за шагом', minutes: 8 },
+          { id: 'k13-first-repo', title: 'Репозиторий с контентом и отчётами для ИИ', minutes: 8 },
+          { id: 'k14-connect', title: 'Подключить GitHub к Claude и ChatGPT', minutes: 12 },
+          { id: 'km4-control', title: 'Контрольная 4: GitHub подключён к ИИ', minutes: 15, control: true },
+        ]},
+        { id: 'km5', title: 'ИИ работает в вашем репозитории', lessons: [
+          { id: 'k15-first-task', title: 'Первая задача: ИИ сам делает коммит и pull request', minutes: 12 },
+          { id: 'k16-codex-copilot', title: 'То же в ChatGPT (Codex) и Copilot', minutes: 10 },
+          { id: 'k17-review', title: 'Проверить PR и оставить замечания', minutes: 10 },
+          { id: 'k18-broken', title: 'Когда ИИ сделал не то', minutes: 6 },
+          { id: 'km5-control', title: 'Контрольная 5: два PR от ИИ и один откат', minutes: 20, control: true },
+        ]},
+        { id: 'km6', title: 'Инструмент для маркетинга', lessons: [
+          { id: 'k19-tools', title: 'Какие инструменты для маркетинга может сделать ИИ', minutes: 8 },
+          { id: 'k20-project', title: 'Проект: проверка постов по чеклисту', minutes: 15 },
+          { id: 'k21-iterate', title: 'Доработки и повторные запуски', minutes: 8 },
+          { id: 'k22-verify-tool', title: 'Как проверять результат инструмента', minutes: 8 },
+          { id: 'km6-control', title: 'Контрольная 6: инструмент по вашему ТЗ', minutes: 30, control: true },
+        ]},
+        { id: 'km7', title: 'От маркетолога до программиста', lessons: [
+          { id: 'k23-next', title: 'Следующие инструменты и шаблон ТЗ', minutes: 8 },
+          { id: 'k24-grow', title: 'Как расти: читать код, который пишет ИИ', minutes: 6 },
+          { id: 'km7-control', title: 'Финальная контрольная: ваш инструмент в работе', minutes: 60, control: true },
+          { id: 'k25-finish', title: 'Финал: что дальше', minutes: 4 },
+        ]},
+      ],
+    },
   };
 
   const ROOT = document.body.getAttribute('data-root') || './';
@@ -150,7 +218,7 @@
   function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
   function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
   function url(l) { return ROOT + 'lessons/' + l.id + '.html'; }
-  function lessonNum(l) { const m = l.id.match(/^d?(\d+)-/); return m ? String(parseInt(m[1], 10)) : ''; }
+  function lessonNum(l) { const m = l.id.match(/^[a-z]?(\d+)-/); return m ? String(parseInt(m[1], 10)) : ''; }
   function plural(n, one, few, many) { const m10 = n % 10, m100 = n % 100; if (m10 === 1 && m100 !== 11) return one; if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few; return many; }
   let toastEl, toastTimer;
   function toast(msg) {
@@ -767,7 +835,7 @@
   function initCertificate() {
     if (PAGE !== 'certificate') return;
     const area = document.getElementById('cert-area'); if (!area) return;
-    if (!TRACK) { area.innerHTML = `<div class="card"><h3 class="mt0">Сначала выберите путь</h3><p>Сертификат выдаётся за общие модули плюс один из путей — «Сайт» или «Юрист».</p><a class="btn primary" href="${ROOT}index.html#track">Выбрать путь →</a></div>`; return; }
+    if (!TRACK) { area.innerHTML = `<div class="card"><h3 class="mt0">Сначала выберите путь</h3><p>Сертификат выдаётся за общие модули плюс один из путей на выбор — «Сайт», «Юрист», «Маркетплейсы» или «Маркетолог».</p><a class="btn primary" href="${ROOT}index.html#track">Выбрать путь →</a></div>`; return; }
     const p = percent();
     if (p < 100) {
       const n = nextUndone();
@@ -789,9 +857,12 @@
         <div class="skills"><b>Освоено:</b><ul>
           <li>Понимание возможностей и ограничений ИИ-ассистентов (Claude, ChatGPT)</li>
           <li>Структурированные запросы, работа с документами, проверка результатов</li>
-          ${TRACK === 'site'
-            ? '<li>GitHub без установки: репозитории, коммиты, ветки, pull request, GitHub Pages</li><li>Работа в браузере: github.dev и Codespaces</li><li>Постановка задач ИИ-агентам (Claude Code, Codex, Copilot) и проверка кода</li>'
-            : '<li>GitHub как рабочая папка для ИИ: аккаунт, репозиторий с документами, подключение к Claude и ChatGPT</li><li>Постановка задач ИИ-агентам, проверка их pull request, слияние и откат</li><li>Инструмент для документов, написанный и запущенный ИИ по вашему ТЗ</li>'}
+          ${{
+            site: '<li>GitHub без установки: репозитории, коммиты, ветки, pull request, GitHub Pages</li><li>Работа в браузере: github.dev и Codespaces</li><li>Постановка задач ИИ-агентам (Claude Code, Codex, Copilot) и проверка кода</li>',
+            docs: '<li>GitHub как рабочая папка для ИИ: аккаунт, репозиторий с документами, подключение к Claude и ChatGPT</li><li>Постановка задач ИИ-агентам, проверка их pull request, слияние и откат</li><li>Инструмент для документов, написанный и запущенный ИИ по вашему ТЗ</li>',
+            mp: '<li>GitHub как рабочая папка для ИИ: аккаунт, репозиторий с карточками товаров и отзывами, подключение к Claude и ChatGPT</li><li>Постановка задач ИИ-агентам, проверка их pull request, слияние и откат</li><li>Инструмент для маркетплейса, написанный и запущенный ИИ по вашему ТЗ</li>',
+            mkt: '<li>GitHub как рабочая папка для ИИ: аккаунт, репозиторий с контентом и отчётами, подключение к Claude и ChatGPT</li><li>Постановка задач ИИ-агентам, проверка их pull request, слияние и откат</li><li>Инструмент для маркетинга, написанный и запущенный ИИ по вашему ТЗ</li>',
+          }[TRACK] || ''}
         </ul></div>
       </div>`;
     const inp = document.getElementById('cert-name'), out = document.getElementById('cert-name-out');
