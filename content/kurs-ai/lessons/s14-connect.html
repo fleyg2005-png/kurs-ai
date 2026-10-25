@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Подключить Claude и сделать первую страницу — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="s14-connect">
+<main class="content">
+<article>
+  <h1>Подключить Claude и сделать первую страницу</h1>
+  <p class="lead">Девять шагов. Вы входите в Claude Code через GitHub, даёте ему доступ к <code>hello-ai</code>, один раз настраиваете окружение и отправляете первый запрос. Агент сам создаст правила для себя и страницу о вас, сам сохранит их в репозиторий и отчитается. Откройте <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a> в соседней вкладке.</p>
+
+  <div class="note"><p><strong>Что понадобится.</strong> Аккаунт Claude на тарифе Pro ($20/мес), Max или Team: на Free Claude Code недоступен. Репозиторий <code>hello-ai</code> из урока 13. Три-четыре строки о себе, которые вы подготовили в уроке 11.</p></div>
+
+  <div class="stepper" data-id="s14-steps">
+    <section class="step" data-title="Откройте claude.ai/code и войдите" data-hint="Видите экран Claude Code с предложением подключить GitHub">
+      <p>Перейдите на <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a> и войдите в свой аккаунт Claude. Если вместо рабочего экрана видите сообщение вроде <i>Claude Code isn't available on your account</i>, вы на тарифе Free. Чтобы пройти путь, нужен Pro, Max или Team.</p>
+    </section>
+
+    <section class="step" data-title="Sign in with GitHub → Authorize" data-hint="После Authorize вы снова на claude.ai/code">
+      <p>Нажмите <b>Sign in with GitHub</b>. GitHub откроет страницу с вопросом, разрешить ли Claude доступ к аккаунту. Нажмите <b>Authorize</b>, и вас вернёт на claude.ai/code. Этот шаг делается один раз.</p>
+      <div class="mock" data-title="github.com — авторизация">
+        <div class="mock-body">
+          <p><b>Authorize Claude</b></p>
+          <p class="muted">Claude wants to access your GitHub account</p>
+          <span class="mock-btn primary">Authorize</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Установите Claude GitHub App на hello-ai" data-hint="На GitHub показано установленное приложение Claude с репозиторием hello-ai">
+      <p>Через это приложение агент сохраняет работу в ваш репозиторий. Если claude.ai/code предложит установить <b>Claude GitHub App</b>, соглашайтесь и не нажимайте <b>Skip</b>. Если окно не появилось или вы его пропустили, откройте <a href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">github.com/apps/claude/installations/new</a>.</p>
+      <div class="mock" data-title="github.com/apps/claude/installations/new">
+        <div class="mock-body">
+          <p><b>Install Claude</b></p>
+          <p class="muted">Where do you want to install Claude? → ваш аккаунт</p>
+          <p>○ All repositories<br>◉ <b>Only select repositories</b></p>
+          <div class="mock-field"><div class="mock-input">hello-ai ▾</div></div>
+          <span class="mock-btn primary">Install</span>
+        </div>
+      </div>
+      <p>Выберите свой аккаунт, затем <b>Only select repositories</b> → <code>hello-ai</code> → <b>Install</b>. Приложение получит доступ только к этому репозиторию. Позже, для нового сайта, сюда можно добавить и другие.</p>
+    </section>
+
+    <section class="step" data-title="Окружение full" data-hint="Под полем ввода на кнопке окружения написано full">
+      <p><dfn data-def="Настройки облачной машины, в которой работает агент: куда ей можно ходить в интернете и что в ней запускается при старте.">Окружение</dfn> — это настройки облачной машины, в которой работает агент. На claude.ai/code, на экране новой сессии, под полем ввода первая кнопка — выбор окружения. По умолчанию там <b>Default</b>. Откройте её и внизу меню выберите <b>New environment</b>.</p>
+      <div class="mock" data-title="claude.ai/code — новая сессия">
+        <div class="mock-body">
+          <div class="mock-field"><label>Задача</label><div class="mock-input">Опишите, что нужно сделать в репозитории…</div></div>
+          <div class="mock-row"><span class="mark">☁ Default ▾<span class="mark-label">1</span></span><span>username/hello-ai ▾</span><span>main ▾</span></div>
+          <p class="muted">Меню окружений: Default ✓ · … · <span class="mark"><b>＋ New environment</b><span class="mark-label">2</span></span></p>
+        </div>
+      </div>
+      <p>В окне <b>New environment</b>:</p>
+      <ul>
+        <li><b>Name</b> — <code>full</code>;</li>
+        <li><b>Network access</b> — <b>Full</b>, любой адрес в интернете. У Default стоит <b>Trusted</b>: только магазины пакетов и GitHub, поэтому агент иногда не может скачать нужное;</li>
+        <li><b>Network secrets</b>, <b>Setup script</b>, <b>Environment variables</b> не трогайте, курсу они не нужны. Environment variables — это строки вида <code>KEY=value</code> на случай, если инструменту понадобится ключ. Ключи и пароли в чат не вставляйте никогда.</li>
+      </ul>
+      <div class="mock" data-title="New environment">
+        <div class="mock-body">
+          <div class="mock-field"><label>Name</label><div class="mock-input">full</div></div>
+          <div class="mock-field"><label>Network access</label><div class="mock-input">Full ▾</div></div>
+          <div class="mock-field"><label>Network secrets</label><div class="mock-input"><span class="muted">не трогать</span></div></div>
+          <div class="mock-field"><label>Setup script</label><div class="mock-input"><span class="muted">не трогать</span></div></div>
+          <div class="mock-field"><label>Environment variables</label><div class="mock-input"><span class="muted">не трогать</span></div></div>
+          <div class="mock-row"><span style="flex:1"></span><span class="mock-btn">Cancel</span><span class="mock-btn primary">Add environment</span></div>
+        </div>
+      </div>
+      <p>Нажмите <b>Add environment</b>: новая сессия пойдёт в окружении full. Изменить его потом можно так: в том же меню наведите на строку окружения, нажмите значок настроек справа, откроется <b>Edit cloud environment</b>, после правок — <b>Save changes</b>. В уже идущей сессии то же окно открывается стрелкой рядом с названием сессии вверху.</p>
+    </section>
+
+    <section class="step" data-title="Репозиторий hello-ai, ветка main" data-hint="Под полем ввода: full, username/hello-ai, main">
+      <p>Рядом с кнопкой окружения — выбор репозитория: выберите <code>hello-ai</code>. Ветку оставьте <b>main</b>, это основная версия сайта. Если репозитория нет в списке, приложение из шага 3 не установлено на него: вернитесь к шагу 3.</p>
+      <div class="mock" data-title="claude.ai/code — новая сессия">
+        <div class="mock-body">
+          <div class="mock-field"><label>Задача</label><div class="mock-input">Опишите, что нужно сделать в репозитории…</div></div>
+          <div class="mock-row"><span>☁ full ▾</span><span class="mark">username/hello-ai ▾<span class="mark-label">1</span></span><span class="mark">main ▾<span class="mark-label">2</span></span><span style="flex:1"></span><span>Auto ▾</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Режим Auto" data-hint="В переключателе режима написано Auto">
+      <p>Рядом с полем ввода есть выбор режима, <b>Mode</b>:</p>
+      <ul>
+        <li><b>Auto</b> — Claude сам решает, что можно делать без вопросов;</li>
+        <li><b>Accept edits</b> — сам принимает правки файлов, остальное спрашивает;</li>
+        <li><b>Plan</b> — сначала план, потом изменения.</li>
+      </ul>
+      <p>Выберите <b>Auto</b>: так агент доводит задачу до конца и сохраняет сам.</p>
+    </section>
+
+    <section class="step" data-title="Первый запрос: правила и страница о вас" data-hint="В поле ввода весь запрос, ваши строки о себе вместо примера">
+      <p>Скопируйте запрос кнопкой «Копировать» и вставьте в поле ввода. В шаге 2 запроса замените пример про Анну на свои строки из урока 11. Остальное не меняйте: правила для агента переносятся дословно.</p>
+      <div class="prompt"><div class="prompt-label">Первый запрос к агенту — скопируйте целиком</div><pre>Это репозиторий моего сайта на GitHub Pages. Я не программист и на GitHub руками ничего не делаю.
+
+Шаг 1. Создай в корне репозитория два файла с одинаковым текстом: CLAUDE.md и AGENTS.md. Перенеси текст дословно, всё между строками «=====»:
+=====
+# Правила для ИИ-агента в этом репозитории
+1. Это публичный сайт: всё, что попадает в репозиторий, видят все. Никаких персональных данных, паролей и ключей — ни в коде, ни в текстах.
+2. Делай сайт простыми файлами без сборки: HTML, CSS и JavaScript в корне репозитория, чтобы GitHub Pages показывал их сразу.
+3. Не удаляй и не переписывай целиком то, что уже работает, без прямой просьбы.
+4. Тексты на сайте пиши по-русски, если я не прошу иначе.
+
+## Как сохранять работу
+5. Git и GitHub — полностью твоя забота. Я не создаю ветки и pull request и ничего не нажимаю на GitHub.
+6. Каждую задачу доводи до конца сам: создай ветку, сохрани изменения коммитом, открой pull request и сразу слей его в main. Если слить не получается, объясни мне простыми словами, что мешает.
+7. В конце ответа коротко напиши: что сделано, какие файлы созданы или изменены и где лежит результат.
+8. Если я прошу вернуть как было — найди прошлую версию в истории репозитория и так же сохрани её сам.
+=====
+
+Шаг 2. Создай в корне index.html — простую страницу обо мне. Один файл, весь CSS внутри тега style, без внешних библиотек, шрифтов и скриптов с других сайтов. Кодировка utf-8, язык страницы русский, страница нормально выглядит на телефоне. Светлый фон, один акцентный цвет, без анимаций и картинок.
+Обо мне: Анна, бухгалтер, учусь работать с ИИ.
+На странице: заголовок с именем, одна строка о себе и список из трёх пунктов:
+— веду учёт малого бизнеса 12 лет;
+— автоматизирую сверку актов с помощью ИИ;
+— этот сайт сделан без единой установленной программы.
+Никаких телефонов, адресов и других личных данных.
+
+Шаг 3. README.md не меняй.
+
+Ветки и pull request создавай сам и сразу сливай в main — я на GitHub ничего не нажимаю.
+Когда закончишь, коротко напиши: что сделано, какие файлы созданы и где лежит результат.</pre></div>
+      <p>Зачем два файла правил с одним текстом: <code>CLAUDE.md</code> читает Claude Code, <code>AGENTS.md</code> — Codex, облачный агент Copilot читает оба. Агент открывает их в начале каждой сессии, поэтому в следующих задачах правила повторять не нужно. Достаточно последней строки: «Сохрани результат сам, как в правилах.»</p>
+    </section>
+
+    <section class="step" data-title="Enter — и ждите отчёт" data-hint="Агент написал отчёт: создал три файла и сохранил их в main">
+      <p>Нажмите <kbd>Enter</kbd>. Claude скопирует репозиторий в облачную машину, создаст файлы, сам сохранит их в <code>hello-ai</code> и напишет отчёт. Обычно это занимает несколько минут. Вкладку можно закрыть: сессия продолжится в облаке, отчёт будет ждать вас там же.</p>
+      <div class="mock" data-title="claude.ai/code — сессия">
+        <div class="mock-chat">
+          <div class="msg user">Это репозиторий моего сайта на GitHub Pages. Я не программист… (запрос целиком)</div>
+          <div class="msg ai">Готово. Сохранил в main три новых файла: CLAUDE.md и AGENTS.md — правила, 8 пунктов, текст одинаковый и дословный; index.html — страница о вас: заголовок «Анна», строка о себе и список из трёх пунктов, стили внутри файла, внешних библиотек нет. README.md не трогал. Для этого создал ветку, открыл pull request и сразу слил его в main. Результат — в корне репозитория username/hello-ai. Чтобы страница открылась как сайт, включите GitHub Pages в настройках репозитория.</div>
+        </div>
+      </div>
+      <p>«Ветка», «pull request», «слил в main» — эти слова встретятся в отчёте нейросети, делать с ними ничего не нужно. Они значат, что работа сохранена в основную версию.</p>
+    </section>
+
+    <section class="step" data-title="Проверьте на GitHub: файлы на месте" data-hint="В списке файлов hello-ai четыре файла: AGENTS.md, CLAUDE.md, README.md, index.html">
+      <p>Откройте <code>github.com/ваш-username/hello-ai</code> и обновите страницу. В списке файлов должно быть четыре: три новых от агента и прежний README.</p>
+      <div class="mock" data-title="github.com/username/hello-ai">
+        <div class="mock-body">
+          <div class="mock-code">📄 AGENTS.md     Добавить правила для агента и страницу о себе   2 minutes ago
+📄 CLAUDE.md     Добавить правила для агента и страницу о себе   2 minutes ago
+📄 README.md     Initial commit                                  1 hour ago
+📄 index.html    Добавить правила для агента и страницу о себе   2 minutes ago</div>
+        </div>
+      </div>
+      <p>Нажмите на <code>CLAUDE.md</code>: GitHub покажет правила, все восемь пунктов. Нажмите на <code>index.html</code>: увидите код страницы. Разбирать его не нужно, саму страницу вы увидите в уроке 15, когда включите сайт. Хотите прочитать текст страницы уже сейчас — попросите агента в той же сессии: «Покажи текст страницы так, как его увидит посетитель, без кода».</p>
+    </section>
+  </div>
+
+  <h2>Если что-то пошло не так</h2>
+  <div class="grid">
+    <div class="card"><h3>Агент открыл pull request, но не слил его</h3><p>Напишите в той же сессии: «Слей свой pull request в main сам, как в правилах. Если не получается — объясни простыми словами, что мешает». На GitHub ничего не нажимайте.</p></div>
+    <div class="card"><h3>Агент задаёт вопрос и ждёт</h3><p>Ответьте в чате, и он продолжит. Вопрос агента — ровно то, чего не хватило в запросе.</p></div>
+    <div class="card"><h3>В списке нет hello-ai</h3><p>На репозиторий не установлено приложение Claude. Откройте <a href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">github.com/apps/claude/installations/new</a>, добавьте <code>hello-ai</code>, вернитесь и обновите страницу.</p></div>
+    <div class="card"><h3>Файлов на GitHub нет</h3><p>Обновите страницу репозитория. Не появились — спросите агента: «В каком состоянии задача? Сохранено ли в main? Если нет — доведи до конца сам».</p></div>
+  </div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="s14-quiz">
+    <div class="q">
+      <p class="q-text">Какой режим выбрать, чтобы агент довёл задачу до конца и сохранил её сам?</p>
+      <ul class="q-options">
+        <li>Plan</li>
+        <li>Accept edits</li>
+        <li data-correct>Auto</li>
+      </ul>
+      <p class="q-explain">В Auto Claude сам решает, что можно делать без вопросов, и доводит задачу до сохранения. Accept edits спрашивает про всё, кроме правок файлов. Plan сначала показывает план.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Зачем окружение full вместо Default?</p>
+      <ul class="q-options">
+        <li data-correct>У full полный доступ в сеть, поэтому агент может скачать то, что нужно для задачи</li>
+        <li>В full агенту можно передавать пароли</li>
+        <li>Default не умеет работать с GitHub</li>
+      </ul>
+      <p class="q-explain">У Default доступ Trusted: только магазины пакетов и GitHub. Ключи и пароли в чат не вставляем ни в каком окружении.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Какая строка первого запроса говорит агенту, что сохранять работу он должен сам?</p>
+      <ul class="q-options">
+        <li>«README.md не меняй»</li>
+        <li data-correct>«Ветки и pull request создавай сам и сразу сливай в main — я на GitHub ничего не нажимаю»</li>
+        <li>«Это репозиторий моего сайта на GitHub Pages»</li>
+      </ul>
+      <p class="q-explain">Эта строка есть в первом запросе, а правила 5–8 закрепляют её в CLAUDE.md и AGENTS.md. В следующих задачах хватает фразы «Сохрани результат сам, как в правилах».</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Как проверить, что первый запрос выполнен?</p>
+      <ul class="q-options">
+        <li>Открыть вкладку Pull requests и принять изменения</li>
+        <li data-correct>Прочитать отчёт агента и открыть репозиторий на GitHub: там CLAUDE.md, AGENTS.md и index.html</li>
+        <li>Дождаться письма от GitHub</li>
+      </ul>
+      <p class="q-explain">Агент сам сохранил файлы в main. Ваша проверка — увидеть их в списке файлов и открыть правила.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <ul class="checklist" data-id="s14-practice">
+    <li>Вход на claude.ai/code через GitHub выполнен, Claude GitHub App установлено только на <code>hello-ai</code>.</li>
+    <li>Окружение <b>full</b> создано, Network access — <b>Full</b>, остальные поля пустые.</li>
+    <li>В сессии выбраны <code>hello-ai</code>, <b>main</b>, окружение full и режим <b>Auto</b>.</li>
+    <li>Первый запрос отправлен с моими строками о себе; агент отчитался, что сохранил всё в main.</li>
+    <li>На GitHub в <code>hello-ai</code> четыре файла, в <code>CLAUDE.md</code> восемь правил. Руками на GitHub я ничего не нажимал(а).</li>
+  </ul>
+
+  <div class="win"><p><strong>Агент подключён и уже работает.</strong> У него есть правила, у вас — первая страница в репозитории. Впереди контрольная: та же работа без подсказок, плюс проверка, что агент помнит правила в новой сессии.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>

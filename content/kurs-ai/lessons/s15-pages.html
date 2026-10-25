@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сайт в интернете: GitHub Pages — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="s15-pages">
+<main class="content">
+<article>
+  <h1>Сайт в интернете: GitHub Pages</h1>
+  <p class="lead">Страница о вас уже лежит в <code>hello-ai</code>. Одна настройка руками — и она открывается по адресу <code>https://ваш-username.github.io/hello-ai/</code> у любого человека в мире. Дальше любые правки страницы — запросом агенту, сайт обновляется сам. Откройте репозиторий в соседней вкладке.</p>
+
+  <h2>Что мы делаем</h2>
+  <p>GitHub Pages — встроенный в GitHub хостинг. Вы один раз указываете, из какой ветки брать файлы, и GitHub показывает их как сайт. Ветка — <code>main</code>, та самая основная версия, куда агент сохраняет работу. Главный файл сайта — <code>index.html</code> в корне репозитория. Его агент создал в уроке 14.</p>
+
+  <div class="stepper" data-id="s15-steps">
+    <section class="step" data-title="Откройте Settings → Pages" data-hint="Заголовок страницы — GitHub Pages, ниже блок Build and deployment">
+      <p>На странице репозитория <code>hello-ai</code> нажмите вкладку <b>Settings</b> (справа в верхнем ряду вкладок). В левом меню найдите раздел <b>Code and automation</b> и в нём пункт <b>Pages</b>.</p>
+      <div class="mock" data-title="github.com/username/hello-ai/settings/pages">
+        <div class="mock-nav"><span>&lt;&gt; Code</span><span>Issues</span><span>Pull requests</span><span style="flex:1"></span><span class="active">⚙ Settings</span></div>
+        <div class="mock-sidebar">
+          <div class="mock-side">
+            <div>General</div>
+            <div class="muted" style="margin-top:10px"><b>Code and automation</b></div>
+            <div>…</div>
+            <div class="active">Pages</div>
+            <div>…</div>
+          </div>
+          <div class="mock-main">
+            <p><b>GitHub Pages</b></p>
+            <p><b>Build and deployment</b></p>
+            <div class="mock-field"><label>Source</label><div class="mock-input">Deploy from a branch ▾</div></div>
+            <div class="mock-field"><label>Branch</label><div class="mock-row"><div class="mock-input">main ▾</div><div class="mock-input">/(root) ▾</div><span class="mock-btn">Save</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Источник: Deploy from a branch" data-hint="В поле Source выбрано Deploy from a branch, ниже появился выбор ветки">
+      <p>В блоке <b>Build and deployment</b> найдите поле <b>Source</b> (источник). Выберите <b>Deploy from a branch</b> — «публиковать из ветки». Под ним появится выбор ветки.</p>
+    </section>
+
+    <section class="step" data-title="Ветка main, папка /(root), Save" data-hint="После Save страница обновилась; адрес сайта появится здесь через пару минут">
+      <p>В поле <b>Branch</b> выберите <b>main</b>, рядом оставьте папку <b>/(root)</b>: корень репозитория, где лежит <code>index.html</code>. Нажмите <b>Save</b>.</p>
+      <div class="mock" data-title="Settings → Pages → Build and deployment">
+        <div class="mock-body">
+          <div class="mock-field"><label>Source</label><div class="mock-input">Deploy from a branch ▾</div></div>
+          <div class="mock-field"><label>Branch</label><div class="mock-row"><div class="mock-input">main ▾</div><div class="mock-input">/(root) ▾</div><span class="mock-btn primary">Save</span></div></div>
+        </div>
+      </div>
+      <p>Это вся ручная работа с сайтом. Больше в настройках ничего менять не придётся.</p>
+    </section>
+
+    <section class="step" data-title="Подождите и откройте сайт" data-hint="Открылась страница с вашим именем и списком">
+      <p>Публикация занимает от 1 до 10 минут. Через пару минут обновите страницу Settings → Pages: вверху появится адрес сайта. Или наберите адрес сами: <code>https://ваш-username.github.io/hello-ai/</code>.</p>
+      <div class="mock" data-title="https://username.github.io/hello-ai/">
+        <div class="mock-body">
+          <p style="font-size:1.3rem"><b>Анна</b></p>
+          <p>Бухгалтер, учусь работать с ИИ.</p>
+          <ul><li>Веду учёт малого бизнеса 12 лет</li><li>Автоматизирую сверку актов с помощью ИИ</li><li>Этот сайт сделан без единой установленной программы</li></ul>
+          <p><b>Что я узнал(а) о работе с ИИ</b></p>
+          <p class="muted">…раздел из контрольной 4</p>
+        </div>
+      </div>
+      <p>Видите 404 — ещё рано. Подождите две-три минуты и обновите страницу. Если 404 держится дольше десяти минут, смотрите «Типовые ошибки» ниже.</p>
+    </section>
+
+    <section class="step" data-title="Правка запросом: сайт обновился сам" data-hint="Через пару минут после отчёта агента на сайте появился четвёртый пункт">
+      <p>Теперь проверим главное: правка, которую агент сохранил в main, сама доходит до сайта. В той же сессии, что раньше, или в новой (<code>hello-ai</code>, main, full, Auto) отправьте запрос:</p>
+      <div class="prompt"><div class="prompt-label">Запрос к агенту</div><pre>Добавь в первый список на странице четвёртый пункт: «Сайт обновляется сам, когда агент сохраняет правку». Остальное не меняй.
+Сохрани результат сам, как в правилах.</pre></div>
+      <div class="mock" data-title="claude.ai/code — сессия">
+        <div class="mock-chat">
+          <div class="msg user">Добавь в первый список на странице четвёртый пункт… Сохрани результат сам, как в правилах.</div>
+          <div class="msg ai">Готово. Сохранил в main: index.html — в первый список добавлен четвёртый пункт, остальное не трогал. Сайт обновится через минуту-две: https://username.github.io/hello-ai/</div>
+        </div>
+      </div>
+      <p>Подождите минуту-две после отчёта и обновите сайт с очисткой кеша: <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>. Пункт появился. Так теперь работает любое изменение: запрос, агент сохраняет в main, сайт обновляется сам.</p>
+    </section>
+  </div>
+
+  <h2>Почему это работает</h2>
+  <p>Ваш сайт <dfn data-def="Сайт из готовых файлов, которые сервер отдаёт браузеру как есть: без базы данных и программ на стороне сервера.">статический</dfn>: это просто файлы, которые браузер показывает как есть. Ему не нужны база данных, программа на сервере и администратор. Поэтому GitHub раздаёт такие сайты бесплатно: он просто отдаёт содержимое <code>main</code> по адресу <code>username.github.io/имя-репозитория</code>.</p>
+  <div class="flow">
+    <span class="node">Запрос агенту</span><span class="arrow">→</span>
+    <span class="node">Агент сохраняет в main</span><span class="arrow">→</span>
+    <span class="node">GitHub Pages берёт файлы из main</span><span class="arrow">→</span>
+    <span class="node hl">username.github.io/hello-ai/</span>
+  </div>
+  <p>Два вывода. Первый: что в <code>main</code>, то и на сайте, с задержкой в минуту-две. Если агент открыл pull request, но не слил его, сайт не изменится: напишите ему «слей сам, как в правилах». Второй: на таком сайте работает всё, что умеет браузер, включая калькуляторы и формы на JavaScript. Такие инструменты агент будет делать для вас в следующих модулях. Правило 2 в <code>CLAUDE.md</code> («простые файлы без сборки, в корне») нужно именно для того, чтобы Pages показывал их сразу.</p>
+
+  <h2>Своя картинка на сайте</h2>
+  <p>По желанию. Картинку с вашего компьютера, например логотип или иллюстрацию, агент сам взять не может. Загрузите её в репозиторий: на главной странице <code>hello-ai</code> нажмите <b>Add file</b> → <b>Upload files</b>, перетащите файл и нажмите <b>Commit changes</b>. Здесь это просто «сохранить». Имя файла — латиницей, без пробелов, например <code>logo.png</code>. Потом попросите агента: «Вставь картинку logo.png в начало страницы, шириной не больше 200 пикселей. Сохрани результат сам, как в правилах».</p>
+  <div class="warn"><p><strong>Картинку тоже видят все.</strong> Не загружайте фото документов, экранов с данными клиентов и чужие фотографии.</p></div>
+
+  <h2>Типовые ошибки</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Что видите</th><th>Причина</th><th>Что делать</th></tr></thead>
+    <tbody>
+      <tr><td>404 сразу после Save</td><td>Публикация ещё идёт</td><td>Подождать до 10 минут, обновить страницу.</td></tr>
+      <tr><td>404 спустя 10 минут и больше</td><td>Файл называется не <code>index.html</code> или лежит не в корне</td><td>Написать агенту: «Проверь, что главная страница называется index.html и лежит в корне репозитория. Если нет — исправь и сохрани сам».</td></tr>
+      <tr><td>Нет пункта Pages или он не включается</td><td>Репозиторий приватный</td><td>На бесплатном тарифе Pages работает только для публичных. Сделать репозиторий публичным в настройках или создать новый публичный.</td></tr>
+      <tr><td>Агент отчитался, а сайт старый</td><td>Браузер показал страницу из кеша, или правка не попала в main</td><td>Обновить с очисткой кеша (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>) или открыть в режиме инкогнито. Не помогло — спросить агента: «Изменение точно в main? Если нет — слей сам».</td></tr>
+      <tr><td>Вместо русских букв «кракозябры»</td><td>Нет строки с кодировкой</td><td>Написать агенту: «На сайте вместо русских букв непонятные символы. Исправь кодировку и сохрани сам».</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="s15-quiz">
+    <div class="q">
+      <p class="q-text">Что нужно сделать руками, чтобы появился сайт?</p>
+      <ul class="q-options">
+        <li>Создать файл index.html и вставить в него код</li>
+        <li data-correct>Один раз в Settings → Pages выбрать Deploy from a branch, ветку main, папку /(root) и нажать Save</li>
+        <li>Включать Pages заново после каждой правки</li>
+      </ul>
+      <p class="q-explain">Файл создал агент. Pages включается один раз, дальше каждое сохранение в main публикуется само.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">По какому адресу откроется сайт из репозитория <code>hello-ai</code> пользователя <code>anna-buh</code>?</p>
+      <ul class="q-options">
+        <li>https://github.com/anna-buh/hello-ai</li>
+        <li data-correct>https://anna-buh.github.io/hello-ai/</li>
+        <li>https://hello-ai.github.io/anna-buh</li>
+      </ul>
+      <p class="q-explain">Первый адрес — страница репозитория с файлами. Сайт живёт на домене username.github.io, а имя репозитория идёт после косой черты.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Агент отчитался: «Сохранил в main». Когда изменение появится на сайте?</p>
+      <ul class="q-options">
+        <li>Только после нажатия Save в Settings → Pages</li>
+        <li data-correct>Само, обычно через минуту-две</li>
+        <li>На следующий день</li>
+      </ul>
+      <p class="q-explain">Pages публикует каждое сохранение в main. Настройки трогать не нужно: подождите и обновите страницу с очисткой кеша.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Агент написал: «Открыл pull request, слить не удалось». Что будет с сайтом?</p>
+      <ul class="q-options">
+        <li>Сайт обновится как обычно</li>
+        <li>Сайт перестанет открываться</li>
+        <li data-correct>Ничего: правка не в main, сайт остался прежним</li>
+      </ul>
+      <p class="q-explain">Сайт показывает только main. Попросите агента объяснить, что мешает, и довести дело до конца самому.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <ul class="checklist" data-id="s15-practice">
+    <li>В Settings → Pages: Source — Deploy from a branch, Branch — main, папка /(root); на странице показан адрес сайта.</li>
+    <li>Сайт открывается по адресу <code>https://мой-username.github.io/hello-ai/</code> в режиме инкогнито.</li>
+    <li>Четвёртый пункт добавлен запросом, а не руками, и появился на сайте через минуту-две после отчёта агента.</li>
+    <li>Сайт открывается с телефона.</li>
+    <li>Я отправил(а) адрес коллеге или другу, и у него страница открылась.</li>
+  </ul>
+
+  <div class="win"><p><strong>У вас есть сайт.</strong> Собственный адрес в интернете, который меняется одним запросом в чате. Следующий урок — запасные исполнители: то же самое в Codex и Copilot.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>
