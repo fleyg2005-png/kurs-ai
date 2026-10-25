@@ -10,9 +10,11 @@
   'use strict';
 
   /* ---------- Манифест курса ----------
-     Чтобы добавить урок: добавьте объект в lessons нужного модуля
-     и создайте файл lessons/<id>.html (скопируйте любой урок как шаблон). */
-  const COURSE = [
+     Модули 0–3 общие. Дальше читатель выбирает путь: «Сайт» или «Юрист».
+     Чтобы добавить урок: добавьте объект в lessons нужного модуля и создайте
+     файл lessons/<id>.html (скопируйте любой урок как шаблон). Урок с одним id
+     может входить в оба пути (например, регистрация на GitHub). */
+  const COMMON = [
     { id: 'm0', title: 'Старт', lessons: [
       { id: '00-start', title: 'Как устроен курс и что вы получите', minutes: 5 },
     ]},
@@ -35,46 +37,81 @@
       { id: '10-projects', title: 'Проекты и постоянные инструкции', minutes: 6 },
       { id: 'm3-control', title: 'Контрольная 3: рабочий запрос по документу', minutes: 20, control: true },
     ]},
-    { id: 'm4', title: 'GitHub без установки', lessons: [
-      { id: '11-why-github', title: 'Зачем GitHub не-программисту', minutes: 6 },
-      { id: '12-signup', title: 'Регистрация на GitHub: шаг за шагом', minutes: 8 },
-      { id: '13-first-repo', title: 'Первый репозиторий и первый коммит', minutes: 10 },
-      { id: '14-pages', title: 'Публикуем сайт за 10 минут', minutes: 12 },
-      { id: 'm4-control', title: 'Контрольная 4: репозиторий и сайт', minutes: 20, control: true },
-    ]},
-    { id: 'm5', title: 'Git из браузера', lessons: [
-      { id: '15-githubdev', title: 'github.dev: нажмите точку', minutes: 8 },
-      { id: '16-codespaces', title: 'Codespaces: компьютер в облаке', minutes: 10 },
-      { id: '17-branches', title: 'Коммиты, ветки, pull request — на симуляторе', minutes: 12 },
-      { id: '18-broken', title: 'Когда что-то сломалось', minutes: 6 },
-      { id: 'm5-control', title: 'Контрольная 5: ветка и pull request', minutes: 20, control: true },
-    ]},
-    { id: 'm6', title: 'ИИ пишет код за вас', lessons: [
-      { id: '19-agents', title: 'Агенты: что это и какие есть', minutes: 8 },
-      { id: '20-claude-code', title: 'Claude Code в браузере', minutes: 12 },
-      { id: '21-codex-copilot', title: 'Codex и Copilot', minutes: 10 },
-      { id: '22-review', title: 'Как проверять код, не будучи программистом', minutes: 10 },
-      { id: 'm6-control', title: 'Контрольная 6: задача агенту и ревью', minutes: 30, control: true },
-    ]},
-    { id: 'm7', title: 'От юриста до программиста', lessons: [
-      { id: '23-first-tool', title: 'Проект: инструмент для своей профессии', minutes: 15 },
-      { id: '24-ideas', title: 'Следующие проекты и шаблон ТЗ', minutes: 8 },
-      { id: 'm7-control', title: 'Финальная контрольная: ваш инструмент в интернете', minutes: 60, control: true },
-      { id: '25-finish', title: 'Финал: что дальше', minutes: 4 },
-    ]},
   ];
+  const TRACKS = {
+    site: {
+      id: 'site', name: 'Сайт', emoji: '🌐',
+      tagline: 'Свой инструмент как веб-страница',
+      desc: 'GitHub без установки, редактор и терминал в браузере, ИИ-агенты пишут код, результат публикуется на GitHub Pages и открывается по ссылке. Для тех, кто хочет понимать, как устроена работа с кодом.',
+      modules: [
+        { id: 'm4', title: 'GitHub без установки', lessons: [
+          { id: '11-why-github', title: 'Зачем GitHub не-программисту', minutes: 6 },
+          { id: '12-signup', title: 'Регистрация на GitHub: шаг за шагом', minutes: 8 },
+          { id: '13-first-repo', title: 'Первый репозиторий и первый коммит', minutes: 10 },
+          { id: '14-pages', title: 'Публикуем сайт за 10 минут', minutes: 12 },
+          { id: 'm4-control', title: 'Контрольная 4: репозиторий и сайт', minutes: 20, control: true },
+        ]},
+        { id: 'm5', title: 'Git из браузера', lessons: [
+          { id: '15-githubdev', title: 'github.dev: нажмите точку', minutes: 8 },
+          { id: '16-codespaces', title: 'Codespaces: компьютер в облаке', minutes: 10 },
+          { id: '17-branches', title: 'Коммиты, ветки, pull request — на симуляторе', minutes: 12 },
+          { id: '18-broken', title: 'Когда что-то сломалось', minutes: 6 },
+          { id: 'm5-control', title: 'Контрольная 5: ветка и pull request', minutes: 20, control: true },
+        ]},
+        { id: 'm6', title: 'ИИ пишет код за вас', lessons: [
+          { id: '19-agents', title: 'Агенты: что это и какие есть', minutes: 8 },
+          { id: '20-claude-code', title: 'Claude Code в браузере', minutes: 12 },
+          { id: '21-codex-copilot', title: 'Codex и Copilot', minutes: 10 },
+          { id: '22-review', title: 'Как проверять код, не будучи программистом', minutes: 10 },
+          { id: 'm6-control', title: 'Контрольная 6: задача агенту и ревью', minutes: 30, control: true },
+        ]},
+        { id: 'm7', title: 'От юриста до программиста', lessons: [
+          { id: '23-first-tool', title: 'Проект: инструмент для своей профессии', minutes: 15 },
+          { id: '24-ideas', title: 'Следующие проекты и шаблон ТЗ', minutes: 8 },
+          { id: 'm7-control', title: 'Финальная контрольная: ваш инструмент в интернете', minutes: 60, control: true },
+          { id: '25-finish', title: 'Финал: что дальше', minutes: 4 },
+        ]},
+      ],
+    },
+    docs: {
+      id: 'docs', name: 'Юрист', emoji: '⚖️',
+      tagline: 'Документы в репозитории, git делает ИИ',
+      desc: 'GitHub как рабочая папка с договорами и шаблонами. Вы ставите задачи, ИИ сам пишет и запускает программы, делает коммиты и pull request, вы проверяете и принимаете. Никакого ручного git и никаких сайтов.',
+      modules: [
+        { id: 'dm4', title: 'GitHub: аккаунт и подключение к ИИ', lessons: [
+          { id: 'd11-why-github', title: 'Зачем GitHub, если код пишет ИИ', minutes: 6 },
+          { id: '12-signup', title: 'Регистрация на GitHub: шаг за шагом', minutes: 8 },
+          { id: 'd13-first-repo', title: 'Репозиторий с документами для ИИ', minutes: 8 },
+          { id: 'd14-connect', title: 'Подключить GitHub к Claude и ChatGPT', minutes: 12 },
+          { id: 'dm4-control', title: 'Контрольная 4: GitHub подключён к ИИ', minutes: 15, control: true },
+        ]},
+        { id: 'dm5', title: 'ИИ работает в вашем репозитории', lessons: [
+          { id: 'd15-first-task', title: 'Первая задача: ИИ сам делает коммит и pull request', minutes: 12 },
+          { id: 'd16-codex-copilot', title: 'То же в ChatGPT (Codex) и Copilot', minutes: 10 },
+          { id: 'd17-review', title: 'Проверить PR и оставить замечания', minutes: 10 },
+          { id: 'd18-broken', title: 'Когда ИИ сделал не то', minutes: 6 },
+          { id: 'dm5-control', title: 'Контрольная 5: два PR от ИИ и один откат', minutes: 20, control: true },
+        ]},
+        { id: 'dm6', title: 'Инструмент для документов', lessons: [
+          { id: 'd19-tools', title: 'Какие инструменты для документов может сделать ИИ', minutes: 8 },
+          { id: 'd20-project', title: 'Проект: проверка договоров по чеклисту', minutes: 15 },
+          { id: 'd21-iterate', title: 'Доработки и повторные запуски', minutes: 8 },
+          { id: 'd22-verify-tool', title: 'Как проверять результат инструмента', minutes: 8 },
+          { id: 'dm6-control', title: 'Контрольная 6: инструмент по вашему ТЗ', minutes: 30, control: true },
+        ]},
+        { id: 'dm7', title: 'От юриста до программиста', lessons: [
+          { id: 'd23-next', title: 'Следующие инструменты и шаблон ТЗ', minutes: 8 },
+          { id: 'd24-grow', title: 'Как расти: читать код, который пишет ИИ', minutes: 6 },
+          { id: 'dm7-control', title: 'Финальная контрольная: ваш инструмент в работе', minutes: 60, control: true },
+          { id: 'd25-finish', title: 'Финал: что дальше', minutes: 4 },
+        ]},
+      ],
+    },
+  };
 
   const ROOT = document.body.getAttribute('data-root') || './';
   const PAGE = document.body.getAttribute('data-page') || 'lesson';
   const LESSON_ID = document.body.getAttribute('data-lesson') || '';
-  const LESSONS = [];
-  COURSE.forEach((m, mi) => m.lessons.forEach((l, li) => {
-    l.file = 'lessons/' + l.id + '.html';
-    l.module = m; l.mi = mi; l.li = li; l.index = LESSONS.length;
-    LESSONS.push(l);
-  }));
-  const CURRENT = LESSONS.find(l => l.id === LESSON_ID) || null;
-  const TOTAL_MIN = LESSONS.reduce((s, l) => s + l.minutes, 0);
 
   /* ---------- Хранилище ---------- */
   const PREFIX = 'aikurs:';
@@ -85,10 +122,34 @@
     clearAll() { try { Object.keys(localStorage).filter(k => k.startsWith(PREFIX) && k !== PREFIX + 'theme').forEach(k => localStorage.removeItem(k)); } catch (e) {} },
   };
 
+  /* ---------- Путь и активный список уроков ---------- */
+  let TRACK = store.get('track', null);
+  if (TRACK && !TRACKS[TRACK]) TRACK = null;
+  let COURSE = [], LESSONS = [], CURRENT = null, TOTAL_MIN = 0;
+  function rebuild() {
+    COURSE = COMMON.concat(TRACK ? TRACKS[TRACK].modules : []);
+    LESSONS = [];
+    COURSE.forEach((m, mi) => m.lessons.forEach((l, li) => {
+      LESSONS.push(Object.assign({}, l, { module: m, mi, li, index: LESSONS.length }));
+    }));
+    CURRENT = LESSONS.find(l => l.id === LESSON_ID) || null;
+    TOTAL_MIN = LESSONS.reduce((a, l) => a + l.minutes, 0);
+  }
+  function tracksOf(id) { return Object.keys(TRACKS).filter(t => TRACKS[t].modules.some(m => m.lessons.some(l => l.id === id))); }
+  if (LESSON_ID) {
+    const inTracks = tracksOf(LESSON_ID);
+    if (inTracks.length && (!TRACK || !inTracks.includes(TRACK))) { TRACK = inTracks[0]; store.set('track', TRACK); }
+  }
+  rebuild();
+  function setTrack(t) { if (!TRACKS[t]) return; TRACK = t; store.set('track', t); rebuild(); }
+  function allLessonIds() { const ids = []; COMMON.concat(...Object.values(TRACKS).map(t => t.modules)).forEach(m => m.lessons.forEach(l => { if (!ids.includes(l.id)) ids.push(l.id); })); return ids; }
+  const COMMON_COUNT = COMMON.reduce((a, m) => a + m.lessons.length, 0);
+  function trackCount(t) { return TRACKS[t].modules.reduce((a, m) => a + m.lessons.length, 0); }
+
   /* ---------- Утилиты ---------- */
   function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
   function esc(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
-  function url(l) { return ROOT + l.file; }
+  function url(l) { return ROOT + 'lessons/' + l.id + '.html'; }
   function plural(n, one, few, many) { const m10 = n % 10, m100 = n % 100; if (m10 === 1 && m100 !== 11) return one; if (m10 >= 2 && m10 <= 4 && (m100 < 10 || m100 >= 20)) return few; return many; }
   let toastEl, toastTimer;
   function toast(msg) {
@@ -135,6 +196,10 @@
     sidebar.appendChild(prog);
 
     COURSE.forEach((m, mi) => {
+      if (mi === COMMON.length) {
+        const t = TRACKS[TRACK];
+        sidebar.appendChild(el('div', 'side-track', `<span class="emoji">${t.emoji}</span><span><b>Путь «${esc(t.name)}»</b><br><a href="${ROOT}index.html#track">сменить путь</a></span>`));
+      }
       const box = el('div', 'side-module');
       box.appendChild(el('div', 'mod-title', `<span class="mod-num">${mi}</span><span>${esc(m.title)}</span>`));
       m.lessons.forEach(l => {
@@ -145,6 +210,9 @@
       });
       sidebar.appendChild(box);
     });
+    if (!TRACK) {
+      sidebar.appendChild(el('div', 'side-choose', `<b>Модули 4–7 зависят от пути.</b><br><a class="btn small primary" href="${ROOT}index.html#track">Выбрать путь →</a>`));
+    }
 
     const foot = el('div', 'side-foot');
     foot.innerHTML = `<a href="${ROOT}certificate.html">🎓 Сертификат</a><a href="${ROOT}index.html#faq">❓ Частые вопросы</a><span class="small">Прогресс хранится в этом браузере.</span>`;
@@ -164,7 +232,7 @@
     topbar.appendChild(menuBtn);
 
     const crumbs = el('div', 'crumbs');
-    if (CURRENT) crumbs.innerHTML = `<a href="${ROOT}index.html">Курс</a> · Модуль ${CURRENT.mi}: ${esc(CURRENT.module.title)}`;
+    if (CURRENT) crumbs.innerHTML = `<a href="${ROOT}index.html">Курс</a>${CURRENT.mi >= COMMON.length ? ' · ' + TRACKS[TRACK].emoji + ' ' + esc(TRACKS[TRACK].name) : ''} · Модуль ${CURRENT.mi}: ${esc(CURRENT.module.title)}`;
     else if (PAGE === 'certificate') crumbs.innerHTML = `<a href="${ROOT}index.html">Курс</a> · Сертификат`;
     else crumbs.innerHTML = 'Интерактивный курс по ИИ';
     topbar.appendChild(crumbs);
@@ -194,7 +262,7 @@
     const article = document.querySelector('main.content article') || document.querySelector('main.content');
     const h1 = article.querySelector('h1');
     if (h1 && !article.querySelector('.kicker')) {
-      const k = el('p', 'kicker', `Модуль ${CURRENT.mi} · ${esc(CURRENT.module.title)} · ${CURRENT.control ? 'Контрольное задание' : 'Урок ' + (CURRENT.index + 1) + ' из ' + LESSONS.length}`);
+      const k = el('p', 'kicker', `${CURRENT.mi >= COMMON.length ? 'Путь «' + esc(TRACKS[TRACK].name) + '» · ' : ''}Модуль ${CURRENT.mi} · ${esc(CURRENT.module.title)} · ${CURRENT.control ? 'Контрольное задание' : 'Урок ' + (CURRENT.index + 1) + ' из ' + LESSONS.length}`);
       h1.parentNode.insertBefore(k, h1);
     }
     if (!article.querySelector('.meta')) {
@@ -630,13 +698,35 @@
     compute();
   }
 
+  /* ---------- Выбор пути (блок #track-chooser на любой странице) ---------- */
+  function renderTrackChooser() {
+    const host = document.getElementById('track-chooser'); if (!host) return;
+    host.innerHTML = '';
+    const grid = el('div', 'track-chooser');
+    Object.values(TRACKS).forEach(t => {
+      const card = el('div', 'track-card' + (TRACK === t.id ? ' active' : ''));
+      card.innerHTML = `<div class="emoji">${t.emoji}</div><h3>Путь «${esc(t.name)}»</h3><p class="tagline">${esc(t.tagline)}</p><p>${esc(t.desc)}</p><p class="small">${trackCount(t.id)} уроков в модулях 4–7</p><button class="btn ${TRACK === t.id ? 'ok' : 'primary'}" type="button">${TRACK === t.id ? '✓ Выбран' : 'Выбрать этот путь'}</button>`;
+      card.addEventListener('click', () => {
+        if (TRACK === t.id) return;
+        setTrack(t.id);
+        renderTrackChooser(); renderIndex();
+        const sb = document.getElementById('sidebar'); if (sb) buildSidebar(sb);
+        toast(`Путь «${t.name}» выбран. Модули 4–7 обновлены.`);
+      });
+      grid.appendChild(card);
+    });
+    host.appendChild(grid);
+    host.appendChild(el('p', 'small', TRACK ? 'Путь можно сменить в любой момент: прогресс по урокам сохраняется.' : 'Модули 0–3 общие, их можно начать до выбора.'));
+  }
+
   /* ---------- Главная страница ---------- */
-  function initIndex() {
+  function renderIndex() {
     if (PAGE !== 'index') return;
     const map = document.getElementById('course-map');
     if (map) {
       map.innerHTML = '';
       COURSE.forEach((m, mi) => {
+        if (mi === COMMON.length) map.appendChild(el('div', 'track-divider', `${TRACKS[TRACK].emoji} Путь «${esc(TRACKS[TRACK].name)}» · <a href="#track">сменить</a>`));
         const box = el('div', 'module');
         const dn = m.lessons.filter(l => isDone(l.id)).length;
         const mins = m.lessons.reduce((a, l) => a + l.minutes, 0);
@@ -649,17 +739,25 @@
         });
         box.appendChild(ul); map.appendChild(box);
       });
+      if (!TRACK) map.appendChild(el('div', 'track-divider', `Модули 4–7 появятся здесь после выбора пути: <a href="#track">выбрать путь</a>`));
     }
     const cont = document.getElementById('continue-btn');
     if (cont) {
       const n = nextUndone();
       if (n) { cont.href = url(n); cont.textContent = doneCount() ? `▶ Продолжить: ${n.title}` : '▶ Начать курс'; }
+      else if (!TRACK) { cont.href = '#track'; cont.textContent = '▶ Выбрать путь'; }
       else { cont.href = ROOT + 'certificate.html'; cont.textContent = '🎓 Курс пройден — получить сертификат'; }
     }
     const stats = document.getElementById('stats');
-    if (stats) stats.innerHTML = `<span><b>${LESSONS.length}</b> ${plural(LESSONS.length, 'урок', 'урока', 'уроков')}</span><span><b>${COURSE.length}</b> модулей</span><span>≈ <b>${Math.round(TOTAL_MIN / 60 * 10) / 10}</b> ч чистого времени</span><span>пройдено <b>${percent()}%</b></span>`;
+    if (stats) stats.innerHTML = TRACK
+      ? `<span><b>${LESSONS.length}</b> ${plural(LESSONS.length, 'урок', 'урока', 'уроков')}</span><span><b>${COURSE.length}</b> модулей</span><span>≈ <b>${Math.round(TOTAL_MIN / 60 * 10) / 10}</b> ч</span><span>путь <b>${esc(TRACKS[TRACK].name)}</b></span><span>пройдено <b>${percent()}%</b></span>`
+      : `<span><b>${COMMON_COUNT}</b> общих уроков</span><span>+ <b>${trackCount('site')}</b> в выбранном пути</span><span><b>2</b> пути на выбор</span><span>пройдено <b>${percent()}%</b></span>`;
     const bar = document.getElementById('index-progress');
     if (bar) bar.innerHTML = `<span style="width:${percent()}%"></span>`;
+  }
+  function initIndex() {
+    if (PAGE !== 'index') return;
+    renderIndex();
     const reset = document.getElementById('reset-progress');
     if (reset) reset.addEventListener('click', () => { if (confirm('Сбросить весь прогресс курса в этом браузере?')) { store.clearAll(); location.reload(); } });
   }
@@ -668,6 +766,7 @@
   function initCertificate() {
     if (PAGE !== 'certificate') return;
     const area = document.getElementById('cert-area'); if (!area) return;
+    if (!TRACK) { area.innerHTML = `<div class="card"><h3 class="mt0">Сначала выберите путь</h3><p>Сертификат выдаётся за общие модули плюс один из путей — «Сайт» или «Юрист».</p><a class="btn primary" href="${ROOT}index.html#track">Выбрать путь →</a></div>`; return; }
     const p = percent();
     if (p < 100) {
       const n = nextUndone();
@@ -683,15 +782,15 @@
       <div class="cert">
         <p class="kicker">Сертификат о прохождении</p>
         <h2>Интерактивный курс по ИИ</h2>
-        <p class="sub">«От юриста до программиста»: модели, промптинг, GitHub и ИИ-агенты в браузере</p>
+        <p class="sub">Путь «${esc(TRACKS[TRACK].name)}»: модели, промптинг, GitHub и ИИ-агенты в браузере</p>
         <div class="name" id="cert-name-out">${esc(name) || '______________________'}</div>
         <p class="sub">${LESSONS.length} ${plural(LESSONS.length, 'урок', 'урока', 'уроков')} · ${COURSE.length} модулей · ${new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
         <div class="skills"><b>Освоено:</b><ul>
           <li>Понимание возможностей и ограничений ИИ-ассистентов (Claude, ChatGPT)</li>
           <li>Структурированные запросы, работа с документами, проверка результатов</li>
-          <li>GitHub без установки: репозитории, коммиты, ветки, pull request, GitHub Pages</li>
-          <li>Работа в браузере: github.dev и Codespaces</li>
-          <li>Постановка задач ИИ-агентам (Claude Code, Codex, Copilot) и проверка кода</li>
+          ${TRACK === 'site'
+            ? '<li>GitHub без установки: репозитории, коммиты, ветки, pull request, GitHub Pages</li><li>Работа в браузере: github.dev и Codespaces</li><li>Постановка задач ИИ-агентам (Claude Code, Codex, Copilot) и проверка кода</li>'
+            : '<li>GitHub как рабочая папка для ИИ: аккаунт, репозиторий с документами, подключение к Claude и ChatGPT</li><li>Постановка задач ИИ-агентам, проверка их pull request, слияние и откат</li><li>Инструмент для документов, написанный и запущенный ИИ по вашему ТЗ</li>'}
         </ul></div>
       </div>`;
     const inp = document.getElementById('cert-name'), out = document.getElementById('cert-name-out');
@@ -704,11 +803,11 @@
     buildShell();
     if (PAGE === 'lesson' && CURRENT) buildLessonChrome();
     initCopy(); initSteppers(); initQuizzes(); initChecklists(); initReveals(); initTabs();
-    initPromptBuilder(); initGitSim(); initControl(); initIndex(); initCertificate();
+    initPromptBuilder(); initGitSim(); initControl(); renderTrackChooser(); initIndex(); initCertificate();
     document.querySelectorAll('dfn[data-def]').forEach(d => { d.tabIndex = 0; d.setAttribute('role', 'button'); d.setAttribute('aria-label', d.textContent + ': ' + d.dataset.def); });
     document.querySelectorAll('.theme-btn').forEach(b => b.addEventListener('click', toggleTheme));
     refreshThemeButtons();
-    window.AIKURS = { COURSE, LESSONS, store, percent, isDone, setDone };
+    window.AIKURS = { get COURSE() { return COURSE; }, get LESSONS() { return LESSONS; }, get TRACK() { return TRACK; }, TRACKS, COMMON, allLessonIds, setTrack, store, percent, isDone, setDone };
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
