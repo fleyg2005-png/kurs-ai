@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Публикуем сайт за 10 минут — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="14-pages">
+<main class="content">
+<article>
+  <h1>Публикуем сайт за 10 минут</h1>
+  <p class="lead">В репозитории <code>hello-ai</code> появится файл <code>index.html</code>, а у вас — сайт по адресу <code>https://ваш-username.github.io/hello-ai/</code>, который откроет любой человек в мире. Без хостинга, домена и оплаты. Откройте репозиторий в соседней вкладке.</p>
+
+  <h2>Что мы делаем</h2>
+  <p>GitHub Pages — встроенный в GitHub хостинг: вы указываете, из какой ветки брать файлы, и GitHub показывает их как сайт. Главный файл сайта — <code>index.html</code> в корне репозитория; именно его браузер откроет по адресу сайта. Сейчас вы создадите этот файл из готового шаблона, включите Pages и проверите, что правки доходят до сайта.</p>
+
+  <div class="stepper" data-id="pages">
+    <section class="step" data-title="Создайте файл index.html" data-hint="Поле имени файла заполнено: index.html, маленькими буквами">
+      <p>На главной странице репозитория нажмите <b>Add file</b> ▾ → <b>Create new file</b>. В поле имени введите <code>index.html</code> — строго маленькими буквами и с расширением <code>.html</code>.</p>
+      <div class="mock" data-title="github.com/username/hello-ai/new/main">
+        <div class="mock-body">
+          <div class="mock-row"><span class="muted">hello-ai /</span><div class="mock-input">index.html</div><span class="muted">in main</span></div>
+          <div class="mock-code muted">Здесь будет содержимое файла</div>
+        </div>
+      </div>
+      <div class="warn"><p><strong>Регистр важен.</strong> <code>Index.html</code>, <code>INDEX.HTML</code> и <code>index.html.txt</code> — другие файлы, и сайт с ними не откроется. Только <code>index.html</code>.</p></div>
+    </section>
+
+    <section class="step" data-title="Вставьте шаблон страницы" data-hint="В редакторе — код от &lt;!doctype html&gt; до &lt;/html&gt;">
+      <p>Скопируйте шаблон ниже кнопкой «Копировать» и вставьте в редактор целиком. Затем замените имя, подпись и три пункта списка на свои. Меняйте только текст между тегами — сами теги (слова в угловых скобках) не трогайте.</p>
+      <div class="prompt"><div class="prompt-label">Шаблон страницы — скопируйте целиком</div><pre>&lt;!doctype html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+  &lt;meta charset="utf-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;Анна Петрова — о себе&lt;/title&gt;
+  &lt;style&gt;
+    body { font-family: Arial, sans-serif; max-width: 640px; margin: 40px auto; padding: 0 20px; line-height: 1.6; color: #222; }
+    h1 { color: #1f6feb; }
+    li { margin: 6px 0; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Анна Петрова&lt;/h1&gt;
+  &lt;p&gt;Бухгалтер. Учусь работать с ИИ и публиковать свои инструменты.&lt;/p&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Веду учёт малого бизнеса 12 лет&lt;/li&gt;
+    &lt;li&gt;Автоматизирую сверку актов с помощью ИИ&lt;/li&gt;
+    &lt;li&gt;Этот сайт сделан без единой установленной программы&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div>
+      <p>Что здесь что: строка с <code>charset="utf-8"</code> отвечает за русские буквы, блок <code>style</code> — за внешний вид, <code>h1</code> — заголовок, <code>ul</code> и <code>li</code> — список и его пункты.</p>
+    </section>
+
+    <section class="step" data-title="Сделайте коммит" data-hint="В списке файлов появился index.html, счётчик коммитов вырос">
+      <p>Нажмите <b>Commit changes…</b>, в поле <b>Commit message</b> напишите <code>Добавить главную страницу сайта</code> и нажмите <b>Commit changes</b>. Файл теперь в репозитории, но сайта пока нет — его нужно включить.</p>
+    </section>
+
+    <section class="step" data-title="Откройте Settings → Pages" data-hint="Заголовок страницы — GitHub Pages, ниже блок Build and deployment">
+      <p>Нажмите вкладку <b>Settings</b> (справа в верхнем ряду вкладок репозитория). В левом меню найдите раздел <b>Code and automation</b> и в нём пункт <b>Pages</b>.</p>
+      <div class="mock" data-title="github.com/username/hello-ai/settings/pages">
+        <div class="mock-nav"><span>&lt;&gt; Code</span><span>Issues</span><span>Pull requests</span><span style="flex:1"></span><span class="active">⚙ Settings</span></div>
+        <div class="mock-sidebar">
+          <div class="mock-side">
+            <div>General</div>
+            <div class="muted" style="margin-top:10px"><b>Code and automation</b></div>
+            <div>…</div>
+            <div class="active">Pages</div>
+            <div>…</div>
+          </div>
+          <div class="mock-main">
+            <p><b>GitHub Pages</b></p>
+            <p><b>Build and deployment</b></p>
+            <div class="mock-field"><label>Source</label><div class="mock-input">Deploy from a branch ▾</div></div>
+            <div class="mock-field"><label>Branch</label><div class="mock-row"><div class="mock-input">main ▾</div><div class="mock-input">/(root) ▾</div><span class="mock-btn">Save</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Источник: Deploy from a branch" data-hint="В поле Source выбрано Deploy from a branch, ниже появился выбор ветки">
+      <p>В блоке <b>Build and deployment</b> найдите поле <b>Source</b> (источник). Выберите <b>Deploy from a branch</b> — «публиковать из ветки». Под ним появится выбор ветки.</p>
+    </section>
+
+    <section class="step" data-title="Ветка main, папка /(root), Save" data-hint="После Save страница обновилась; адрес сайта появится здесь через несколько минут">
+      <p>В поле <b>Branch</b> выберите <b>main</b>, рядом оставьте папку <b>/(root)</b> — корень репозитория, где лежит <code>index.html</code>. Нажмите <b>Save</b>.</p>
+      <div class="mock" data-title="Settings → Pages → Build and deployment">
+        <div class="mock-body">
+          <div class="mock-field"><label>Source</label><div class="mock-input">Deploy from a branch ▾</div></div>
+          <div class="mock-field"><label>Branch</label><div class="mock-row"><div class="mock-input">main ▾</div><div class="mock-input">/(root) ▾</div><span class="mock-btn primary">Save</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Подождите и откройте сайт" data-hint="Страница с вашим именем и списком из трёх пунктов">
+      <p>Публикация занимает от 1 до 10 минут. Через пару минут обновите страницу Settings → Pages: вверху появится адрес сайта. Или наберите адрес сами: <code>https://ваш-username.github.io/hello-ai/</code> (имя пользователя маленькими буквами, в конце косая черта).</p>
+      <div class="mock" data-title="https://username.github.io/hello-ai/">
+        <div class="mock-body">
+          <p style="font-size:1.3rem"><b>Анна Петрова</b></p>
+          <p>Бухгалтер. Учусь работать с ИИ и публиковать свои инструменты.</p>
+          <ul><li>Веду учёт малого бизнеса 12 лет</li><li>Автоматизирую сверку актов с помощью ИИ</li><li>Этот сайт сделан без единой установленной программы</li></ul>
+        </div>
+      </div>
+      <p>Если видите 404 — ещё рано. Подождите две-три минуты и обновите страницу. Если 404 держится дольше десяти минут — смотрите раздел «Типовые ошибки» ниже.</p>
+    </section>
+
+    <section class="step" data-title="Проверьте, что правки доходят до сайта" data-hint="Через несколько минут на сайте появился четвёртый пункт списка">
+      <p>Вернитесь в репозиторий, откройте <code>index.html</code>, нажмите карандаш <b>Edit this file</b> и добавьте четвёртый пункт списка — ещё одну строку <code>&lt;li&gt;…&lt;/li&gt;</code> перед <code>&lt;/ul&gt;</code>. Нажмите <b>Commit changes…</b> → сообщение <code>Добавить четвёртый пункт в список</code> → <b>Commit changes</b>. Через 1–10 минут обновите сайт: пункт появился. Так теперь будет работать любое изменение: коммит в <code>main</code> — и сайт обновился.</p>
+    </section>
+  </div>
+
+  <h2>Не хочется писать HTML? Попросите ИИ</h2>
+  <p>Шаблон выше намеренно простой. Если хотите страницу поинтереснее — с разделами, контактами, цветами, — её напишет ИИ. Главное требование в запросе: один файл, без внешних библиотек, иначе страница будет зависеть от чужих серверов. Запрос ниже заполнен примером — подставьте свои данные.</p>
+  <div class="prompt"><div class="prompt-label">Запрос к ИИ</div><pre>Напиши одностраничный сайт-визитку. Один файл index.html, без внешних библиотек и шрифтов, весь CSS внутри тега style. Кодировка utf-8, язык страницы русский, вёрстка должна нормально выглядеть на телефоне.
+Обо мне: Анна Петрова, бухгалтер, 12 лет веду учёт малого бизнеса (ООО и ИП на УСН), помогаю предпринимателям проходить проверки без штрафов.
+Разделы: короткое приветствие; «Чем помогаю» — 4 пункта; «Опыт» — 3 пункта; «Контакты» — почта anna.petrova@example.com и Telegram @anna_petrova_buh.
+Стиль: спокойный, деловой, светлый фон, один акцентный цвет. Без анимаций и картинок.
+Выдай только код файла целиком, без пояснений до и после.</pre></div>
+  <p>Результат вставьте в <code>index.html</code> вместо шаблона целиком — от первой строки до последней. Если ИИ всё же добавил пояснения до или после кода, в файл их копировать не нужно.</p>
+
+  <h2>Почему это работает</h2>
+  <p>Сайт, который вы опубликовали, — <dfn data-def="Сайт из готовых файлов, которые сервер отдаёт браузеру как есть: без базы данных и программ на стороне сервера.">статический</dfn>: это просто файлы, которые браузер показывает как есть. Ему не нужны база данных, программа на сервере и администратор. Поэтому GitHub может раздавать такие сайты бесплатно: он просто отдаёт содержимое ветки <code>main</code> по адресу <code>username.github.io/имя-репозитория</code>.</p>
+  <div class="flow">
+    <span class="node">Коммит в main</span><span class="arrow">→</span>
+    <span class="node">GitHub Pages берёт файлы из ветки</span><span class="arrow">→</span>
+    <span class="node hl">username.github.io/hello-ai/</span>
+  </div>
+  <p>Отсюда два практических вывода. Первый: что в <code>main</code> — то и на сайте, с задержкой в несколько минут; черновики держите в ветках (модуль 5). Второй: всё, что умеет браузер, — страницы, стили, калькуляторы на JavaScript — на таком сайте работает. Именно такие инструменты будут писать для вас агенты в модулях 6–7.</p>
+
+  <h2>Типовые ошибки</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Что видите</th><th>Причина</th><th>Что делать</th></tr></thead>
+    <tbody>
+      <tr><td>404 сразу после Save</td><td>Публикация ещё идёт</td><td>Подождать до 10 минут, обновить страницу. Не делать новых коммитов «чтобы ускорить» — они только ставят новые сборки в очередь.</td></tr>
+      <tr><td>404 спустя 10 минут и больше</td><td>Файл называется не <code>index.html</code>: <code>Index.html</code>, <code>index.htm</code>, <code>index.html.txt</code></td><td>Открыть файл → карандаш → исправить имя в поле над редактором → коммит.</td></tr>
+      <tr><td>404, имя файла верное</td><td>Файл лежит не в корне, а в папке</td><td>Pages ищет <code>index.html</code> в корне ветки (в папке /(root), выбранной в настройках). Создать файл в корне.</td></tr>
+      <tr><td>Нет пункта Pages или он не включается</td><td>Репозиторий приватный</td><td>На бесплатном тарифе Pages работает только для публичных. Сделать репозиторий публичным в настройках или создать новый публичный.</td></tr>
+      <tr><td>Вместо русских букв — знаки вопроса или «кракозябры»</td><td>Нет строки с кодировкой</td><td>Проверить, что внутри <code>&lt;head&gt;</code> есть <code>&lt;meta charset="utf-8"&gt;</code>.</td></tr>
+      <tr><td>Сайт открывается, но старый</td><td>Браузер показал страницу из кеша</td><td>Обновить с очисткой кеша (<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>) или открыть в режиме инкогнито.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="pages-quiz">
+    <div class="q">
+      <p class="q-text">Какой файл GitHub Pages покажет, когда кто-то откроет адрес вашего сайта?</p>
+      <ul class="q-options">
+        <li><code>README.md</code> — он же главный файл репозитория</li>
+        <li data-correct><code>index.html</code> из корня репозитория</li>
+        <li>Любой первый по алфавиту файл с расширением .html</li>
+      </ul>
+      <p class="q-explain">Главный файл сайта — всегда index.html в корне (или в папке, выбранной в настройках Pages). README показывается на странице репозитория, но не на сайте.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Вы сделали коммит в main. Когда изменение появится на сайте?</p>
+      <ul class="q-options">
+        <li>Сразу же, при обновлении страницы</li>
+        <li>Только после повторного нажатия Save в Settings → Pages</li>
+        <li data-correct>Автоматически, через 1–10 минут</li>
+      </ul>
+      <p class="q-explain">Pages пересобирает сайт после каждого коммита в выбранную ветку. Настройки трогать не нужно — нужно подождать.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Что означает «статический сайт»?</p>
+      <ul class="q-options">
+        <li data-correct>Набор готовых файлов, которые браузер показывает как есть, без программы на сервере</li>
+        <li>Сайт, который нельзя менять после публикации</li>
+        <li>Сайт без картинок и стилей</li>
+      </ul>
+      <p class="q-explain">Статический сайт может быть красивым и интерактивным — калькуляторы на JavaScript работают. Нет только серверной части, поэтому хостинг бесплатный.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Вы просите ИИ написать страницу для GitHub Pages. Какое требование в запросе обязательно?</p>
+      <ul class="q-options">
+        <li>Написать страницу на Python</li>
+        <li data-correct>Один файл index.html, без внешних библиотек</li>
+        <li>Сделать страницу доступной только мне</li>
+      </ul>
+      <p class="q-explain">Один файл проще положить в репозиторий и проверить, а без внешних библиотек страница не зависит от чужих серверов. Python на Pages не запускается — это статический хостинг.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Доведите сайт до состояния, которым не стыдно поделиться, и проверьте его чужими глазами.</p>
+  <ul class="checklist" data-id="pages-practice">
+    <li>В корне репозитория есть <code>index.html</code>, имя маленькими буквами.</li>
+    <li>В Settings → Pages: Source — Deploy from a branch, Branch — main, папка /(root); на странице показан адрес сайта.</li>
+    <li>Сайт открывается по адресу <code>https://мой-username.github.io/hello-ai/</code> в режиме инкогнито.</li>
+    <li>После правки <code>index.html</code> изменение появилось на сайте (пришлось подождать от 1 до 10 минут).</li>
+    <li>Я отправил(а) адрес сайта коллеге или другу, и у него страница открылась.</li>
+  </ul>
+
+  <div class="win"><p><strong>У вас есть сайт.</strong> Собственный адрес в интернете, который вы меняете одним коммитом, — это основа для всех инструментов, которые дальше будут писать для вас агенты. Следующий шаг — контрольная: повторите путь без подсказок.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>

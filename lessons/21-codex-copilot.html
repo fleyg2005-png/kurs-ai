@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codex и Copilot — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="21-codex-copilot">
+<main class="content">
+<article>
+  <h1>Codex и Copilot</h1>
+  <p class="lead">Та же задача, то же ТЗ — другие агенты. Три пути: Codex от OpenAI, облачный агент Copilot прямо на GitHub и бесплатный вариант без единой подписки. Выберите вкладку под свою ситуацию.</p>
+
+  <h2>Одно ТЗ для всех</h2>
+  <p>Агенты различаются кнопками, а не языком общения. ТЗ из урока 19 подходит любому из них без изменений: цель, место, поведение с примером, критерии готовности, границы. Если калькулятор пени уже сделан Claude Code в уроке 20 — дайте новому агенту доработку, например кнопку «Очистить», но саму структуру ТЗ сохраните.</p>
+  <div class="prompt"><div class="prompt-label">Запрос к агенту — тот же, что в уроке 20</div><pre>Задача: добавь на главную страницу сайта (файл index.html) раздел «Калькулятор пени».
+
+Цель: посетитель вводит сумму долга, ставку и срок просрочки и сразу видит сумму пени и формулу расчёта.
+
+Где: index.html, новый раздел в конце страницы, перед закрывающим &lt;/body&gt;. Стили и скрипт — внутри этого же файла.
+
+Поведение:
+— три поля ввода: «Сумма долга, ₽», «Ставка, % в день», «Дней просрочки»;
+— кнопка «Рассчитать»;
+— под кнопкой появляется результат: сумма пени с двумя знаками после запятой и формула словами: сумма × ставка / 100 × дни;
+— если поле пустое или число отрицательное, показывай надпись «Проверьте введённые значения» и ничего не считай.
+Пример: 100 000 ₽, 0,1 % в день, 30 дней → 3 000,00 ₽.
+
+Критерии готовности:
+— пример выше даёт 3 000,00 ₽;
+— при пустом или отрицательном поле виден текст ошибки, а результата нет;
+— раздел нормально выглядит на телефоне.
+
+Не трогай: остальные разделы страницы, README.md и другие файлы.
+
+Ограничения: без внешних библиотек и загрузки скриптов с других сайтов; весь текст интерфейса на русском; все изменения — только в index.html.
+
+Когда закончишь, напиши коротко: что изменил и как мне проверить результат на сайте.</pre></div>
+
+  <h2>Три пути</h2>
+  <div class="tabs" data-group="agent">
+    <div class="tab" data-tab="Codex">
+      <p>Нужен ChatGPT Plus ($20/мес), Pro или Business — на Free и Go агента нет. Откройте <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a> в соседней вкладке.</p>
+      <div class="stepper" data-id="codex">
+        <section class="step" data-title="Откройте Codex" data-hint="Видите экран Codex с предложением подключить GitHub или начать задачу">
+          <p>Перейдите на <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a>. В приложении ChatGPT тот же раздел: <b>Codex</b> → <b>Work in</b> → <b>Cloud</b>; на телефоне — раздел Codex.</p>
+        </section>
+        <section class="step" data-title="Подключите GitHub" data-hint="Репозиторий hello-ai доступен Codex">
+          <p>Нажмите <b>Connect GitHub</b>. GitHub предложит установить приложение Codex на ваш аккаунт и спросит, какие репозитории открыть: <b>Select repositories</b> → <code>hello-ai</code> или <b>All repositories</b>. Для курса достаточно одного.</p>
+        </section>
+        <section class="step" data-title="Создайте окружение" data-hint="В окружении выбран hello-ai">
+          <p><b>Select environment</b> → <b>Create environment</b> → выберите репозиторий <code>hello-ai</code>. <dfn data-def="Настроенная копия проекта в облаке OpenAI, в которой Codex выполняет задачи.">Окружение</dfn> создаётся один раз на репозиторий, дальше все задачи идут в нём.</p>
+          <div class="mock" data-title="chatgpt.com/codex — Create environment">
+            <div class="mock-body">
+              <div class="mock-field"><label>Repository</label><div class="mock-input">ivan-petrov/hello-ai ▾</div></div>
+              <div class="mock-row"><span class="mock-btn primary">Get started</span></div>
+            </div>
+          </div>
+        </section>
+        <section class="step" data-title="Get started" data-hint="Codex показал, что нашёл в проекте">
+          <p>Нажмите <b>Get started</b>. Codex сам изучает проект и ставит нужные зависимости. У сайта из одного файла зависимостей нет, так что этап короткий.</p>
+        </section>
+        <section class="step" data-title="Publish" data-hint="Надпись Environment published">
+          <p>Проверьте, что выбран нужный репозиторий, и нажмите <b>Publish</b>. Появится подтверждение <i>Environment published</i> — окружение готово.</p>
+        </section>
+        <section class="step" data-title="Start a new task" data-hint="Задача отправлена, Codex начал работу">
+          <p>Нажмите <b>Start a new task</b>, вставьте ТЗ, приведённое выше, и отправьте. Обратите внимание: вы ничего не меняли в тексте — ТЗ одинаковое для любого агента.</p>
+        </section>
+        <section class="step" data-title="Смотрите изменённые файлы и логи" data-hint="В списке изменённых файлов только index.html">
+          <p>Задача выполняется в отдельной изолированной среде с копией репозитория, обычно от 1 до 30 минут. Codex показывает изменённые файлы, логи команд и результаты проверок. Проверьте список файлов: должен быть один — <code>index.html</code>.</p>
+          <div class="mock" data-title="chatgpt.com/codex — задача">
+            <div class="mock-body">
+              <p><b>Добавлен раздел «Калькулятор пени»</b> <span class="badge ok">Done</span></p>
+              <p class="muted">Files changed: index.html · +61 −2</p>
+              <div class="mock-code">$ node -e "console.log((100000*0.1/100*30).toFixed(2))"
+3000.00</div>
+            </div>
+          </div>
+        </section>
+        <section class="step" data-title="Правки и pull request" data-hint="PR слит, сайт через несколько минут показывает калькулятор">
+          <p>Нужна правка — напишите её в той же задаче: «Добавь к результату знак ₽ и разделители тысяч». Когда всё устраивает, попросите Codex открыть pull request в GitHub. Дальше знакомый путь: <b>Files changed</b> → <b>Merge pull request</b> → <b>Confirm merge</b>, и через 1–10 минут сайт обновится.</p>
+        </section>
+      </div>
+      <div class="note"><p><strong>Codex на GitHub.</strong> Codex также есть в GitHub Agent HQ: его можно назначить на issue так же, как Copilot на следующей вкладке.</p></div>
+    </div>
+
+    <div class="tab" data-tab="Copilot cloud agent">
+      <p>Нужен <b>Copilot Pro</b> — $10/мес, бесплатно для студентов, преподавателей и мейнтейнеров популярных open source-проектов. Агент живёт на GitHub: задача — это issue, результат — pull request, всё в одном месте.</p>
+      <div class="stepper" data-id="copilot-cloud">
+        <section class="step" data-title="Создайте issue" data-hint="Открыта форма новой issue с полями заголовка и описания">
+          <p>В репозитории <code>hello-ai</code> откройте вкладку <b>Issues</b> → <b>New issue</b>. <dfn data-def="Карточка задачи в репозитории: заголовок, описание, обсуждение, исполнитель.">Issue</dfn> — задачник репозитория, вы видели его в модуле 4.</p>
+        </section>
+        <section class="step" data-title="Заголовок и ТЗ" data-hint="Issue создана, у неё появился номер">
+          <p>Заголовок: «Калькулятор пени на главной странице». В описание вставьте ТЗ целиком и создайте issue.</p>
+        </section>
+        <section class="step" data-title="Назначьте Copilot" data-hint="В Assignees стоит Copilot">
+          <p>Справа в блоке <b>Assignees</b> выберите <b>Copilot</b>. Это и есть запуск: агент получил задачу.</p>
+          <div class="mock" data-title="github.com/ivan-petrov/hello-ai/issues/1">
+            <div class="mock-sidebar">
+              <div class="mock-side"><div><b>Assignees</b></div><div class="active">Copilot</div><div><b>Labels</b></div><div class="muted">None yet</div></div>
+              <div class="mock-main"><p><b>Калькулятор пени на главной странице</b> <span class="badge ok">Open</span></p><p class="muted">Задача: добавь на главную страницу сайта (файл index.html) раздел «Калькулятор пени»…</p></div>
+            </div>
+          </div>
+        </section>
+        <section class="step" data-title="Агент создаёт PR с планом" data-hint="В Pull requests появился PR от Copilot с чеклистом">
+          <p>Через минуту-другую Copilot создаст pull request и напишет в нём план в виде чеклиста, отмечая пункты по мере работы. Работает он в <b>GitHub Actions</b> — облачных машинах GitHub. Можно уйти: когда закончит, пришлёт уведомление и попросит ревью.</p>
+        </section>
+        <section class="step" data-title="Files changed" data-hint="Тронут только index.html, план в описании PR отмечен полностью">
+          <p>Откройте PR → <b>Files changed</b>. Проверьте, что тронут только <code>index.html</code> и что сделано то, что просили в ТЗ.</p>
+        </section>
+        <section class="step" data-title="Замечания в комментариях" data-hint="В PR появились новые коммиты Copilot в ответ на замечания">
+          <p>Нашли, что поправить, — оставьте комментарий к строке в diff, как в уроке 17. Агент прочитает замечания и пришлёт правки новыми коммитами в тот же PR. Проверьте снова.</p>
+        </section>
+        <section class="step" data-title="Merge" data-hint="Сайт показывает калькулятор">
+          <p><b>Merge pull request</b> → <b>Confirm merge</b> → <b>Delete branch</b>. Issue закроется, а сайт обновится через 1–10 минут.</p>
+        </section>
+      </div>
+    </div>
+
+    <div class="tab" data-tab="Бесплатно: Copilot в Codespaces">
+      <p>Ни одной подписки: Codespaces из урока 16 плюс <b>Copilot Free</b> в режиме агента. Агент работает внутри редактора — правит файлы и запускает команды с вашего подтверждения, — а ветку, коммит и PR делаете вы. Лимиты Copilot Free: ограниченный чат и до 2000 автодополнений в месяц; Codespaces — 120 core-часов в месяц.</p>
+      <div class="stepper" data-id="copilot-free">
+        <section class="step" data-title="Создайте ветку на GitHub" data-hint="Вы на ветке penalty-calc, она выбрана в селекторе веток">
+          <p>В <code>hello-ai</code> нажмите кнопку с именем ветки <b>main</b> → введите <code>penalty-calc</code> → <b>Create branch penalty-calc from main</b>. Агент будет работать в этой ветке, а не в main.</p>
+        </section>
+        <section class="step" data-title="Откройте codespace" data-hint="VS Code в браузере, слева внизу имя ветки penalty-calc">
+          <p>Зелёная кнопка <b>Code</b> → вкладка <b>Codespaces</b> → <b>Create codespace on penalty-calc</b> (кнопка называется по текущей ветке). Через минуту откроется редактор.</p>
+        </section>
+        <section class="step" data-title="Copilot Chat → Agent mode" data-hint="В панели чата выбран режим Agent">
+          <p>Откройте панель <b>Copilot Chat</b> и переключите режим на <b>Agent</b>. Если Copilot на аккаунте ещё не включён, редактор предложит подключить его — выбирайте бесплатный <b>Copilot Free</b>.</p>
+          <div class="mock" data-title="Codespaces — Copilot Chat">
+            <div class="mock-body">
+              <div class="mock-row"><span class="mock-btn">Ask</span><span class="mock-btn">Edit</span><span class="mock-btn accent">Agent</span></div>
+              <div class="mock-field"><label>Сообщение</label><div class="mock-input">Задача: добавь на главную страницу сайта (файл index.html) раздел «Калькулятор пени»…</div></div>
+            </div>
+          </div>
+        </section>
+        <section class="step" data-title="Отправьте ТЗ и подтверждайте" data-hint="В index.html появился новый раздел, агент отчитался">
+          <p>Вставьте ТЗ и отправьте. Агент читает файлы и вносит правки; когда хочет выполнить команду, спрашивает разрешение. Подтверждайте то, что понимаете; если он предлагает установить что-то незнакомое — спросите зачем, для сайта из одного файла ничего ставить не нужно.</p>
+        </section>
+        <section class="step" data-title="Проверьте изменения" data-hint="В Source Control один изменённый файл — index.html">
+          <p>Иконка <b>Source Control</b> слева: список изменённых файлов, по клику — diff. Должен быть только <code>index.html</code>.</p>
+        </section>
+        <section class="step" data-title="Коммит и push" data-hint="Коммит ушёл на GitHub, в редакторе нет несохранённых изменений">
+          <p>В Source Control: «+» у файла, сообщение, <b>Commit &amp; Push</b>. Или в терминале:</p>
+          <div class="term"><span class="p">$</span> git add .<br><span class="p">$</span> git commit -m "Добавлен калькулятор пени"<br><span class="p">$</span> git push</div>
+        </section>
+        <section class="step" data-title="Pull request и merge" data-hint="PR слит, codespace остановлен">
+          <p>На GitHub появится плашка <b>Compare &amp; pull request</b> → <b>Create pull request</b> → <b>Files changed</b> → <b>Merge pull request</b> → <b>Confirm merge</b>. Остановите codespace: <a href="https://github.com/codespaces" target="_blank" rel="noopener">github.com/codespaces</a> → <b>…</b> → <b>Stop codespace</b>; ненужный удалите (<b>Delete</b>).</p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <h2>Что выбрать</h2>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Ситуация</th><th>Путь</th><th>Почему</th></tr></thead>
+    <tbody>
+      <tr><td>Есть Claude Pro или Max</td><td>Claude Code в браузере (урок 20)</td><td>Короче всего от задачи до PR; замечания прямо в diff; сессия живёт после PR</td></tr>
+      <tr><td>Есть ChatGPT Plus или Pro</td><td>Codex</td><td>Окружение настраивается один раз, дальше — Start a new task; видны логи и проверки</td></tr>
+      <tr><td>Ничего платного</td><td>Codespaces + Copilot Free в режиме Agent</td><td>Бесплатно; больше ручных шагов (ветка, коммит, PR) и лимиты, но для учебных задач хватает</td></tr>
+      <tr><td>Работа в команде на GitHub</td><td>Copilot cloud agent (или Codex через Agent HQ)</td><td>Задача — issue, обсуждение — в PR, коллеги видят всё в одном месте; нужен Copilot Pro</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="cc2-quiz">
+    <div class="q">
+      <p class="q-text">Какой тариф ChatGPT нужен для Codex?</p>
+      <ul class="q-options">
+        <li>Любой, включая Free</li>
+        <li>Go и выше</li>
+        <li data-correct>Plus, Pro или Business</li>
+      </ul>
+      <p class="q-explain">На Free и Go Codex недоступен. Минимальный тариф с агентом — Plus за $20/мес.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Как запустить облачного агента Copilot?</p>
+      <ul class="q-options">
+        <li data-correct>Создать issue с ТЗ и назначить его на Copilot в блоке Assignees</li>
+        <li>Написать задачу в комментарии к любому коммиту</li>
+        <li>Открыть Codespaces и нажать Run</li>
+      </ul>
+      <p class="q-explain">Назначение issue на Copilot — и есть запуск. Агент сам создаст pull request с планом и попросит ревью.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Где выполняется работа Copilot cloud agent?</p>
+      <ul class="q-options">
+        <li>На вашем компьютере, в фоне браузера</li>
+        <li data-correct>В GitHub Actions — облачных машинах GitHub</li>
+        <li>В вашем codespace, пока он запущен</li>
+      </ul>
+      <p class="q-explain">Облачный агент не зависит ни от вашего компьютера, ни от codespace: он работает в GitHub Actions и присылает результат в PR.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Чем бесплатный путь отличается от трёх облачных агентов?</p>
+      <ul class="q-options">
+        <li>Он не умеет править файлы, только подсказывает</li>
+        <li data-correct>Агент работает внутри редактора в Codespaces, а ветку, коммит и PR вы делаете сами</li>
+        <li>Он доступен только студентам</li>
+      </ul>
+      <p class="q-explain">Copilot Free в режиме Agent правит файлы и запускает команды с вашего подтверждения, но за публикацию изменений отвечаете вы. Лимиты есть, но на учебные задачи хватает.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Пройдите один из трёх путей до слитого PR. Если калькулятор уже сделан в уроке 20 — поставьте доработку: кнопка «Очистить», сбрасывающая поля и результат.</p>
+  <ul class="checklist" data-id="cc2-practice">
+    <li>Я выбрал путь под свою ситуацию и дошёл по степперу до конца.</li>
+    <li>Агент получил то же ТЗ по шаблону урока 19, без переделок под конкретный сервис.</li>
+    <li>В PR тронут только <code>index.html</code>; я оставил хотя бы одно замечание, и агент его учёл.</li>
+    <li>PR слит, сайт обновился, пример из ТЗ даёт ожидаемый результат.</li>
+  </ul>
+
+  <div class="win"><p><strong>Теперь вы умеете работать с любым агентом.</strong> Осталось самое важное — научиться проверять то, что он прислал, не читая код построчно. Это следующий урок.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>

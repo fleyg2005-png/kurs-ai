@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>github.dev: нажмите точку — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="15-githubdev">
+<main class="content">
+<article>
+  <h1>github.dev: нажмите точку</h1>
+  <p class="lead">Карандаш на github.com хорош для одной правки в одном файле. Когда файлов несколько, нужен редактор. Он у вас уже есть: одна клавиша открывает VS Code прямо в браузере, без установки. Откройте репозиторий <code>hello-ai</code> в соседней вкладке.</p>
+
+  <h2>Что это такое</h2>
+  <p><dfn data-def="Браузерная версия редактора VS Code; открывается из любого репозитория GitHub клавишей «.».">github.dev</dfn> — редактор кода VS Code, запущенный во вкладке браузера и подключённый к вашему репозиторию. Тот же редактор, которым пользуются программисты, только ничего не установлено: закрыли вкладку — на компьютере ничего не осталось. Он умеет открывать много файлов, искать по всему проекту, подсвечивать разметку и делать коммиты. Не умеет запускать код — для этого в следующем уроке будет Codespaces.</p>
+
+  <div class="stepper" data-id="githubdev">
+    <section class="step" data-title="Откройте репозиторий" data-hint="Главная страница репозитория со списком файлов">
+      <p>Зайдите на <code>github.com/ваш-username/hello-ai</code>. Важно быть на странице репозитория со списком файлов, а не в настройках или истории.</p>
+    </section>
+
+    <section class="step" data-title="Нажмите клавишу «.»" data-hint="Адрес в строке браузера сменился на github.dev/…, идёт загрузка редактора">
+      <p>Просто нажмите на клавиатуре <kbd>.</kbd> (точку). Страница перезагрузится, а адрес сменится с <code>github.com/…</code> на <code>github.dev/…</code>. Второй способ, если точка не сработала (например, курсор стоял в поле поиска): вручную замените в адресной строке <code>github.com</code> на <code>github.dev</code> и нажмите <kbd>Enter</kbd>.</p>
+      <div class="mock" data-title="Адресная строка браузера">
+        <div class="mock-body">
+          <div class="mock-input">https://github.<span class="mark"><b>dev</b><span class="mark-label">было .com</span></span>/username/hello-ai</div>
+        </div>
+      </div>
+      <p>Первый запуск занимает 10–20 секунд: редактор загружается в браузер. Ставить ничего не нужно.</p>
+    </section>
+
+    <section class="step" data-title="Осмотритесь в редакторе" data-hint="Слева — список файлов репозитория, справа — пустая область редактора">
+      <p>Перед вами VS Code. Три зоны, которые нужны в этом уроке:</p>
+      <div class="mock" data-title="github.dev/username/hello-ai">
+        <div class="mock-sidebar">
+          <div class="mock-side">
+            <div><span class="mark">🗎 Explorer<span class="mark-label">1</span></span></div>
+            <div>🔍 Search</div>
+            <div>⑂ Source Control</div>
+            <div class="muted" style="margin-top:12px"><b>EXPLORER</b></div>
+            <div><span class="mark"><b>HELLO-AI</b><span class="mark-label">2</span></span></div>
+            <div>&nbsp;&nbsp;README.md</div>
+            <div>&nbsp;&nbsp;index.html</div>
+            <div>&nbsp;&nbsp;notes.md</div>
+          </div>
+          <div class="mock-main">
+            <p><span class="mark muted">Область редактора: откройте файл слева<span class="mark-label">3</span></span></p>
+          </div>
+        </div>
+      </div>
+      <ol>
+        <li><b>Полоска иконок</b> у левого края. Три из них нужны: <b>Explorer</b> (файлы), <b>Search</b> (поиск по всем файлам проекта), <b>Source Control</b> (коммиты — иконка с ветвящимися линиями).</li>
+        <li><b>Explorer</b> — дерево файлов репозитория. Те же три файла, что на github.com.</li>
+        <li><b>Редактор</b> — справа. Каждый открытый файл — отдельная вкладка вверху.</li>
+      </ol>
+    </section>
+
+    <section class="step" data-title="Откройте index.html" data-hint="Файл открыт во вкладке редактора, разметка подсвечена цветом">
+      <p>В Explorer нажмите на <code>index.html</code>. Файл откроется справа; теги и текст подсвечены разными цветами — это помогает не потерять закрывающую скобку.</p>
+      <div class="mock" data-title="index.html — hello-ai">
+        <div class="mock-body">
+          <div class="mock-code">&lt;ul&gt;
+  &lt;li&gt;Веду учёт малого бизнеса 12 лет&lt;/li&gt;
+  &lt;li&gt;Автоматизирую сверку актов с помощью ИИ&lt;/li&gt;
+  &lt;li&gt;Этот сайт сделан без единой установленной программы&lt;/li&gt;
+  &lt;li&gt;Четвёртый пункт из урока 14&lt;/li&gt;
+&lt;/ul&gt;</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Внесите изменение и сохраните" data-hint="Точка на вкладке файла пропала после Ctrl+S">
+      <p>Добавьте в список ещё одну строку — например, <code>&lt;li&gt;Умею редактировать сайт в github.dev&lt;/li&gt;</code> перед <code>&lt;/ul&gt;</code>. Нажмите <kbd>Ctrl</kbd>+<kbd>S</kbd> (на Mac — <kbd>⌘</kbd>+<kbd>S</kbd>). Пока файл не сохранён, на его вкладке вместо крестика стоит точка.</p>
+      <div class="warn"><p><strong>Сохранено ≠ закоммичено.</strong> Ctrl+S сохраняет файл только в вашем браузере. В репозитории на GitHub ничего не изменится, пока вы не сделаете коммит. Несохранённые в репозиторий правки живут только в этом браузере: на другом компьютере или после очистки данных браузера их не будет.</p></div>
+    </section>
+
+    <section class="step" data-title="Откройте Source Control" data-hint="Слева раздел Changes, в нём index.html с пометкой M">
+      <p>Нажмите иконку <b>Source Control</b> в левой полоске (ветвящиеся линии; на ней появился кружок с цифрой 1 — число изменённых файлов). Откроется панель: вверху поле для сообщения, ниже раздел <b>Changes</b> (изменения) со списком файлов. У <code>index.html</code> стоит буква <b>M</b> — modified, изменён.</p>
+      <div class="mock" data-title="github.dev — Source Control">
+        <div class="mock-sidebar">
+          <div class="mock-side">
+            <div><b>SOURCE CONTROL</b></div>
+            <div class="mock-input" style="margin:6px 0">Message</div>
+            <div><span class="mock-btn primary">✓ Commit &amp; Push</span></div>
+            <div style="margin-top:8px"><b>Changes</b> &nbsp;<span class="muted">1</span></div>
+            <div>index.html &nbsp;<span class="mark">＋<span class="mark-label">stage</span></span> &nbsp;<span class="muted">M</span></div>
+          </div>
+          <div class="mock-main">
+            <p class="muted">Нажмите на файл в списке Changes — справа откроется сравнение: слева было, справа стало.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Подготовьте файл: «+»" data-hint="index.html переехал из Changes в раздел подготовленных изменений">
+      <p>Наведите на <code>index.html</code> в списке Changes и нажмите <b>+</b> справа от имени. Файл переедет в раздел подготовленных изменений (<b>Staged Changes</b>). Это ответ на вопрос «что войдёт в коммит»: можно изменить пять файлов, а закоммитить два. Если файлов несколько и нужны все — нажмите <b>+</b> у заголовка Changes.</p>
+    </section>
+
+    <section class="step" data-title="Сообщение и Commit &amp; Push" data-hint="Список изменений опустел, кружок с цифрой на иконке Source Control исчез">
+      <p>В поле <b>Message</b> вверху панели напишите сообщение коммита: <code>Добавить пункт про github.dev в список</code>. Нажмите <b>Commit &amp; Push</b>. Коммит создан и сразу отправлен (push — «отправить») в репозиторий на GitHub; панель опустела.</p>
+    </section>
+
+    <section class="step" data-title="Проверьте на github.com" data-hint="В истории новый коммит с вашим сообщением, в index.html — новая строка">
+      <p>Вернитесь на <code>github.com/ваш-username/hello-ai</code> (замените в адресе <code>github.dev</code> обратно на <code>github.com</code>). Счётчик коммитов над файлами вырос на один, рядом с <code>index.html</code> — ваше сообщение. Через несколько минут строка появится и на сайте.</p>
+    </section>
+  </div>
+
+  <h2>Что можно и чего нельзя</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>github.dev умеет</th><th>github.dev не умеет</th></tr></thead>
+    <tbody>
+      <tr><td>Открывать и править сколько угодно файлов, создавать новые файлы и папки</td><td>Запускать код: страница в нём не откроется как сайт, скрипт не выполнится</td></tr>
+      <tr><td>Искать по всему проекту (<b>Search</b> в левой полоске): найти все упоминания старого названия отдела и заменить разом</td><td>Терминал: командной строки нет</td></tr>
+      <tr><td>Подсвечивать разметку и показывать незакрытые теги и скобки</td><td>Устанавливать что-либо — ни программы, ни дополнения</td></tr>
+      <tr><td>Собирать изменения в нескольких файлах в один коммит</td><td>Работать без интернета</td></tr>
+    </tbody>
+  </table></div>
+  <p>Всё из правой колонки есть в Codespaces — это следующий урок. Но для большинства правок в текстах и страницах github.dev достаточно, и он открывается за секунды.</p>
+
+  <h2>Карандаш, точка или Codespaces</h2>
+  <div class="grid">
+    <div class="card"><h3>Карандаш на github.com</h3><p>Одна правка в одном файле: опечатка в README, новый пункт в списке, поменять дату. Открыть файл → карандаш → коммит. Быстрее ничего нет.</p></div>
+    <div class="card"><h3>github.dev</h3><p>Несколько файлов за раз, поиск по проекту, большие правки текста. Например, поменять название компании в <code>index.html</code>, <code>README.md</code> и <code>notes.md</code> одним коммитом.</p></div>
+    <div class="card"><h3>Codespaces</h3><p>Нужно что-то запустить, проверить, установить или поработать в терминале. Следующий урок.</p></div>
+  </div>
+
+  <h2>Две горячие клавиши</h2>
+  <ul>
+    <li><kbd>Ctrl</kbd>+<kbd>S</kbd> — сохранить файл в браузере. Напоминание: это ещё не коммит.</li>
+    <li><kbd>Ctrl</kbd>+<kbd>P</kbd> — открыть файл по имени: начните печатать <code>ind</code>, и редактор предложит <code>index.html</code>. Когда файлов десятки, быстрее, чем искать в дереве.</li>
+  </ul>
+  <p>На Mac вместо <kbd>Ctrl</kbd> — <kbd>⌘</kbd>. Остальные сочетания пока не нужны.</p>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="githubdev-quiz">
+    <div class="q">
+      <p class="q-text">Вы изменили файл в github.dev и нажали Ctrl+S. Что произошло с репозиторием на GitHub?</p>
+      <ul class="q-options">
+        <li>Создан новый коммит с изменением</li>
+        <li data-correct>Ничего: файл сохранён только в браузере, в репозиторий он попадёт после Commit &amp; Push</li>
+        <li>Файл отправлен на сайт, но без записи в истории</li>
+      </ul>
+      <p class="q-explain">В github.dev сохранение и коммит — разные действия. Пока не нажата Commit &amp; Push, на GitHub ничего не меняется.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Что делает «+» у файла в панели Source Control?</p>
+      <ul class="q-options">
+        <li>Создаёт копию файла</li>
+        <li data-correct>Подготавливает (stage) файл — отмечает, что он войдёт в следующий коммит</li>
+        <li>Добавляет файл в избранное</li>
+      </ul>
+      <p class="q-explain">Подготовка позволяет выбрать, какие из изменённых файлов попадут в коммит, а какие подождут. Если нужны все — «+» у заголовка Changes.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Чего нельзя сделать в github.dev?</p>
+      <ul class="q-options">
+        <li>Отредактировать два файла и закоммитить их вместе</li>
+        <li>Найти слово во всех файлах проекта</li>
+        <li data-correct>Открыть терминал и запустить команду</li>
+      </ul>
+      <p class="q-explain">github.dev — только редактор. Терминал и запуск кода — в Codespaces.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Одним коммитом исправьте два файла. В <code>README.md</code> добавьте строку с адресом сайта: <code>Сайт: https://ваш-username.github.io/hello-ai/</code>. В <code>notes.md</code> добавьте четвёртый пункт списка. Всё — через github.dev, не через карандаш.</p>
+  <ul class="checklist" data-id="githubdev-practice">
+    <li>Открыл(а) github.dev клавишей «.» и вижу все три файла в Explorer.</li>
+    <li>Изменил(а) <code>README.md</code> и <code>notes.md</code>, оба сохранены — на вкладках нет точек.</li>
+    <li>В Source Control оба файла подготовлены через «+», сообщение написано, нажата Commit &amp; Push.</li>
+    <li>На github.com в истории ровно один новый коммит, и, открыв его, я вижу изменения в двух файлах.</li>
+    <li>Через Search нашёл(а), в каких файлах проекта встречается слово «ИИ».</li>
+  </ul>
+
+  <div class="win"><p><strong>Редактор есть.</strong> Теперь вы можете менять проект целиком, а не по одному файлу, и это тот же инструмент, в котором работают программисты. Следующий урок добавляет к нему компьютер в облаке — с терминалом.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>

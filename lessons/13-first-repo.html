@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Первый репозиторий и первый коммит — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="13-first-repo">
+<main class="content">
+<article>
+  <h1>Первый репозиторий и первый коммит</h1>
+  <p class="lead">Десять минут — и у вас есть репозиторий <code>hello-ai</code> с тремя коммитами и файлом о себе. В уроке 14 он станет сайтом, а в модуле 6 в нём будут работать ИИ-агенты. Войдите на <a href="https://github.com" target="_blank" rel="noopener">github.com</a> в соседней вкладке и идите по шагам.</p>
+
+  <h2>Что получится</h2>
+  <p>Репозиторий — папка проекта с историей. Коммит — сохранённая версия с подписью. Сейчас вы сделаете и то и другое, не написав ни одной команды: всё через кнопки на сайте. По дороге запомните, где в репозитории что лежит, — это пригодится в каждом следующем уроке.</p>
+
+  <div class="stepper" data-id="first-repo">
+    <section class="step" data-title="Откройте меню создания" data-hint="Под плюсом раскрылось меню с пунктом New repository">
+      <p>Справа вверху на любой странице GitHub есть кнопка <b>＋</b> (плюс со стрелкой). Нажмите её и выберите <b>New repository</b> (новый репозиторий).</p>
+      <div class="mock" data-title="github.com">
+        <div class="mock-nav"><b>🐙 GitHub</b><span>🔍 Search or jump to…</span><span style="flex:1"></span><span class="mark">＋ ▾<span class="mark-label">1</span></span><span>👤</span></div>
+        <div class="mock-body">
+          <p class="muted">Меню под плюсом:</p>
+          <p><span class="mark"><b>New repository</b><span class="mark-label">2</span></span></p>
+          <p class="muted">…остальные пункты пока не нужны</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Заполните форму" data-hint="Имя hello-ai, выбран Public, стоит галочка Add a README file">
+      <p>Откроется страница <i>Create a new repository</i>. Заполните три вещи, остальное оставьте как есть:</p>
+      <ol>
+        <li>В поле <b>Repository name</b> введите <code>hello-ai</code>. Имя пишется латиницей, без пробелов; дефис можно.</li>
+        <li>Выберите <b>Public</b> (публичный). Это нужно для бесплатного сайта в следующем уроке.</li>
+        <li>Поставьте галочку <b>Add a README file</b>. README — «титульный лист» проекта; GitHub создаст его сам, и репозиторий не будет пустым.</li>
+      </ol>
+      <div class="mock" data-title="github.com/new">
+        <div class="mock-body">
+          <p><b>Create a new repository</b></p>
+          <div class="mock-field"><label>Repository name *</label><div class="mock-input">hello-ai</div></div>
+          <div class="mock-field"><label>Description (optional)</label><div class="mock-input">Учебный репозиторий курса по ИИ</div></div>
+          <p>◉ <b>Public</b> &nbsp;&nbsp; ○ Private</p>
+          <p>☑ <b>Add a README file</b></p>
+          <div class="mock-row"><span class="mock-btn primary">Create repository</span></div>
+        </div>
+      </div>
+      <p>Описание (<i>Description</i>) — по желанию. Нажмите зелёную кнопку <b>Create repository</b>.</p>
+    </section>
+
+    <section class="step" data-title="Осмотритесь на странице репозитория" data-hint="Вверху вкладки Code, Issues, Pull requests, Settings; в списке файлов один README.md">
+      <p>Вы на главной странице репозитория: <code>github.com/ваш-username/hello-ai</code>. Запомните пять мест — вы будете возвращаться к ним постоянно.</p>
+      <div class="mock" data-title="github.com/username/hello-ai">
+        <div class="mock-nav"><span class="active">&lt;&gt; Code</span><span class="mark">Issues<span class="mark-label">4</span></span><span>Pull requests</span><span style="flex:1"></span><span class="mark">⚙ Settings<span class="mark-label">5</span></span></div>
+        <div class="mock-body">
+          <div class="mock-row"><span class="mock-btn">main ▾</span><span class="mark">🕘 1 commit<span class="mark-label">1</span></span><span style="flex:1"></span><span class="mark"><span class="mock-btn primary">&lt;&gt; Code ▾</span><span class="mark-label">3</span></span></div>
+          <div class="mock-code">📄 README.md          Initial commit          2 minutes ago</div>
+          <p><span class="mark"><b>README.md</b><span class="mark-label">2</span></span></p>
+          <p><b>hello-ai</b><br><span class="muted">Учебный репозиторий курса по ИИ</span></p>
+        </div>
+      </div>
+      <ol>
+        <li><b>Ссылка с числом коммитов</b> над списком файлов (сейчас <i>1 commit</i>, рядом иконка часов). Это вход в историю.</li>
+        <li><b>README</b> показывается под списком файлов — как обложка проекта.</li>
+        <li>Зелёная кнопка <b>Code</b> — способы открыть репозиторий в редакторе. Понадобится в модуле 5.</li>
+        <li>Вкладки <b>Issues</b> (задачи) и <b>Pull requests</b> (предложения изменений).</li>
+        <li>Вкладка <b>Settings</b> — настройки, в том числе публикация сайта.</li>
+      </ol>
+    </section>
+
+    <section class="step" data-title="Откройте README и нажмите карандаш" data-hint="Файл открылся в режиме редактирования, в тексте мигает курсор">
+      <p>Нажмите на <code>README.md</code> в списке файлов. Откроется страница файла. Справа над его содержимым — иконка карандаша (подсказка при наведении: <b>Edit this file</b>, редактировать файл). Нажмите её.</p>
+      <div class="mock" data-title="github.com/username/hello-ai/blob/main/README.md">
+        <div class="mock-body">
+          <div class="mock-row"><b>README.md</b><span style="flex:1"></span><span class="mark"><span class="mock-btn">✎</span><span class="mark-label">Edit this file</span></span></div>
+          <div class="mock-code"># hello-ai
+Учебный репозиторий курса по ИИ</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Напишите три строки о себе" data-hint="В редакторе — заголовок с вашим именем и две строки текста">
+      <p>Сотрите то, что есть, и напишите три строки: заголовок с именем (решётка и пробел в начале строки делают её заголовком), кто вы и зачем вам ИИ. Например:</p>
+      <div class="mock" data-title="Редактор README.md">
+        <div class="mock-body">
+          <div class="mock-code"># Анна Петрова
+
+Бухгалтер, 12 лет веду учёт малого бизнеса.
+
+Учусь работать с ИИ, чтобы сверка актов и ответы на требования налоговой занимали минуты, а не вечера.</div>
+        </div>
+      </div>
+      <p>Пустые строки между абзацами — не случайность: без них Markdown склеит строки в одну. О разметке — врезка после степпера.</p>
+    </section>
+
+    <section class="step" data-title="Нажмите Commit changes…" data-hint="Открылось окно с полем Commit message">
+      <p>Справа вверху — зелёная кнопка <b>Commit changes…</b> (с многоточием). Нажмите. Появится окно: GitHub просит подписать изменение.</p>
+      <div class="mock" data-title="Commit changes">
+        <div class="mock-body">
+          <p><b>Commit changes</b></p>
+          <div class="mock-field"><label>Commit message</label><div class="mock-input">Добавить рассказ о себе в README</div></div>
+          <div class="mock-row"><span class="mock-btn">Cancel</span><span class="mock-btn primary">Commit changes</span></div>
+        </div>
+      </div>
+      <p>В поле <b>Commit message</b> GitHub уже подставил стандартный текст вроде <i>Update README.md</i>. Замените его на понятный: <code>Добавить рассказ о себе в README</code>. Остальные поля не трогайте. Нажмите <b>Commit changes</b>.</p>
+    </section>
+
+    <section class="step" data-title="Откройте историю" data-hint="Список из двух коммитов: ваш сверху, Initial commit ниже">
+      <p>Вы снова на странице файла — уже с новым текстом. Вернитесь на главную страницу репозитория (нажмите <b>hello-ai</b> в заголовке над файлом) и найдите над списком файлов ссылку <b>2 commits</b> с иконкой часов. Нажмите её.</p>
+      <div class="mock" data-title="github.com/username/hello-ai/commits/main">
+        <div class="mock-body">
+          <p><b>Commits</b></p>
+          <div class="mock-code">● Добавить рассказ о себе в README
+  username committed 1 minute ago                  a3f9c21
+
+● Initial commit
+  username committed 10 minutes ago                7e21b04</div>
+        </div>
+      </div>
+      <p>Это и есть история. Каждая строка — коммит: подпись, автор, время и короткий код-идентификатор. Нажмите на подпись верхнего — увидите, что именно изменилось: удалённые строки красным, добавленные зелёным.</p>
+    </section>
+
+    <section class="step" data-title="Создайте второй файл" data-hint="Поле для имени файла заполнено, под ним редактор с текстом">
+      <p>Вернитесь на главную страницу репозитория. Справа над списком файлов — кнопка <b>Add file</b> ▾. Нажмите и выберите <b>Create new file</b> (создать новый файл). Вверху появится поле для имени — введите <code>notes.md</code>. Ниже — пустой редактор; напишите в нём список из трёх дел, которые хотите поручить ИИ:</p>
+      <div class="mock" data-title="github.com/username/hello-ai/new/main">
+        <div class="mock-body">
+          <div class="mock-row"><span class="muted">hello-ai /</span><div class="mock-input">notes.md</div></div>
+          <div class="mock-code"># Что хочу поручить ИИ
+
+- Сверять акты сверки с выпиской банка
+- Писать первые черновики ответов на требования ИФНС
+- Готовить памятки для сотрудников по авансовым отчётам</div>
+          <div class="mock-row"><span style="flex:1"></span><span class="mock-btn primary">Commit changes…</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Закоммитьте новый файл" data-hint="В репозитории два файла, над ними — 3 commits">
+      <p>Нажмите <b>Commit changes…</b>, в поле <b>Commit message</b> напишите <code>Добавить список задач для ИИ</code> и подтвердите кнопкой <b>Commit changes</b>. GitHub откроет новый файл. Вернитесь на главную страницу репозитория: в списке два файла — <code>README.md</code> и <code>notes.md</code>, над ними <b>3 commits</b>.</p>
+      <div class="tip"><p><strong>Привычка на всю жизнь.</strong> Один коммит — одно законченное изменение с понятной подписью. Не «поправил всё», а «добавить список задач». Через месяц, листая историю, вы скажете себе спасибо.</p></div>
+    </section>
+  </div>
+
+  <h2>Как писать сообщения коммитов</h2>
+  <p>Сообщение коммита — ответ на вопрос «что здесь изменилось и зачем?» для человека, который откроет историю через полгода. Чаще всего этим человеком будете вы. Формула: <strong>глагол + что изменили + зачем</strong>, если «зачем» не очевидно. Первая строка — до 50–70 знаков, можно по-русски.</p>
+  <div class="compare">
+    <div class="bad"><h4>Так не надо</h4><p><code>Update README.md</code><br><code>правки</code><br><code>asdf</code><br><code>финальная версия 2</code></p><p>Через неделю невозможно понять, что менялось. Чтобы разобраться, придётся открывать каждый коммит.</p></div>
+    <div class="good"><h4>Так надо</h4><p><code>Добавить рассказ о себе в README</code><br><code>Исправить ставку НДС в примере расчёта</code><br><code>Убрать устаревший раздел про бумажные акты</code><br><code>Переименовать notes.md в plan.md для единообразия</code></p><p>Каждая строка читается как пункт отчёта: понятно, что сделано, без заглядывания внутрь.</p></div>
+  </div>
+  <p>Ещё два правила. Один коммит — одно смысловое изменение: правка опечатки и новый раздел — это два коммита, а не один. И не бойтесь коммитить часто: маленькие коммиты легко откатывать, большие — нет.</p>
+
+  <h2>Markdown: вся разметка в одной врезке</h2>
+  <div class="note"><p><strong>Файлы .md пишутся на Markdown</strong> — простой разметке, которую GitHub превращает в оформленный текст. Хватит четырёх приёмов: строка, начатая с <code># </code>, — заголовок (<code>## </code> — заголовок поменьше); строка с <code>- </code> в начале — пункт списка; текст в двойных звёздочках <code>**важно**</code> — жирный; абзацы разделяются пустой строкой. Этого достаточно для README, заметок и технических заданий агентам. Остальное попросите у ИИ: «оформи этот текст в Markdown».</p></div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="repo-quiz">
+    <div class="q">
+      <p class="q-text">Зачем при создании репозитория ставить галочку Add a README file?</p>
+      <ul class="q-options">
+        <li>Без неё GitHub не даст создать репозиторий</li>
+        <li data-correct>Чтобы репозиторий не был пустым и сразу получил «обложку», которую видят на главной странице</li>
+        <li>Без README нельзя опубликовать сайт</li>
+      </ul>
+      <p class="q-explain">README — описание проекта, которое GitHub показывает под списком файлов. Для сайта нужен index.html, а не README; но пустой репозиторий без первого файла неудобен для работы.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Где посмотреть, кто и когда менял файлы в репозитории?</p>
+      <ul class="q-options">
+        <li>Во вкладке Settings</li>
+        <li>Во вкладке Issues</li>
+        <li data-correct>По ссылке с числом коммитов над списком файлов (рядом иконка часов)</li>
+      </ul>
+      <p class="q-explain">Это история репозитория: каждый коммит с подписью, автором и временем. Нажав на коммит, увидите точные изменения — красным и зелёным.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Какое сообщение коммита лучше?</p>
+      <ul class="q-options">
+        <li data-correct>«Исправить дату начала отпуска в примере расчёта»</li>
+        <li>«Update README.md»</li>
+        <li>«правки по замечаниям»</li>
+      </ul>
+      <p class="q-explain">Глагол + что изменено + зачем. Первое сообщение понятно без открытия коммита; два других через неделю не скажут ничего.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Если шли по степперу — почти всё уже сделано. Проверьте результат по списку и добавьте то, чего не хватает.</p>
+  <ul class="checklist" data-id="repo-practice">
+    <li>Репозиторий <code>hello-ai</code> существует, он <b>Public</b> и открывается по адресу <code>github.com/мой-username/hello-ai</code>.</li>
+    <li>В README — заголовок с моим именем и минимум две строки о себе; текст показывается под списком файлов.</li>
+    <li>В репозитории два файла: <code>README.md</code> и <code>notes.md</code>.</li>
+    <li>В истории три коммита, у каждого понятное сообщение по формуле «глагол + что + зачем».</li>
+    <li>Я открыл(а) один из коммитов и увидел(а), какие строки добавлены (зелёные).</li>
+  </ul>
+
+  <div class="win"><p><strong>Есть репозиторий и история.</strong> Вы умеете создавать файлы, менять их и подписывать изменения — это 80% ежедневной работы с GitHub. В следующем уроке репозиторий станет сайтом с собственным адресом.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>
