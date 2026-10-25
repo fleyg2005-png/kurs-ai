@@ -1,0 +1,42 @@
+# Курсы: всё идёт через index.php, служебное закрыто.
+Options -Indexes
+DirectoryIndex index.php
+AddDefaultCharset UTF-8
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Скрытые файлы и папки (.git, .env, .htaccess) — запрещены
+  RewriteRule (^|/)\.(?!well-known/) - [F,L]
+
+  # Служебные папки и файлы — запрещены
+  RewriteRule ^(app|database|content|tools|tests|vendor)(/|$) - [F,L]
+  RewriteRule ^(config\.php|config\.sample\.php|README\.md|.+\.md|.+\.sql|.+\.log)$ - [F,L]
+
+  # Статика из assets отдаётся как есть
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^assets/ - [L]
+
+  # Всё остальное — в index.php
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule ^ index.php [L,QSA]
+  RewriteRule ^(?!index\.php$|assets/).+\.php$ index.php [L,QSA]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+  ErrorDocument 404 "mod_rewrite is required"
+</IfModule>
+
+# Запасной запрет на случай отключённого mod_rewrite
+<FilesMatch "^(config\.php|config\.sample\.php|.*\.md|.*\.sql|\..*)$">
+  Require all denied
+</FilesMatch>
+<IfModule mod_alias.c>
+  RedirectMatch 404 /\.(?!well-known/)
+</IfModule>
