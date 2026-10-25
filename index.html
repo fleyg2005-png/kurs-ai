@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Курс по ИИ: от юриста до программиста — интерактивно, без установки</title>
+<meta name="description" content="Практический курс: как работать с Claude и ChatGPT, как завести GitHub и писать код с помощью ИИ-агентов прямо в браузере. Без воды и без установки программ.">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="./" data-page="index">
+<main class="content wide">
+  <section class="hero">
+    <p class="kicker">Интерактивный курс · 8 модулей · всё в браузере</p>
+    <h1>ИИ для работы: от юриста до программиста</h1>
+    <p class="lead">Как разговаривать с Claude и ChatGPT, чтобы получать результат. Как завести GitHub и опубликовать свой первый инструмент. Как поручать код ИИ-агентам и проверять, что они сделали. Ничего не ставим на компьютер — только браузер.</p>
+    <div class="hero-actions">
+      <a class="btn primary" id="continue-btn" href="lessons/00-start.html">▶ Начать курс</a>
+      <a class="btn" href="#map">Содержание</a>
+    </div>
+    <div class="stats" id="stats"></div>
+    <div class="progress" id="index-progress"><span style="width:0%"></span></div>
+  </section>
+
+  <section>
+    <h2>Что вы сможете после курса</h2>
+    <div class="grid">
+      <div class="card"><div class="ico">🎯</div><h3>Ставить задачу ИИ так, чтобы ответ был рабочим</h3><p>Структура запроса, контекст, формат, ограничения. Диалог вместо лотереи. Проверка на выдумки.</p></div>
+      <div class="card"><div class="ico">📄</div><h3>Разбирать документы, таблицы и длинные тексты</h3><p>Договоры, отчёты, переписка, Excel: вытаскивать суть, сравнивать версии, находить риски — за минуты.</p></div>
+      <div class="card"><div class="ico">🐙</div><h3>Пользоваться GitHub без установки программ</h3><p>Репозиторий, коммит, ветка, pull request — объяснено на пальцах и отработано на симуляторе. Сайт на GitHub Pages за 10 минут.</p></div>
+      <div class="card"><div class="ico">🤖</div><h3>Поручать код ИИ-агентам и проверять результат</h3><p>Claude Code, Codex и Copilot работают в облаке: вы описываете задачу, они пишут код и открывают pull request. Вы проверяете и публикуете.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Для кого</h2>
+    <div class="chips">
+      <span class="chip accent">юрист</span><span class="chip accent">бухгалтер</span><span class="chip accent">HR</span><span class="chip accent">маркетолог</span><span class="chip accent">менеджер</span><span class="chip accent">предприниматель</span><span class="chip accent">аналитик</span><span class="chip">любой, кто работает с текстом и данными</span>
+    </div>
+    <p>Программировать не нужно. Нужен браузер, электронная почта и готовность нажимать «дальше». К концу курса у вас будет опубликованный в интернете инструмент для вашей работы, сделанный с помощью ИИ.</p>
+  </section>
+
+  <section>
+    <h2>Как устроен курс</h2>
+    <div class="grid">
+      <div class="card"><h3>Без воды</h3><p>Теории ровно столько, сколько нужно, чтобы не делать глупостей. Всё остальное — практика.</p></div>
+      <div class="card"><h3>Тыкнул «дальше» — получил дальше</h3><p>Регистрация на GitHub, первый репозиторий, запуск агента — пошаговые сценарии с экранами «что вы должны увидеть».</p></div>
+      <div class="card"><h3>Прогресс сохраняется</h3><p>Отмечайте пройденные уроки — курс запомнит, где вы остановились (в этом браузере). В конце — сертификат.</p></div>
+      <div class="card"><h3>Ничего не устанавливаем</h3><p>Никаких «скачайте и настройте». GitHub, редактор кода, терминал и ИИ-агенты — всё работает во вкладке браузера.</p></div>
+    </div>
+  </section>
+
+  <section id="map">
+    <h2>Содержание</h2>
+    <div class="module-list" id="course-map"></div>
+  </section>
+
+  <section id="faq">
+    <h2>Частые вопросы</h2>
+    <div class="card" style="margin-bottom:12px"><h3>Это бесплатно?</h3><p>Курс — да. Инструменты: GitHub бесплатен (включая Codespaces и GitHub Pages в разумных лимитах). У Claude и ChatGPT есть бесплатные тарифы, но ИИ-агенты (Claude Code, Codex) требуют платной подписки — порядка $20 в месяц. В курсе указано, где какой тариф нужен, и есть бесплатные обходные пути.</p></div>
+    <div class="card" style="margin-bottom:12px"><h3>Claude и ChatGPT официально недоступны в России. Что делать?</h3><p>Это правда: обоим сервисам нужен зарубежный номер телефона и карта, либо доступ через сервис-посредник. Курс не привязан к конкретному способу доступа — приёмы работают одинаково в любом интерфейсе, включая российские ассистенты. GitHub работает без ограничений.</p></div>
+    <div class="card" style="margin-bottom:12px"><h3>Я совсем не технический человек. Справлюсь?</h3><p>Курс написан для юристов, бухгалтеров и менеджеров, а не для разработчиков. Каждый технический термин объясняется один раз, простыми словами, и дальше используется только он. Если застряли — в каждом уроке есть, что именно спросить у ИИ.</p></div>
+    <div class="card" style="margin-bottom:12px"><h3>Сколько времени занимает?</h3><p>Около четырёх часов чистого чтения и кликов плюс время на собственные эксперименты. Удобный темп — один модуль в день, неделя на весь курс.</p></div>
+    <div class="card"><h3>Где хранится мой прогресс?</h3><p>Только в вашем браузере (localStorage). Никуда не отправляется. Если смените браузер или очистите данные сайта — прогресс сбросится. <button class="btn small ghost" id="reset-progress" type="button">Сбросить прогресс</button></p></div>
+  </section>
+</main>
+<script src="assets/app.js"></script>
+</body>
+</html>
