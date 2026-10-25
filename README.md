@@ -17,7 +17,7 @@ PHP 8.2+ и MySQL, без фреймворка и без composer. Репози�
 2. Заведи git прямо в корне сайта. Папка может быть не пустой: файлы с такими же именами, как в репозитории, заменятся, остальное останется на месте.
    ```
    cd /var/www/fleyg/data/www/aiblocks.ru
-   git init
+   git init -b main
    git remote add origin https://github.com/fleyg2005-png/kurs-ai.git
    git fetch origin main
    git checkout -f -B main --track origin/main
