@@ -204,9 +204,15 @@
     TOTAL_MIN = LESSONS.reduce((a, l) => a + l.minutes, 0);
   }
   function tracksOf(id) { return Object.keys(TRACKS).filter(t => TRACKS[t].modules.some(m => m.lessons.some(l => l.id === id))); }
+  /* Урок из другого пути: показываем его в контексте его пути, но выбор читателя не меняем.
+     Путь не выбран вовсе — выбираем путь урока (человек пришёл в него сам). */
+  let FOREIGN = null;
   if (LESSON_ID) {
     const inTracks = tracksOf(LESSON_ID);
-    if (inTracks.length && (!TRACK || !inTracks.includes(TRACK))) { TRACK = inTracks[0]; store.set('track', TRACK); }
+    if (inTracks.length && !inTracks.includes(TRACK)) {
+      if (!TRACK) { TRACK = inTracks[0]; store.set('track', TRACK); }
+      else { FOREIGN = { mine: TRACK, view: inTracks[0] }; TRACK = inTracks[0]; }
+    }
   }
   rebuild();
   function setTrack(t) { if (!TRACKS[t]) return; TRACK = t; store.set('track', t); rebuild(); }
@@ -267,7 +273,9 @@
     COURSE.forEach((m, mi) => {
       if (mi === COMMON.length) {
         const t = TRACKS[TRACK];
-        sidebar.appendChild(el('div', 'side-track', `<span class="emoji">${t.emoji}</span><span><b>Путь «${esc(t.name)}»</b><br><a href="${ROOT}index.html#track">сменить путь</a></span>`));
+        sidebar.appendChild(FOREIGN
+          ? el('div', 'side-track foreign', `<span class="emoji">${t.emoji}</span><span>Вы смотрите путь <b>«${esc(t.name)}»</b>. Ваш путь — «${esc(TRACKS[FOREIGN.mine].name)}».<br><a href="${ROOT}index.html">вернуться к своему</a></span>`)
+          : el('div', 'side-track', `<span class="emoji">${t.emoji}</span><span><b>Путь «${esc(t.name)}»</b><br><a href="${ROOT}index.html#track">сменить путь</a></span>`));
       }
       const box = el('div', 'side-module');
       box.appendChild(el('div', 'mod-title', `<span class="mod-num">${mi}</span><span>${esc(m.title)}</span>`));
@@ -309,7 +317,10 @@
 
     const nxt = nextUndone();
     if (PAGE === 'lesson' && nxt && (!CURRENT || nxt.id !== CURRENT.id)) {
-      const cont = el('a', 'btn small ghost', '▶ Продолжить'); cont.href = url(nxt); cont.title = nxt.title; topbar.appendChild(cont);
+      const cont = el('a', 'btn small ghost', '▶ Продолжить');
+      if (FOREIGN) { cont.href = ROOT + 'index.html'; cont.title = 'Продолжить свой путь «' + TRACKS[FOREIGN.mine].name + '»'; }
+      else { cont.href = url(nxt); cont.title = nxt.title; }
+      topbar.appendChild(cont);
     }
     const themeBtn = el('button', 'icon-btn theme-btn'); themeBtn.setAttribute('aria-label', 'Переключить тему');
     themeBtn.addEventListener('click', toggleTheme);
@@ -333,6 +344,12 @@
     if (h1 && !article.querySelector('.kicker')) {
       const k = el('p', 'kicker', `${CURRENT.mi >= COMMON.length ? 'Путь «' + esc(TRACKS[TRACK].name) + '» · ' : ''}Модуль ${CURRENT.mi} · ${esc(CURRENT.module.title)} · ${CURRENT.control ? 'Контрольное задание' : 'Урок ' + lessonNum(CURRENT)}`);
       h1.parentNode.insertBefore(k, h1);
+    }
+    if (FOREIGN && h1 && !article.querySelector('.track-foreign')) {
+      const v = TRACKS[FOREIGN.view], mine = TRACKS[FOREIGN.mine];
+      const box = el('div', 'note track-foreign', `<p><b>Это урок пути «${esc(v.name)}».</b> Ваш путь — «${esc(mine.name)}», выбор не изменился: прогресс и сертификат считаются по нему.</p><div class="row"><button class="btn small primary" type="button">Сделать «${esc(v.name)}» моим путём</button><a class="btn small" href="${ROOT}index.html">Вернуться к пути «${esc(mine.name)}»</a></div>`);
+      box.querySelector('button').addEventListener('click', () => { setTrack(FOREIGN.view); location.reload(); });
+      h1.parentNode.insertBefore(box, h1);
     }
     if (!article.querySelector('.meta')) {
       const meta = el('div', 'meta', `<span>⏱ ${CURRENT.minutes} ${plural(CURRENT.minutes, 'минута', 'минуты', 'минут')}</span><span class="meta-done">${isDone(CURRENT.id) ? '✅ Урок пройден' : '○ Ещё не пройден'}</span>`);
@@ -879,7 +896,7 @@
     document.querySelectorAll('dfn[data-def]').forEach(d => { d.tabIndex = 0; d.setAttribute('role', 'button'); d.setAttribute('aria-label', d.textContent + ': ' + d.dataset.def); });
     document.querySelectorAll('.theme-btn').forEach(b => b.addEventListener('click', toggleTheme));
     refreshThemeButtons();
-    window.AIKURS = { get COURSE() { return COURSE; }, get LESSONS() { return LESSONS; }, get TRACK() { return TRACK; }, TRACKS, COMMON, allLessonIds, setTrack, store, percent, isDone, setDone };
+    window.AIKURS = { get COURSE() { return COURSE; }, get LESSONS() { return LESSONS; }, get TRACK() { return TRACK; }, get FOREIGN() { return FOREIGN; }, TRACKS, COMMON, allLessonIds, setTrack, store, percent, isDone, setDone };
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

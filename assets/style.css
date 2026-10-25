@@ -566,6 +566,8 @@ ol.steps > li > p:last-child { margin-bottom: 0; }
 .side-track { display: flex; gap: 10px; align-items: center; margin: 14px 8px 2px; padding: 10px 12px; border-radius: var(--radius-s); background: var(--accent-soft); font-size: .88rem; line-height: 1.35; }
 .side-track .emoji { font-size: 22px; }
 .side-track a { font-weight: 500; }
+.side-track.foreign { background: var(--warn-soft); }
+.track-foreign .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 .side-choose { margin: 14px 8px 4px; padding: 12px; border-radius: var(--radius-s); background: var(--warn-soft); font-size: .88rem; line-height: 1.5; }
 .side-choose .btn { margin-top: 8px; }
 
