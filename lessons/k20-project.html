@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проект: проверка постов по чеклисту — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="k20-project">
+<main class="content">
+<article>
+  <h1>Проект: проверка постов по чеклисту</h1>
+  <p class="lead">За час-полтора у вас появится первый инструмент: программа, которая проверяет каждый пост по вашему чеклисту и собирает сводную таблицу по постам и кампаниям — с CTR и ценой клика. Пишет и запускает её агент; вы ставите задачу, читаете отчёты и принимаете pull request.</p>
+
+  <div class="note"><p><strong>Что понадобится.</strong> Аккаунт Claude на Pro, Max или Team; приватный репозиторий <code>marketing</code>, к которому подключено Claude GitHub App (урок 14); 4–6 постов в папке <code>posts/</code>, файл <code>checklist.md</code>, выгрузка <code>campaigns/campaigns.csv</code> и шаблон <code>templates/otchet.md</code>. В Codex (<a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a>) то же ТЗ отправляют через <b>Start a new task</b> (урок 16).</p></div>
+
+  <h2>От ТЗ до работающего инструмента</h2>
+  <p>По одному шагу, в соседней вкладке. Имена постов и цифры кампаний в примерах условные.</p>
+
+  <div class="stepper" data-id="k20-project">
+    <section class="step" data-title="Проверьте репозиторий" data-hint="В posts/ лежат 4–6 постов, рядом checklist.md, campaigns/ и templates/">
+      <p>Откройте репозиторий <code>marketing</code> на GitHub: <code>README.md</code>, <code>checklist.md</code> с 10–12 пунктами, папка <code>posts/</code> с постами (.md), выгрузка <code>campaigns/campaigns.csv</code>, шаблон <code>templates/otchet.md</code>. Чего-то нет — <b>Add file</b> → <b>Upload files</b>, перетащите файлы, <b>Commit changes</b>.</p>
+      <p>Агент прочитает всё целиком — в файлах не должно быть названий клиентов, реальных бюджетов и персональных данных (урок 09). Критерий в ТЗ опирается на письмо рассылки, где ссылка без UTM-метки: если у вас этот файл называется не <code>post-rassylka.md</code>, замените имя в критерии.</p>
+      <div class="mock" data-title="github.com/username/marketing">
+        <div class="mock-nav"><b>🐙 marketing</b> <span class="badge warn">Private</span><span class="active">Code</span><span>Pull requests</span></div>
+        <div class="mock-body">
+          <p>📁 <code>posts/</code> &nbsp;·&nbsp; anons-vebinara.md · post-keis.md · post-rassylka.md · post-akciya.md</p>
+          <p>📁 <code>campaigns/</code> &nbsp;·&nbsp; campaigns.csv &nbsp;&nbsp; 📁 <code>templates/</code> &nbsp;·&nbsp; otchet.md</p>
+          <p>📄 <code>README.md</code> &nbsp;&nbsp; 📄 <code>checklist.md</code></p>
+          <div class="mock-row"><span class="mock-btn">Add file ▾</span><span class="mock-btn primary">Code ▾</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Откройте claude.ai/code и выберите marketing" data-hint="Под полем ввода: marketing · main · Accept edits">
+      <p>На <a href="https://claude.ai/code" target="_blank" rel="noopener">claude.ai/code</a> в селекторе под полем ввода выберите <code>marketing</code>, ветку оставьте <b>main</b>, режим разрешений — <b>Accept edits</b>: агент правит файлы и пушит ветку сам, результат всё равно пройдёт через ваш PR. Нет <code>marketing</code> в списке — для него не установлено Claude GitHub App: <a href="https://github.com/apps/claude/installations/new" target="_blank" rel="noopener">github.com/apps/claude/installations/new</a>.</p>
+      <div class="mock" data-title="claude.ai/code">
+        <div class="mock-body">
+          <div class="mock-field"><label>Задача</label><div class="mock-input">Опишите, что нужно сделать в репозитории…</div></div>
+          <div class="mock-row"><span class="mark">username/marketing ▾<span class="mark-label">1</span></span><span class="mark">main ▾<span class="mark-label">2</span></span><span class="mark">Accept edits ▾<span class="mark-label">3</span></span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Вставьте ТЗ и отправьте" data-hint="Текст ТЗ ушёл целиком одним сообщением, агент начал работать">
+      <p>ТЗ построено по структуре прошлого урока: что есть, что сделать, ограничения, критерии готовности. Скопируйте целиком и нажмите <kbd>Enter</kbd>.</p>
+      <div class="prompt"><div class="prompt-label">ТЗ проекта — запрос к агенту</div><pre>Сделай инструмент для проверки постов по чеклисту.
+
+Что есть: папка posts/ с постами (.md), файл checklist.md с пунктами проверки, выгрузка кампаний campaigns/campaigns.csv.
+
+Что сделать:
+1. Напиши программу на Python (файл check_posts.py), которая для каждого поста из posts/ проходит по пунктам checklist.md и пишет отчёт reports/&lt;имя поста&gt;.md: таблица «пункт чеклиста — выполнено / не выполнено / неясно — цитата из поста (до 2 предложений) — комментарий».
+2. Собери сводную таблицу summary.md из двух частей: по постам (файл — площадка — дата — сколько пунктов чеклиста не выполнено) и по кампаниям из campaigns.csv (кампания — показы — клики — CTR в процентах — расход — цена клика; CTR и цену клика посчитай из выгрузки).
+3. Запусти программу у себя на всех постах и положи готовые отчёты и summary.md в репозиторий.
+4. В README добавь раздел «Как пользоваться»: как добавить новый пост и как попросить тебя запустить проверку снова.
+
+Ограничения: данные брать только из файлов репозитория, ничего не додумывать — если в посте нет пункта, так и писать «не выполнено». Файлы никуда не отправлять, кроме твоей рабочей машины. Не меняй файлы в posts/, checklist.md и campaigns/.
+
+Критерии готовности: для каждого поста есть отчёт; в summary.md по кампаниям столько строк, сколько их в campaigns.csv; в отчёте по posts/post-rassylka.md пункт «Ссылка с UTM-меткой» помечен «не выполнено» (в этом письме ссылка без метки). В описании PR перечисли, что сделано, что не получилось и как мне проверить результат за 5 минут.</pre></div>
+    </section>
+
+    <section class="step" data-title="Что делает агент — и почему можно уйти" data-hint="Агент отчитался: программа написана и запущена, отчёты и summary.md лежат в ветке">
+      <p>Агент клонирует репозиторий в свою <dfn data-def="Отдельный компьютер в облаке, который Claude получает на время сессии. На нём уже стоят Python и другие инструменты; всё, что агент устанавливает, остаётся там, а не у вас.">виртуальную машину</dfn>, читает <code>checklist.md</code>, посты и выгрузку, пишет <code>check_posts.py</code>, запускает программу на всех постах — у себя, не у вас, — правит и запускает снова, затем пушит ветку. Это занимает минуты; вкладку можно закрыть — сессия продолжается в облаке.</p>
+      <div class="mock" data-title="claude.ai/code — сессия">
+        <div class="mock-chat">
+          <div class="msg user">Сделай инструмент для проверки постов по чеклисту… (ТЗ целиком)</div>
+          <div class="msg ai">Прочитал checklist.md (10 пунктов), четыре поста в posts/ и campaigns.csv (4 кампании). Написал check_posts.py, запустил на всех постах: созданы четыре отчёта в reports/ и summary.md — по постам 4 строки, по кампаниям 4, CTR и цену клика посчитал из выгрузки. В README добавил раздел «Как пользоваться». posts/, checklist.md и campaigns/ не менял. Ветка запушена.</div>
+          <div class="msg ai">Что не получилось: в post-akciya.md пункт «указана аудитория» помечен «неясно» — в шапке есть площадка и цель, но аудитория не названа. Как проверить за 5 минут: в reports/post-rassylka.md строка «Ссылка с UTM-меткой» — «не выполнено» (ссылка в письме без метки); в summary.md по кампаниям четыре строки, как в campaigns.csv.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Карточка Changes: что тронуто" data-hint="В списке check_posts.py, reports/, summary.md, README.md — и ничего из posts/ и campaigns/">
+      <p>Справа — карточка <b>Changes</b> с числами вида «+352 −4». Нажмите: откроется <dfn data-def="Построчное сравнение версий: зелёные строки добавлены, красные удалены.">diff</dfn>. Код читать не нужно — смотрите на список файлов. Ожидаемо: новые <code>check_posts.py</code>, отчёты в <code>reports/</code> и <code>summary.md</code>, изменённый <code>README.md</code>. Файлов из <code>posts/</code>, <code>checklist.md</code> и <code>campaigns/</code> быть не должно — ТЗ это запретило. Появились — пишите в сессию: «Верни posts/, checklist.md и campaigns/ в исходное состояние и объясни, зачем менял».</p>
+      <div class="mock" data-title="claude.ai/code — карточка Changes (справа)">
+        <div class="mock-body">
+          <p><b>Changes</b> <span class="badge ok">+352</span> <span class="badge danger">−4</span></p>
+          <p><code>check_posts.py</code> <span class="badge accent">новый</span><br><code>reports/anons-vebinara.md</code> <span class="badge accent">новый</span><br><code>reports/post-keis.md</code> <span class="badge accent">новый</span><br><code>reports/post-rassylka.md</code> <span class="badge accent">новый</span><br><code>reports/post-akciya.md</code> <span class="badge accent">новый</span><br><code>summary.md</code> <span class="badge accent">новый</span><br><code>README.md</code> <span class="badge ok">+18</span> <span class="badge danger">−4</span></p>
+          <div class="mock-row"><span class="mock-btn primary">Create PR</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Create PR" data-hint="В чате появилась ссылка на pull request на GitHub">
+      <p>Нажмите <b>Create PR</b>. Агент создаст pull request с заголовком и описанием: что сделано, что не получилось, как проверить за 5 минут — вы просили об этом в ТЗ. Сессия остаётся живой: замечания после этого попадут в тот же PR. Откройте ссылку.</p>
+    </section>
+
+    <section class="step" data-title="На GitHub: прочитайте отчёт по одному посту" data-hint="Три строки таблицы сошлись с текстом поста">
+      <p>В PR откройте <b>Files changed</b> и найдите <code>reports/post-rassylka.md</code>. У .md-файлов GitHub показывает кнопку просмотра в отрендеренном виде — нажмите, чтобы увидеть таблицу вместо зелёных строк. Выберите три строки: одну «выполнено» с цитатой, одну «не выполнено» и одну «неясно», если есть. Откройте сам пост в <code>posts/</code> (он читается в браузере) и сверьте: цитата есть дословно, пункт действительно об этом, «не выполнено» в тексте действительно нет.</p>
+      <div class="mock" data-title="github.com/username/marketing/pull/3 — reports/post-rassylka.md">
+        <div class="mock-body">
+          <div class="table-wrap"><table>
+            <thead><tr><th>Пункт чеклиста</th><th>Статус</th><th>Цитата</th><th>Комментарий</th></tr></thead>
+            <tbody>
+              <tr><td>Призыв к действию</td><td>выполнено</td><td>«Заберите скидку 15 % по промокоду OSEN до 31 октября»</td><td>последний абзац</td></tr>
+              <tr><td>Ссылка с UTM-меткой</td><td>не выполнено</td><td>—</td><td>ссылка на страницу акции есть, хвоста ?utm_… нет</td></tr>
+              <tr><td>Нет запрещённых обещаний</td><td>неясно</td><td>«самые выгодные условия этой осени»</td><td>похоже на «лучший на рынке» — решать вам</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Замечание — в сессию агента" data-hint="Агент исправил отчёт, объяснил причину; карточка Changes и PR обновились">
+      <p>Нашли расхождение — не правьте отчёт руками: это результат программы, при следующем запуске ошибка вернётся. Напишите в ту же сессию конкретно: пост, строка, что на самом деле в тексте. И обязательно «остальное не трогай», иначе агент заодно «улучшит» верное.</p>
+      <div class="mock" data-title="claude.ai/code — сессия">
+        <div class="mock-chat">
+          <div class="msg user">В отчёте по post-keis.md пункт «призыв к действию» помечен «выполнено», но цитаты нет — откуда вывод? Исправь и объясни, почему ошибся; остальное не трогай.</div>
+          <div class="msg ai">Вы правы: прямого призыва в post-keis.md нет. Программа засчитывала пункт по фразе «подробности по ссылке» в конце поста — это навигация, а не призыв. Уточнил проверку: теперь нужен глагол-побуждение («зарегистрируйтесь», «скачайте», «напишите нам») рядом со ссылкой или промокодом. Перезапустил только этот пост: пункт «не выполнено», в summary.md у post-keis.md 2 невыполненных пункта вместо 1. Остальные отчёты не трогал.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Слейте PR на GitHub" data-hint="PR помечен Merged, ветка удалена">
+      <p>Замечаний не осталось — на странице PR: <b>Merge pull request</b> → <b>Confirm merge</b> → <b>Delete branch</b>. Программа, отчёты и сводка теперь в <code>main</code>. Если позже что-то окажется не так, у слитого PR есть кнопка <b>Revert</b> — вернёт всё как было одним коммитом (урок 18).</p>
+      <div class="mock" data-title="github.com/username/marketing/pull/3">
+        <div class="mock-nav"><b>🐙 GitHub</b><span class="active">Conversation</span><span>Files changed 7</span></div>
+        <div class="mock-body">
+          <p><b>Инструмент проверки постов по чеклисту</b> <span class="badge ok">Open</span></p>
+          <div class="mock-row"><span class="mock-btn primary">Merge pull request</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Откройте summary.md" data-hint="Две таблицы: по постам и по кампаниям; CTR одной кампании сошёлся на калькуляторе">
+      <p>Вернитесь на вкладку <b>Code</b> и откройте <code>summary.md</code>: GitHub покажет обе таблицы как отформатированный текст. Это и есть ваш инструмент в работе — не программа «где-то лежит», а сводка, которую можно показать клиенту или руководителю. Одну строку по кампаниям сразу пересчитайте: 54 ÷ 9 000 × 100 = 0,6 % — сошлось. Рядом папка <code>reports/</code> с подробностями по каждому посту.</p>
+      <div class="mock" data-title="github.com/username/marketing/blob/main/summary.md">
+        <div class="mock-body">
+          <div class="table-wrap"><table>
+            <thead><tr><th>Файл</th><th>Площадка</th><th>Дата</th><th>Не выполнено</th></tr></thead>
+            <tbody>
+              <tr><td>anons-vebinara.md</td><td>Telegram</td><td>14.11</td><td>1</td></tr>
+              <tr><td>post-keis.md</td><td>VK</td><td>05.11</td><td>2</td></tr>
+              <tr><td>post-rassylka.md</td><td>email-рассылка</td><td>28.11</td><td>2</td></tr>
+              <tr><td>post-akciya.md</td><td>Telegram</td><td>21.11</td><td>1</td></tr>
+            </tbody>
+          </table></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Кампания</th><th>Показы</th><th>Клики</th><th>CTR</th><th>Расход</th><th>Цена клика</th></tr></thead>
+            <tbody>
+              <tr><td>Вебинар-октябрь</td><td>9 000</td><td>54</td><td>0,6 %</td><td>12 420 ₽</td><td>230 ₽</td></tr>
+              <tr><td>Кейсы-сентябрь</td><td>20 000</td><td>360</td><td>1,8 %</td><td>28 800 ₽</td><td>80 ₽</td></tr>
+              <tr><td>Акция-август</td><td>46 000</td><td>1 150</td><td>2,5 %</td><td>39 100 ₽</td><td>34 ₽</td></tr>
+              <tr><td>Бренд-октябрь</td><td>300 000</td><td>1 200</td><td>0,4 %</td><td>54 000 ₽</td><td>45 ₽</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Новый пост — повторный запуск" data-hint="Второй PR слит; у нового поста есть отчёт и строка в summary.md">
+      <p>Так инструмент будет работать дальше. Откройте папку <code>posts/</code> → <b>Add file</b> → <b>Upload files</b> → перетащите новый пост → <b>Commit changes</b>. На claude.ai/code начните новую сессию (<code>marketing</code>, ветка <b>main</b>) и отправьте:</p>
+      <div class="prompt"><div class="prompt-label">Запрос к агенту — повторный запуск</div><pre>Запусти проверку для новых постов в posts/ — тех, у которых ещё нет отчёта в reports/. Старые отчёты не пересоздавай, программу не меняй. Добавь строки по новым постам в summary.md, остальные строки не трогай. В описании PR перечисли, какие файлы проверил.</pre></div>
+      <p>Дальше тот же цикл: <b>Create PR</b> → сверить три строки нового отчёта → <b>Merge pull request</b> → <b>Confirm merge</b> → <b>Delete branch</b>.</p>
+    </section>
+  </div>
+
+  <h2>Что здесь произошло</h2>
+  <div class="flow"><span class="node">ТЗ</span><span class="arrow">→</span><span class="node">агент пишет программу</span><span class="arrow">→</span><span class="node hl">запускает её у себя на постах</span><span class="arrow">→</span><span class="node">отчёты в PR</span><span class="arrow">→</span><span class="node">вы проверяете</span><span class="arrow">→</span><span class="node">Merge</span></div>
+  <p>Программа <code>check_posts.py</code> лежит в репозитории и стала частью инструмента: в новой сессии агент получает свежую машину, забирает посты, выгрузку и программу, запускает её и присылает результат. Вы ничего не устанавливали: Python живёт в машине агента, которая засыпает при простое и просыпается от нового сообщения.</p>
+  <p>Данные никуда не уходили: посты и выгрузка попали из приватного репозитория в машину агента и вернулись отчётами. Сетевой доступ окружения Default — только к GitHub и типовым хранилищам пакетов; статистика кампаний появляется в репозитории одним способом — вы выгрузили CSV из кабинета и положили в <code>campaigns/</code>. Приватный репозиторий видите вы и Claude GitHub App. Персональные данные клиентов и подписчиков туда всё равно не кладём.</p>
+
+  <h2>Сколько это стоит</h2>
+  <p>Сессия агента расходует лимиты тарифа — те же скользящие 5-часовые окна и недельный лимит, что и чат; одна такая задача — десятки обращений к модели, то есть заметно больше вопроса в чате (точных чисел курс не называет). Виртуальная машина отдельно не оплачивается. Для нескольких задач в неделю достаточно Pro ($20/мес); Max — если инструментов много.</p>
+
+  <h2>Если агент говорит, что не смог разобрать campaigns.csv</h2>
+  <p>Выгрузки из кабинетов приходят разными: разделитель «;» или запятая, другая кодировка, числа с пробелами и значком валюты, строка «Итого» в конце. Не чините сами. Два пути: попросить агента определить формат и учесть его в программе — или открыть выгрузку у себя и пересохранить как простой CSV. Если в файле нет колонок показов или кликов, посчитать CTR не из чего — агент должен прямо сказать об этом, а не заполнить таблицу «по памяти».</p>
+  <div class="prompt"><div class="prompt-label">Запрос к агенту</div><pre>Ты написал, что не смог разобрать campaigns/campaigns.csv. Определи сам разделитель и кодировку, строку «Итого» в расчёты не включай — и запусти снова. Если не получится — напиши точно, в чём ошибка, а в summary.md поставь по кампаниям «не прочитано». Ничего не придумывай, отчёты по постам не трогай.</pre></div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="k20-quiz">
+    <div class="q">
+      <p class="q-text">Где агент запустил программу и разобрал выгрузку кампаний?</p>
+      <ul class="q-options">
+        <li>На вашем компьютере</li>
+        <li data-correct>В виртуальной машине агента в облаке; на вашем компьютере ничего не появилось</li>
+        <li>На серверах GitHub при слиянии PR</li>
+      </ul>
+      <p class="q-explain">Агент запускает программу в своей облачной машине. GitHub при Merge ничего не запускает — только принимает готовые файлы.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">В карточке Changes среди файлов оказался изменённый posts/post-keis.md. Что делать?</p>
+      <ul class="q-options">
+        <li>Слить: раз агент поправил пост, в нём была ошибка</li>
+        <li data-correct>Не сливать; написать в сессию: верни posts/ в исходное состояние и объясни, зачем менял</li>
+        <li>Закрыть PR и удалить репозиторий</li>
+      </ul>
+      <p class="q-explain">ТЗ запрещало менять посты: инструмент их читает, а не редактирует. Одно конкретное замечание решает вопрос.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Появился новый пост. Как получить по нему отчёт?</p>
+      <ul class="q-options">
+        <li data-correct>Загрузить через Upload files и в новой сессии попросить проверить только новые посты</li>
+        <li>Ничего: агент следит за репозиторием и запустит проверку сам</li>
+        <li>Вписать имя файла в check_posts.py карандашом</li>
+      </ul>
+      <p class="q-explain">Агент видит только репозиторий и работает только по вашей задаче. Программу вы не редактируете — просите агента её запустить.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">В отчёте пункт помечен «выполнено», а в посте этого нет. Правильное действие?</p>
+      <ul class="q-options">
+        <li>Исправить строку в отчёте карандашом на GitHub и слить</li>
+        <li>Слить — одна ошибка на четыре поста приемлема</li>
+        <li data-correct>Написать агенту замечание: пост, строка, что на самом деле в тексте — и слить после исправления</li>
+      </ul>
+      <p class="q-explain">Отчёт — результат программы; поправленная руками строка вернётся при следующем запуске. Исправлять надо причину — это делает агент.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Доведите степпер до конца и отметьте только то, что проверили сами.</p>
+  <ul class="checklist" data-id="k20-practice">
+    <li>PR с инструментом слит на GitHub (Merge pull request → Confirm merge), ветка удалена.</li>
+    <li>В <code>reports/</code> лежит отчёт по каждому посту из <code>posts/</code>; файлы в <code>posts/</code>, <code>checklist.md</code> и <code>campaigns/</code> не изменились.</li>
+    <li>Три строки одного отчёта я сверил(а) с текстом поста: цитаты дословные, статусы верные.</li>
+    <li><code>summary.md</code> открывается как две таблицы; по постам строк столько же, сколько постов, по кампаниям — сколько строк в <code>campaigns.csv</code>; CTR одной кампании сошёлся на калькуляторе.</li>
+    <li>Новый пост загружен через Upload files и проверен отдельным PR, который тоже слит.</li>
+  </ul>
+
+  <div class="win"><p><strong>Инструмент работает на ваших постах и выгрузках.</strong> Дальше — доработки: отчёт за месяц из шаблона и правила, по которым инструмент не ломается от новых просьб.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>
