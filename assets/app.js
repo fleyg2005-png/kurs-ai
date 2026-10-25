@@ -25,7 +25,7 @@
     ]},
     { id: 'm2', title: 'Какие есть модели', lessons: [
       { id: '03-claude', title: 'Claude: модели, интерфейс, тарифы', minutes: 8 },
-      { id: '04-chatgpt', title: 'ChatGPT: модели, интерфейс, тарифы', minutes: 8 },
+      { id: '04-chatgpt', title: 'ChatGPT: модели, интерфейс, тарифы', minutes: 12 },
       { id: '05-choose', title: 'Что выбрать под задачу', minutes: 6 },
       { id: 'm2-control', title: 'Контрольная 2: подобрать модель и тариф', minutes: 10, control: true },
     ]},
