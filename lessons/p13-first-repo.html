@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Репозиторий с карточками товаров для ИИ — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="p13-first-repo">
+<main class="content">
+<article>
+  <h1>Репозиторий с карточками товаров для ИИ</h1>
+  <p class="lead">Восемь минут — и у вас есть приватный репозиторий <code>shop</code>: чеклист карточки товара, шаблон ответа на отзыв, несколько обезличенных карточек и выгрузка отзывов. В следующем уроке к нему подключится ИИ, в модуле 5 — начнёт в нём работать. Войдите на <a href="https://github.com" target="_blank" rel="noopener">github.com</a> в соседней вкладке и идите по шагам.</p>
+
+  <h2>Что получится</h2>
+  <p>Это сквозной проект курса: все задачи агентам в следующих модулях — про этот репозиторий. К концу урока он выглядит так:</p>
+  <div class="mock" data-title="github.com/username/shop — состав репозитория">
+    <div class="mock-body">
+      <div class="mock-code">README.md
+checklist.md            — чеклист карточки товара (10–12 пунктов: название по формуле «тип + бренд + модель + главный признак», описание от 500 знаков, характеристики заполнены (габариты, материал, цвет), комплектация, ключевые слова, цена и цена до скидки, остаток, ответ на частый вопрос покупателя, условия возврата)
+tovary/                 — 4–5 карточек товаров (.md): termokruzhka.md, ryukzak.md, lampa.md… в каждой — название, описание, характеристики, комплектация, цена, остаток
+otzyvy/otzyvy.csv       — обезличенная выгрузка отзывов: артикул; товар; оценка; текст отзыва
+templates/otvet-na-otzyv.md — шаблон ответа на отзыв с полями {имя}, {товар}, {проблема}, {решение}
+reports/                — появится после первого запуска инструмента (отчёт по каждой карточке)
+summary.md              — сводная таблица товаров (появится после первого запуска)</div>
+    </div>
+  </div>
+  <p>Последние две строки — <code>reports/</code> и <code>summary.md</code> — создаст агент в модуле 6, когда появится первый инструмент. Сейчас нужны карточки, отзывы, чеклист и шаблон ответа.</p>
+
+  <div class="stepper" data-id="p13-shop-repo">
+    <section class="step" data-title="Откройте меню создания" data-hint="Под плюсом раскрылось меню с пунктом New repository">
+      <p>Справа вверху на любой странице GitHub — кнопка <b>＋</b> (плюс со стрелкой). Нажмите её и выберите <b>New repository</b> (новый репозиторий).</p>
+      <div class="mock" data-title="github.com">
+        <div class="mock-nav"><b>🐙 GitHub</b><span>🔍 Search or jump to…</span><span style="flex:1"></span><span class="mark">＋ ▾<span class="mark-label">1</span></span><span>👤</span></div>
+        <div class="mock-body">
+          <p class="muted">Меню под плюсом:</p>
+          <p><span class="mark"><b>New repository</b><span class="mark-label">2</span></span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Заполните форму: shop, Private, README" data-hint="Имя shop, выбран Private, стоит галочка Add a README file">
+      <p>На странице <i>Create a new repository</i> заполните три вещи, остальное оставьте как есть:</p>
+      <ol>
+        <li>В поле <b>Repository name</b> введите <code>shop</code> — латиницей, без пробелов.</li>
+        <li>Выберите <b>Private</b> (приватный): в репозитории будут цены, остатки и тексты ваших карточек.</li>
+        <li>Поставьте галочку <b>Add a README file</b>: GitHub создаст первый файл — агенту нужен репозиторий с README.</li>
+      </ol>
+      <div class="mock" data-title="github.com/new">
+        <div class="mock-body">
+          <p><b>Create a new repository</b></p>
+          <div class="mock-field"><label>Repository name *</label><div class="mock-input">shop</div></div>
+          <div class="mock-field"><label>Description (optional)</label><div class="mock-input">Карточки товаров, отзывы и шаблоны для работы с ИИ</div></div>
+          <p>○ Public &nbsp;&nbsp; ◉ <b>Private</b></p>
+          <p>☑ <b>Add a README file</b></p>
+          <div class="mock-row"><span class="mock-btn primary">Create repository</span></div>
+        </div>
+      </div>
+      <p>Описание (<i>Description</i>) — по желанию. Нажмите зелёную кнопку <b>Create repository</b>.</p>
+    </section>
+
+    <section class="step" data-title="Осмотритесь на странице репозитория" data-hint="Рядом с именем значок Private; вверху вкладка Pull requests; над списком файлов кнопка Add file">
+      <p>Вы на главной странице репозитория <code>github.com/ваш-username/shop</code>. Три нужных места:</p>
+      <div class="mock" data-title="github.com/username/shop">
+        <div class="mock-nav"><span class="active">&lt;&gt; Code</span><span>Issues</span><span class="mark">Pull requests<span class="mark-label">1</span></span><span style="flex:1"></span><span>⚙ Settings</span></div>
+        <div class="mock-body">
+          <p><b>shop</b> <span class="badge">🔒 Private</span></p>
+          <div class="mock-row"><span class="mock-btn">main ▾</span><span class="mark">🕘 1 commit<span class="mark-label">2</span></span><span style="flex:1"></span><span class="mark"><span class="mock-btn">Add file ▾</span><span class="mark-label">3</span></span><span class="mock-btn primary">&lt;&gt; Code ▾</span></div>
+          <div class="mock-code">📄 README.md          Initial commit          1 minute ago</div>
+        </div>
+      </div>
+      <ol>
+        <li>Вкладка <b>Pull requests</b> — сюда агент будет присылать результаты. Пока пусто.</li>
+        <li>Ссылка <b>1 commit</b> с иконкой часов — история: скоро в ней появятся ваши загрузки, потом коммиты агента.</li>
+        <li>Кнопка <b>Add file</b> — единственная нужная в этом уроке; в ней два пункта: <b>Create new file</b> и <b>Upload files</b>.</li>
+      </ol>
+    </section>
+
+    <section class="step" data-title="Подготовьте карточки и отзывы" data-hint="Тексты 4 карточек и выгрузка отзывов готовы; текст карточки термокружки скопирован">
+      <p>Нужны 4–5 карточек товаров и выгрузка отзывов. Если берёте свои — обезличьте их, как в уроке 09: артикулы замените на условные, бренды поставщиков и название магазина уберите, имена покупателей в отзывах замените на условные, закупочные цены не кладите вовсе. Обычные характеристики и розничные цены можно оставить.</p>
+      <p>Карточка <b>термокружки</b> понадобится в модуле 6 как контрольный пример: в ней намеренно нет раздела «Ключевые слова». Если своих карточек под рукой нет, попросите ИИ написать учебные — обезличивать их не нужно:</p>
+      <div class="prompt"><div class="prompt-label">Запрос к ИИ — учебная карточка термокружки</div><pre>Напиши учебную карточку товара для маркетплейса: термокружка. Карточка тренировочная, бренд выдуманный — Norvik; реальных артикулов и названий магазинов быть не должно.
+Первой строкой — название по формуле «тип + бренд + модель + главный признак»: # Термокружка Norvik TK-450, 450 мл, с крышкой-поилкой. Дальше разделы с подзаголовками: Описание (от 500 знаков: для кого товар, чем отличается, держит тепло до 6 часов — без преувеличений); Характеристики (объём 450 мл; материал — нержавеющая сталь; цвет — графит; габариты 18 × 8 × 8 см; вес 320 г); Комплектация (кружка, крышка-поилка, подарочная коробка); Цена (цена 1 290 ₽, цена до скидки 1 790 ₽); Остаток (84 шт.); Вопрос покупателя (можно ли мыть в посудомоечной машине — ответ: можно, кроме крышки); Условия возврата (14 дней, если товар не использовался).
+Раздел «Ключевые слова» не добавляй: эта карточка — контрольный пример с пропуском.
+Выдай только текст карточки, без пояснений.</pre></div>
+      <div class="prompt"><div class="prompt-label">Запрос к ИИ — ещё три карточки и выгрузка отзывов</div><pre>По той же схеме напиши ещё три учебные карточки, каждую отдельным файлом, перед каждой — имя файла: ryukzak.md, lampa.md, pled.md.
+Первая — # Рюкзак Norvik City 20 л с отделением для ноутбука: цена 2 490 ₽, цена до скидки 3 290 ₽, остаток 15 шт., в разделе «Ключевые слова» 8–10 поисковых запросов. Вторая — # Лампа настольная Norvik Lume с регулировкой яркости: цена 1 590 ₽, цена до скидки 1 990 ₽, остаток 40 шт., ключевые слова есть, а раздел «Условия возврата» не включай. Третья — # Плед Norvik Soft 130 × 170 см из микрофибры: цена 1 190 ₽, цена до скидки 1 690 ₽, остаток 58 шт., все разделы на месте. В каждой карточке: описание от 500 знаков, характеристики (габариты, материал, цвет), комплектация, вопрос покупателя с ответом.
+Затем сделай учебную выгрузку отзывов: файл CSV, колонки через точку с запятой: артикул;товар;оценка;текст отзыва. 12 строк по четырём товарам (артикулы TK-450, RK-20, LM-01, PL-130). Оценки от 1 до 5: не меньше четырёх отзывов с оценкой 1–3 и понятной проблемой (крышка подтекает, разошёлся шов, лампа мигает, пришёл не тот цвет), остальные — 4–5. В конце текста каждого отзыва — условная подпись покупателя: имя и первая буква фамилии, например Анна К. Первой строкой — заголовки колонок.</pre></div>
+      <p>Карточка лампы специально без условий возврата: инструмент в модуле 6 должен уметь честно написать «не выполнено». Текст карточки термокружки скопируйте — вставите на шаге 7.</p>
+    </section>
+
+    <section class="step" data-title="Создайте checklist.md" data-hint="После Commit changes в списке файлов два файла: README.md и checklist.md">
+      <p>Нажмите <b>Add file</b> → <b>Create new file</b>. В поле имени вверху введите <code>checklist.md</code>, в редактор ниже вставьте чеклист целиком (кнопка «Копировать» у текста):</p>
+      <div class="prompt"><div class="prompt-label">Файл checklist.md — скопируйте целиком</div><pre># Чеклист карточки товара
+
+1. **Название** — по формуле «тип + бренд + модель + главный признак»; понятно, что это за товар, без расшифровки.
+2. **Описание** — от 500 знаков; написано для покупателя: что это, для кого, чем отличается.
+3. **Характеристики** — заполнены габариты, материал, цвет; без пустых полей и прочерков.
+4. **Комплектация** — перечислено всё, что лежит в коробке.
+5. **Ключевые слова** — есть список запросов, по которым товар ищут.
+6. **Цена и цена до скидки** — указаны обе; цена до скидки выше текущей.
+7. **Остаток** — указан; если товара нет, это сказано прямо.
+8. **Ответ на частый вопрос покупателя** — в карточке есть хотя бы один вопрос с ответом.
+9. **Условия возврата** — сказано, как и в какой срок покупатель может вернуть товар.
+10. **Описание не обещает лишнего** — каждое утверждение описания подтверждается характеристиками или комплектацией.</pre></div>
+      <div class="mock" data-title="github.com/username/shop/new/main">
+        <div class="mock-body">
+          <div class="mock-row"><span class="muted">shop /</span><div class="mock-input">checklist.md</div></div>
+          <div class="mock-code"># Чеклист карточки товара
+
+1. **Название** — по формуле «тип + бренд + модель + главный признак»…</div>
+          <div class="mock-row"><span style="flex:1"></span><span class="mock-btn primary">Commit changes…</span></div>
+        </div>
+      </div>
+      <p>Нажмите зелёную кнопку <b>Commit changes…</b>. В окне в поле <b>Commit message</b> уже стоит текст вроде <i>Create checklist.md</i> — оставьте или напишите <code>Добавить чеклист карточки товара</code>. Подтвердите кнопкой <b>Commit changes</b>.</p>
+    </section>
+
+    <section class="step" data-title="Создайте шаблон ответа на отзыв в папке templates" data-hint="В списке файлов появилась папка templates, внутри — otvet-na-otzyv.md">
+      <p>Снова <b>Add file</b> → <b>Create new file</b>. В поле имени введите <code>templates/otvet-na-otzyv.md</code> — с косой чертой: как только вы её наберёте, GitHub превратит <code>templates</code> в папку. Папка появляется вместе с первым файлом в ней.</p>
+      <div class="prompt"><div class="prompt-label">Файл templates/otvet-na-otzyv.md — скопируйте целиком</div><pre># Ответ на отзыв
+
+Здравствуйте, {имя}!
+
+Спасибо за отзыв о товаре «{товар}».
+
+Нам жаль, что вы столкнулись с проблемой: {проблема}.
+
+Что мы предлагаем: {решение}.
+
+Если останутся вопросы, напишите нам в чате магазина на площадке — ответим в течение рабочего дня.
+
+С уважением, команда магазина</pre></div>
+      <div class="mock" data-title="github.com/username/shop/new/main">
+        <div class="mock-body">
+          <div class="mock-row"><span class="muted">shop / templates /</span><div class="mock-input">otvet-na-otzyv.md</div></div>
+          <div class="mock-code"># Ответ на отзыв
+
+Здравствуйте, {имя}!
+
+Спасибо за отзыв о товаре «{товар}»…</div>
+          <div class="mock-row"><span style="flex:1"></span><span class="mock-btn primary">Commit changes…</span></div>
+        </div>
+      </div>
+      <p>Слова в фигурных скобках — <code>{имя}</code>, <code>{товар}</code>, <code>{проблема}</code>, <code>{решение}</code> — поля: в модуле 6 программа агента подставит в них данные конкретного отзыва. Нажмите <b>Commit changes…</b> → <b>Commit changes</b>.</p>
+    </section>
+
+    <section class="step" data-title="Карточка термокружки — контрольный пример" data-hint="В списке файлов появилась папка tovary, внутри — termokruzhka.md">
+      <p>Тот же приём: <b>Add file</b> → <b>Create new file</b>, имя <code>tovary/termokruzhka.md</code>. Вставьте текст карточки термокружки — свой или от ИИ; первой строкой — название с решёткой: <code># Термокружка Norvik TK-450, 450 мл, с крышкой-поилкой</code>.</p>
+      <div class="mock" data-title="github.com/username/shop/new/main">
+        <div class="mock-body">
+          <div class="mock-row"><span class="muted">shop / tovary /</span><div class="mock-input">termokruzhka.md</div></div>
+          <div class="mock-code"># Термокружка Norvik TK-450, 450 мл, с крышкой-поилкой
+
+## Описание
+Термокружка для дороги и офиса: держит тепло до 6 часов…</div>
+          <div class="mock-row"><span style="flex:1"></span><span class="mock-btn primary">Commit changes…</span></div>
+        </div>
+      </div>
+      <p><b>Commit changes…</b> → <b>Commit changes</b>. Проверьте глазами: раздела «Ключевые слова» в файле нет — так и задумано, в модуле 6 инструмент должен пометить этот пункт «не выполнено». Файлы <code>.md</code> GitHub показывает в браузере как отформатированный текст — удобно проверять не скачивая.</p>
+    </section>
+
+    <section class="step" data-title="Загрузите остальные карточки и отзывы" data-hint="В окне загрузки перечислены ваши файлы; после Commit changes они лежат в tovary/ и otzyvy/">
+      <p>Вернитесь на главную страницу репозитория (нажмите <b>shop</b> в заголовке). Создайте на компьютере папку <code>tovary</code> с файлами <code>ryukzak.md</code>, <code>lampa.md</code>, <code>pled.md</code>: вставьте тексты карточек в Блокнот или другой текстовый редактор и сохраните с расширением <code>.md</code>. Рядом — папку <code>otzyvy</code> с файлом <code>otzyvy.csv</code>: своя обезличенная выгрузка, приведённая к четырём колонкам, или учебная от ИИ. Затем <b>Add file</b> → <b>Upload files</b> и перетащите обе папки в окно загрузки.</p>
+      <div class="mock" data-title="github.com/username/shop/upload/main">
+        <div class="mock-body">
+          <p class="muted">⬆ Область загрузки: перетащите сюда папки tovary и otzyvy</p>
+          <div class="mock-code">tovary/ryukzak.md      ✓
+tovary/lampa.md        ✓
+tovary/pled.md         ✓
+otzyvy/otzyvy.csv      ✓</div>
+          <div class="mock-field"><label>Commit message</label><div class="mock-input">Загрузить карточки и отзывы</div></div>
+          <div class="mock-row"><span class="mock-btn primary">Commit changes</span></div>
+        </div>
+      </div>
+      <p>Внизу подпишите загрузку — <code>Загрузить карточки и отзывы</code> — и нажмите <b>Commit changes</b>. Не хочется возиться с сохранением файлов на компьютере? Создайте их прямо на GitHub, как на шаге 7: имена <code>tovary/ryukzak.md</code>, <code>tovary/lampa.md</code>, <code>tovary/pled.md</code>, <code>otzyvy/otzyvy.csv</code>, текст — из ответа ИИ. Коммитов получится больше — для агента разницы нет.</p>
+    </section>
+
+    <section class="step" data-title="Проверьте список файлов" data-hint="В корне README.md, checklist.md и папки tovary, otzyvy, templates; над списком — 5 commits">
+      <p>На главной странице репозитория — пять строк: три папки и два файла. Над ними <b>5 commits</b>: README, чеклист, шаблон, карточка термокружки, загрузка карточек и отзывов (создавали файлы по одному — коммитов больше, это нормально).</p>
+      <div class="mock" data-title="github.com/username/shop">
+        <div class="mock-body">
+          <div class="mock-row"><span class="mock-btn">main ▾</span><span>🕘 5 commits</span><span style="flex:1"></span><span class="mock-btn">Add file ▾</span></div>
+          <div class="mock-code">📁 otzyvy           Загрузить карточки и отзывы             1 minute ago
+📁 templates        Create templates/otvet-na-otzyv.md      7 minutes ago
+📁 tovary           Загрузить карточки и отзывы             1 minute ago
+📄 README.md        Initial commit                          16 minutes ago
+📄 checklist.md     Добавить чеклист карточки товара        10 minutes ago</div>
+        </div>
+      </div>
+      <p>Зайдите в <code>tovary</code>: там 4–5 карточек, каждая открывается в браузере как отформатированный текст. Откройте <code>otzyvy/otzyvy.csv</code> и проверьте колонки: артикул; товар; оценка; текст отзыва. Затем откройте ссылку с числом коммитов: все пять подписаны вами. Это последний раз, когда коммиты здесь делали вы.</p>
+    </section>
+  </div>
+
+  <h2>Commit changes — это просто «сохранить»</h2>
+  <p>Каждое нажатие <b>Commit changes</b> создавало <dfn data-def="Сохранённая порция изменений с подписью: кто, когда и что изменил.">коммит</dfn> — сохранённую порцию изменений с подписью, которую вы видите в истории. Ничего больше за этим словом нет: «сохранить файлы и подписать, что сделано». Подпись годится любая понятная.</p>
+  <p>Это единственное место в курсе, где вы коммитите сами. С модуля 5 коммиты в <code>shop</code> делает агент: получает задачу, пишет программу, запускает её на карточках и отзывах и сохраняет результат с подписью и ссылкой на свою сессию. Ваши кнопки с этого момента — <b>Merge pull request</b> и, если что-то пошло не так, <b>Revert</b>.</p>
+
+  <h2>Почему Private и что это значит для агента</h2>
+  <div class="note"><p><strong>Приватный репозиторий</strong> видят только вы и те, кого вы добавили. Для рабочих файлов магазина — цен, остатков, текстов карточек — единственный разумный выбор. Следствие: ИИ-агенту он тоже не виден, пока вы не дадите доступ. Публичные репозитории Claude Code видит сразу после входа через GitHub, а для приватного нужно установить приложение <b>Claude GitHub App</b> и выбрать в нём ваш аккаунт и репозиторий <code>shop</code>; у Codex для этого своё приложение. Как это сделать — в следующем уроке.</p></div>
+  <div class="warn"><p><strong>Private не отменяет обезличивания.</strong> Файлы будет читать агент на своей облачной машине, поэтому правило урока 09 действует и здесь: условные артикулы, без брендов-клиентов, имён покупателей и закупочных цен. Перед загрузкой пройдитесь поиском по каждому файлу.</p></div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="p13-quiz">
+    <div class="q">
+      <p class="q-text">Почему репозиторий shop сделан приватным?</p>
+      <ul class="q-options">
+        <li>Приватные репозитории агент обрабатывает быстрее</li>
+        <li>Публичные репозитории на бесплатном тарифе недоступны</li>
+        <li data-correct>В нём цены, остатки и тексты карточек: приватный репозиторий видят только вы и те, кого вы добавили, а агенту доступ даётся отдельно через приложение</li>
+      </ul>
+      <p class="q-explain">И публичные, и приватные репозитории бесплатны. Разница — кто видит файлы: публичный — все, приватный — только вы и те, кому открыт доступ.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Что делает кнопка Commit changes при загрузке карточек и отзывов?</p>
+      <ul class="q-options">
+        <li>Отправляет файлы ИИ-агенту на проверку</li>
+        <li data-correct>Сохраняет файлы в репозиторий и записывает это в историю как коммит с подписью</li>
+        <li>Публикует карточки на маркетплейсе</li>
+      </ul>
+      <p class="q-explain">Здесь коммит — просто «сохранить с подписью». С маркетплейсом репозиторий не связан: это ваша подготовительная кухня, а коммиты дальше будет делать агент.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Как в репозитории появилась папка templates?</p>
+      <ul class="q-options">
+        <li data-correct>В имени файла при создании был указан путь templates/otvet-na-otzyv.md — косая черта создала папку</li>
+        <li>Через кнопку New folder в меню Add file</li>
+        <li>Папки в репозитории может создавать только ИИ-агент</li>
+      </ul>
+      <p class="q-explain">Папка появляется вместе с первым файлом, у которого в имени указан путь. Второй способ — перетащить папку целиком в Upload files, как вы сделали с tovary и otzyvy.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Если шли по степперу — почти всё сделано. Проверьте результат по списку и добавьте то, чего не хватает.</p>
+  <ul class="checklist" data-id="p13-practice">
+    <li>Репозиторий <code>shop</code> существует, рядом с именем значок <b>Private</b>, адрес — <code>github.com/мой-username/shop</code>.</li>
+    <li>В корне есть <code>README.md</code> и <code>checklist.md</code> с 10–12 пунктами проверки карточки.</li>
+    <li>В папке <code>tovary/</code> 4–5 карточек, одна из них — <code>termokruzhka.md</code> без раздела «Ключевые слова».</li>
+    <li>В папке <code>otzyvy/</code> лежит <code>otzyvy.csv</code> с колонками «артикул; товар; оценка; текст отзыва», в <code>templates/</code> — <code>otvet-na-otzyv.md</code> с полями {имя}, {товар}, {проблема}, {решение}.</li>
+    <li>Ни в одном файле нет реальных артикулов, брендов-клиентов, имён покупателей и закупочных цен — я проверил поиском по каждому файлу.</li>
+  </ul>
+
+  <div class="win"><p><strong>Рабочая папка готова:</strong> карточки, отзывы, чеклист и шаблон. В следующем уроке вы подключите репозиторий к Claude и ChatGPT — и дадите ИИ его прочитать.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>

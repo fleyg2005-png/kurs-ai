@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Репозиторий с контентом и отчётами для ИИ — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="k13-first-repo">
+<main class="content">
+<article>
+  <h1>Репозиторий с контентом и отчётами для ИИ</h1>
+  <p class="lead">Восемь минут — и у вас есть приватный репозиторий <code>marketing</code>: чеклист поста, несколько постов, обезличенная выгрузка рекламных кампаний и шаблон отчёта. В следующем уроке к нему подключится ИИ, в модуле 5 — начнёт в нём работать. Войдите на <a href="https://github.com" target="_blank" rel="noopener">github.com</a> в соседней вкладке и идите по шагам.</p>
+
+  <h2>Что получится</h2>
+  <p>Это сквозной проект курса: все задачи агентам в следующих модулях — про этот репозиторий. К концу урока он выглядит так:</p>
+  <div class="mock" data-title="github.com/username/marketing — состав репозитория">
+    <div class="mock-body">
+      <div class="mock-code">README.md
+checklist.md            — чеклист поста (10 пунктов проверки)
+posts/                  — 4–6 постов (.md): anons-vebinara.md, post-keis.md, post-rassylka.md… в каждом — шапка (дата, площадка, цель) и текст
+campaigns/campaigns.csv — обезличенная выгрузка кампаний: кампания; показы; клики; расход
+templates/otchet.md     — шаблон отчёта за месяц с полями {месяц}, {кампания}, {показы}, {клики}, {CTR}, {расход}, {цена клика}, {вывод}</div>
+    </div>
+  </div>
+  <p>В чеклисте и в постах не раз встретится <dfn data-def="Хвост ссылки вида ?utm_source=…, по которому в статистике видно, откуда пришёл человек.">UTM-метка</dfn> — хвост ссылки вида <code>?utm_source=…</code>, по которому в статистике видно, откуда пришёл человек: из поста в Telegram, из письма или из рекламы. Пока достаточно знать, что ссылка в посте должна нести метку; проверять это будет инструмент в модуле 6.</p>
+  <p>Папку <code>reports/</code> и сводную таблицу <code>summary.md</code> позже создаст агент — в модуле 6: в <code>reports/</code> ляжет отчёт по каждому посту, в <code>summary.md</code> — сводная таблица постов и кампаний. Сейчас нужны только посты, чеклист, выгрузка и шаблон.</p>
+
+  <div class="stepper" data-id="k13-repo">
+    <section class="step" data-title="Откройте меню создания" data-hint="Под плюсом раскрылось меню с пунктом New repository">
+      <p>Справа вверху на любой странице GitHub — кнопка <b>＋</b> (плюс со стрелкой). Нажмите её и выберите <b>New repository</b> (новый репозиторий).</p>
+      <div class="mock" data-title="github.com">
+        <div class="mock-nav"><b>🐙 GitHub</b><span>🔍 Search or jump to…</span><span style="flex:1"></span><span class="mark">＋ ▾<span class="mark-label">1</span></span><span>👤</span></div>
+        <div class="mock-body">
+          <p class="muted">Меню под плюсом:</p>
+          <p><span class="mark"><b>New repository</b><span class="mark-label">2</span></span></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="step" data-title="Заполните форму: marketing, Private, README" data-hint="Имя marketing, выбран Private, стоит галочка Add a README file">
+      <p>На странице <i>Create a new repository</i> заполните три вещи, остальное оставьте как есть:</p>
+      <ol>
+        <li>В поле <b>Repository name</b> введите <code>marketing</code> — латиницей, без пробелов.</li>
+        <li>Выберите <b>Private</b> (приватный): в репозитории будут несогласованные посты и выгрузки.</li>
+        <li>Поставьте галочку <b>Add a README file</b>: GitHub создаст первый файл — агенту нужен репозиторий с README.</li>
+      </ol>
+      <div class="mock" data-title="github.com/new">
+        <div class="mock-body">
+          <p><b>Create a new repository</b></p>
+          <div class="mock-field"><label>Repository name *</label><div class="mock-input">marketing</div></div>
+          <div class="mock-field"><label>Description (optional)</label><div class="mock-input">Посты, выгрузки кампаний и шаблоны отчётов для работы с ИИ</div></div>
+          <p>○ Public &nbsp;&nbsp; ◉ <b>Private</b></p>
+          <p>☑ <b>Add a README file</b></p>
+          <div class="mock-row"><span class="mock-btn primary">Create repository</span></div>
+        </div>
+      </div>
+      <p>Описание (<i>Description</i>) — по желанию. Нажмите зелёную кнопку <b>Create repository</b>.</p>
+    </section>
+
+    <section class="step" data-title="Осмотритесь на странице репозитория" data-hint="Рядом с именем значок Private; вверху вкладка Pull requests; над списком файлов кнопка Add file">
+      <p>Вы на главной странице репозитория <code>github.com/ваш-username/marketing</code>. Три нужных места:</p>
+      <div class="mock" data-title="github.com/username/marketing">
+        <div class="mock-nav"><span class="active">&lt;&gt; Code</span><span>Issues</span><span class="mark">Pull requests<span class="mark-label">1</span></span><span style="flex:1"></span><span>⚙ Settings</span></div>
+        <div class="mock-body">
+          <p><b>marketing</b> <span class="badge">🔒 Private</span></p>
+          <div class="mock-row"><span class="mock-btn">main ▾</span><span class="mark">🕘 1 commit<span class="mark-label">2</span></span><span style="flex:1"></span><span class="mark"><span class="mock-btn">Add file ▾</span><span class="mark-label">3</span></span><span class="mock-btn primary">&lt;&gt; Code ▾</span></div>
+          <div class="mock-code">📄 README.md          Initial commit          1 minute ago</div>
+        </div>
+      </div>
+      <ol>
+        <li>Вкладка <b>Pull requests</b> — сюда агент будет присылать результаты. Пока пусто.</li>
+        <li>Ссылка <b>1 commit</b> с иконкой часов — история: скоро в ней появятся ваши загрузки, потом коммиты агента.</li>
+        <li>Кнопка <b>Add file</b> — единственная нужная в этом уроке; в ней два пункта: <b>Create new file</b> и <b>Upload files</b>.</li>
+      </ol>
+    </section>
+
+    <section class="step" data-title="Подготовьте посты" data-hint="Есть тексты 4–6 постов с шапкой «дата, площадка, цель»; текст письма рассылки скопирован">
+      <p>Нужны 4–6 постов разных форматов — анонс, кейс, акция, письмо рассылки. Подойдут недавние рабочие: соберите их из заметок и мессенджеров и обезличьте, как в уроке 09 — без названий клиентов, реальных бюджетов и персональных данных из CRM. Первыми тремя строками каждого поста поставьте шапку: дата, площадка, цель. По ней агент будет собирать таблицы.</p>
+      <p>Письмо рассылки понадобится в модуле 6 как <b>контрольный пример</b>: ссылка в нём — специально без UTM-метки. Его текст скопируйте: вставите на шаге 8.</p>
+      <p>Если готовых постов нет, попросите ИИ написать учебные — обезличивать их не нужно:</p>
+      <div class="prompt"><div class="prompt-label">Запрос к ИИ — учебный анонс вебинара</div><pre>Напиши учебный пост — анонс вебинара — для тренировки проверки постов по чеклисту. Первые три строки — шапка:
+Дата: 14.11.2026
+Площадка: Telegram
+Цель: регистрации на вебинар
+Дальше текст поста: вебинар «Как читать отчёт по рекламе без агентства», 20.11.2026 в 19:00, онлайн, бесплатно. Требования: заголовок до 60 знаков; одна мысль — польза вебинара; в конце призыв к действию и ссылка на регистрацию с UTM-меткой https://example.com/webinar?utm_source=telegram&amp;utm_medium=social&amp;utm_campaign=webinar-noyabr; длина 500–1500 знаков; 2–3 хештега. Без названий компаний и имён людей. Выдай только текст поста с шапкой, без пояснений.</pre></div>
+      <div class="prompt"><div class="prompt-label">Запрос к ИИ — ещё два учебных поста</div><pre>По той же схеме напиши ещё два учебных поста. Первый — пост-кейс: шапка «Дата: 05.11.2026, Площадка: VK, Цель: заявки на услугу»; история, как небольшой магазин за месяц удвоил число заявок, с тремя цифрами «до и после»; призыв к действию; ссылка с UTM-меткой utm_source=vk; 2–3 хештега. Второй — письмо рассылки: шапка «Дата: 28.11.2026, Площадка: email-рассылка, Цель: переходы в блог»; вместо хештегов — тема письма; длина 600–900 знаков; ссылку на статью дай БЕЗ UTM-метки, просто https://example.com/blog — так нужно специально. Остальные требования те же: без названий компаний и имён, только тексты постов с шапками.</pre></div>
+      <p>Проверьте, что в письме рассылки ссылка действительно без метки: в модуле 6 инструмент должен честно пометить этот пункт чеклиста как «не выполнено».</p>
+    </section>
+
+    <section class="step" data-title="Создайте checklist.md" data-hint="После Commit changes в списке файлов два файла: README.md и checklist.md">
+      <p>Нажмите <b>Add file</b> → <b>Create new file</b>. В поле имени вверху введите <code>checklist.md</code>, в редактор ниже вставьте чеклист целиком (кнопка «Копировать» у текста):</p>
+      <div class="prompt"><div class="prompt-label">Файл checklist.md — скопируйте целиком</div><pre># Чеклист поста
+
+1. В шапке дата, площадка и цель.
+2. Заголовок до 60 знаков.
+3. Одна мысль на пост.
+4. Призыв к действию.
+5. Ссылка с UTM-меткой.
+6. Длина 500–1500 знаков.
+7. Нет запрещённых обещаний («гарантируем результат», «лучший на рынке»).
+8. Хештеги или тема письма.
+9. Указана аудитория.
+10. Статус согласования.</pre></div>
+      <div class="mock" data-title="github.com/username/marketing/new/main">
+        <div class="mock-body">
+          <div class="mock-row"><span class="muted">marketing /</span><div class="mock-input">checklist.md</div></div>
+          <div class="mock-code"># Чеклист поста
+
+1. В шапке дата, площадка и цель.
+2. Заголовок до 60 знаков…</div>
+          <div class="mock-row"><span style="flex:1"></span><span class="mock-btn primary">Commit changes…</span></div>
+        </div>
+      </div>
+      <p>По этим десяти пунктам в модуле 6 программа агента будет проверять каждый пост; пункт 5 — та самая UTM-метка. Нажмите зелёную кнопку <b>Commit changes…</b>. В окне в поле <b>Commit message</b> уже стоит текст вроде <i>Create checklist.md</i> — оставьте или напишите <code>Добавить чеклист поста</code>. Подтвердите кнопкой <b>Commit changes</b>.</p>
+    </section>
+
+    <section class="step" data-title="Создайте шаблон отчёта в папке templates" data-hint="В списке файлов появилась папка templates, внутри — otchet.md">
+      <p>Снова <b>Add file</b> → <b>Create new file</b>. В поле имени введите <code>templates/otchet.md</code> — с косой чертой: как только вы её наберёте, GitHub превратит <code>templates</code> в папку. Папка появляется вместе с первым файлом в ней.</p>
+      <div class="prompt"><div class="prompt-label">Файл templates/otchet.md — скопируйте целиком</div><pre># Отчёт по рекламным кампаниям за {месяц}
+
+## Кампания: {кампания}
+
+| Показатель | Значение |
+| --- | --- |
+| Показы | {показы} |
+| Клики | {клики} |
+| CTR | {CTR} |
+| Расход | {расход} |
+| Цена клика | {цена клика} |
+
+**Вывод:** {вывод}
+
+_Раздел «Кампания» повторяется для каждой кампании из выгрузки._</pre></div>
+      <div class="mock" data-title="github.com/username/marketing/new/main">
+        <div class="mock-body">
+          <div class="mock-row"><span class="muted">marketing / templates /</span><div class="mock-input">otchet.md</div></div>
+          <div class="mock-code"># Отчёт по рекламным кампаниям за {месяц}
+
+## Кампания: {кампания}…</div>
+          <div class="mock-row"><span style="flex:1"></span><span class="mock-btn primary">Commit changes…</span></div>
+        </div>
+      </div>
+      <p>Слова в фигурных скобках — <code>{месяц}</code>, <code>{кампания}</code>, <code>{показы}</code>, <code>{клики}</code>, <code>{CTR}</code>, <code>{расход}</code>, <code>{цена клика}</code>, <code>{вывод}</code> — поля: в модуле 6 программа агента подставит в них данные из выгрузки. Поля <code>{CTR}</code> и <code>{цена клика}</code> оставьте как есть: программа посчитает их сама, а что это за показатели — разберём там же. Нажмите <b>Commit changes…</b> → <b>Commit changes</b>.</p>
+    </section>
+
+    <section class="step" data-title="Выгрузка кампаний — в папке campaigns" data-hint="В списке файлов появилась папка campaigns, внутри — campaigns.csv">
+      <p>Тот же приём: <b>Add file</b> → <b>Create new file</b>, имя <code>campaigns/campaigns.csv</code>. Это обезличенная выгрузка рекламных кампаний — четыре колонки через точку с запятой: кампания; показы; клики; расход. Есть своя выгрузка из кабинета — скачайте CSV, уберите имя клиента из названий кампаний и оставьте эти четыре колонки. Нет — вставьте учебную:</p>
+      <div class="prompt"><div class="prompt-label">Файл campaigns/campaigns.csv — скопируйте целиком</div><pre>кампания;показы;клики;расход
+Вебинар-октябрь;9000;54;8370
+Пост-кейс;12500;250;9000
+Подписка-на-рассылку;2800;84;4620</pre></div>
+      <div class="mock" data-title="github.com/username/marketing/new/main">
+        <div class="mock-body">
+          <div class="mock-row"><span class="muted">marketing / campaigns /</span><div class="mock-input">campaigns.csv</div></div>
+          <div class="mock-code">кампания;показы;клики;расход
+Вебинар-октябрь;9000;54;8370…</div>
+          <div class="mock-row"><span style="flex:1"></span><span class="mock-btn primary">Commit changes…</span></div>
+        </div>
+      </div>
+      <p><b>Commit changes…</b> → <b>Commit changes</b>. Почему просто текст: <code>.csv</code> — таблица в виде строк с разделителями, такую программе агента легко читать и пересчитывать.</p>
+    </section>
+
+    <section class="step" data-title="Письмо рассылки — первым файлом в posts" data-hint="В списке файлов появилась папка posts, внутри — post-rassylka.md">
+      <p>Снова тот же приём: <b>Add file</b> → <b>Create new file</b>, имя <code>posts/post-rassylka.md</code>. Вставьте текст письма — из своих заметок или от ИИ; первые три строки — шапка: дата, площадка, цель. Это контрольный пример для модуля 6: ссылка в письме — без UTM-метки.</p>
+      <div class="mock" data-title="github.com/username/marketing/new/main">
+        <div class="mock-body">
+          <div class="mock-row"><span class="muted">marketing / posts /</span><div class="mock-input">post-rassylka.md</div></div>
+          <div class="mock-code">Дата: 28.11.2026
+Площадка: email-рассылка
+Цель: переходы в блог
+
+Тема письма: Три отчёта, которые стоит собрать до конца месяца…</div>
+          <div class="mock-row"><span style="flex:1"></span><span class="mock-btn primary">Commit changes…</span></div>
+        </div>
+      </div>
+      <p><b>Commit changes…</b> → <b>Commit changes</b>. Почему текстом: файлы <code>.md</code> GitHub показывает в браузере как отформатированный текст — посты удобно перечитывать прямо в репозитории.</p>
+    </section>
+
+    <section class="step" data-title="Загрузите остальные посты" data-hint="В окне загрузки перечислены файлы постов; после Commit changes они лежат в posts/">
+      <p>Остальные посты сохраните файлами на компьютере: откройте Блокнот или любой текстовый редактор, вставьте пост и сохраните с расширением <code>.md</code> — <code>anons-vebinara.md</code>, <code>post-keis.md</code>. Сложите файлы в папку <code>posts</code>. Затем вернитесь на главную страницу репозитория (нажмите <b>marketing</b> в заголовке): <b>Add file</b> → <b>Upload files</b> — и перетащите папку <code>posts</code> целиком. GitHub положит файлы рядом с уже созданным <code>post-rassylka.md</code>.</p>
+      <div class="mock" data-title="github.com/username/marketing/upload/main">
+        <div class="mock-body">
+          <p class="muted">⬆ Область загрузки: перетащите сюда папку posts</p>
+          <div class="mock-code">posts/anons-vebinara.md   ✓
+posts/post-keis.md        ✓
+posts/post-akciya.md      ✓</div>
+          <div class="mock-field"><label>Commit message</label><div class="mock-input">Загрузить посты</div></div>
+          <div class="mock-row"><span class="mock-btn primary">Commit changes</span></div>
+        </div>
+      </div>
+      <p>Внизу подпишите загрузку — <code>Загрузить посты</code> — и нажмите <b>Commit changes</b>. Перетащили файлы по одному, и они легли в корень? Не страшно: в модуле 5 попросите агента разложить их по папкам. Не хочется возиться с сохранением файлов — создайте каждый пост через <b>Create new file</b> с путём <code>posts/…</code>, как на шаге 8.</p>
+    </section>
+
+    <section class="step" data-title="Проверьте список файлов" data-hint="В корне README.md, checklist.md и папки campaigns, posts, templates; над списком — 6 commits">
+      <p>На главной странице репозитория — пять строк: три папки и два файла. Над ними <b>6 commits</b>: README, чеклист, шаблон отчёта, выгрузка, письмо рассылки, загрузка постов.</p>
+      <div class="mock" data-title="github.com/username/marketing">
+        <div class="mock-body">
+          <div class="mock-row"><span class="mock-btn">main ▾</span><span>🕘 6 commits</span><span style="flex:1"></span><span class="mock-btn">Add file ▾</span></div>
+          <div class="mock-code">📁 campaigns        Create campaigns/campaigns.csv       9 minutes ago
+📁 posts            Загрузить посты                      1 minute ago
+📁 templates        Create templates/otchet.md           12 minutes ago
+📄 README.md        Initial commit                       25 minutes ago
+📄 checklist.md     Добавить чеклист поста               18 minutes ago</div>
+        </div>
+      </div>
+      <p>Зайдите в <code>posts</code>: там 4–6 файлов, каждый открывается в браузере как отформатированный текст. Откройте ссылку с числом коммитов: все шесть подписаны вами. Это последний раз, когда коммиты здесь делали вы.</p>
+    </section>
+  </div>
+
+  <h2>Commit changes — это просто «сохранить»</h2>
+  <p>Каждое нажатие <b>Commit changes</b> создавало <dfn data-def="Сохранённая порция изменений с подписью: кто, когда и что изменил.">коммит</dfn> — сохранённую порцию изменений с подписью, которую вы видите в истории. Ничего больше за этим словом нет: «сохранить файлы и подписать, что сделано». Подпись годится любая понятная.</p>
+  <p>Это единственное место в курсе, где вы коммитите сами. С модуля 5 коммиты в <code>marketing</code> делает агент: получает задачу, пишет программу, запускает её на постах и выгрузке и сохраняет результат с подписью и ссылкой на свою сессию. Ваши кнопки с этого момента — <b>Merge pull request</b> и, если что-то пошло не так, <b>Revert</b>.</p>
+
+  <h2>Почему Private и что это значит для агента</h2>
+  <div class="note"><p><strong>Приватный репозиторий</strong> видят только вы и те, кого вы добавили. Для рабочих файлов — несогласованных постов и клиентских выгрузок — единственный разумный выбор. Следствие: ИИ-агенту он тоже не виден, пока вы не дадите доступ. Публичные репозитории Claude Code видит сразу после входа через GitHub, а для приватного нужно установить приложение <b>Claude GitHub App</b> и выбрать в нём ваш аккаунт и репозиторий <code>marketing</code>; у Codex для этого своё приложение. Как это сделать — в следующем уроке.</p></div>
+  <div class="warn"><p><strong>Private не отменяет обезличивания.</strong> Файлы будет читать агент на своей облачной машине, поэтому правило урока 09 действует и здесь: без названий клиентов, реальных бюджетов и персональных данных подписчиков — имён, почт и телефонов из CRM. Перед загрузкой пройдитесь поиском по каждому файлу.</p></div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="k13-quiz">
+    <div class="q">
+      <p class="q-text">Почему репозиторий marketing сделан приватным?</p>
+      <ul class="q-options">
+        <li>Приватные репозитории агент обрабатывает быстрее</li>
+        <li data-correct>В нём рабочие файлы — несогласованные посты и выгрузки: приватный репозиторий видят только вы и те, кого вы добавили, а агенту доступ даётся отдельно через приложение</li>
+        <li>Публичные репозитории на бесплатном тарифе недоступны</li>
+      </ul>
+      <p class="q-explain">И публичные, и приватные репозитории бесплатны. Разница — кто видит файлы: публичный — все, приватный — только вы и те, кому открыт доступ.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Что делает кнопка Commit changes при загрузке постов?</p>
+      <ul class="q-options">
+        <li>Отправляет посты ИИ-агенту на проверку</li>
+        <li>Публикует посты на площадке</li>
+        <li data-correct>Сохраняет файлы в репозиторий и записывает это в историю как коммит с подписью</li>
+      </ul>
+      <p class="q-explain">Здесь коммит — просто «сохранить с подписью». Публиковать посты из репозитория никто не будет: это ваша работа за его пределами.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Зачем в чеклисте пункт «Ссылка с UTM-меткой»?</p>
+      <ul class="q-options">
+        <li data-correct>По метке в ссылке в статистике видно, откуда пришёл человек; без неё переходы из поста не отличить от остальных</li>
+        <li>Метка делает ссылку короче и аккуратнее</li>
+        <li>Без метки ссылка не откроется у части подписчиков</li>
+      </ul>
+      <p class="q-explain">UTM-метка — хвост ссылки вида ?utm_source=…. Ссылка работает и без неё, но статистика перестаёт отвечать на вопрос «откуда пришли люди».</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Как в репозитории появилась папка templates?</p>
+      <ul class="q-options">
+        <li>Через кнопку New folder в меню Add file</li>
+        <li data-correct>В имени файла при создании был указан путь templates/otchet.md — косая черта создала папку</li>
+        <li>Папки в репозитории может создавать только ИИ-агент</li>
+      </ul>
+      <p class="q-explain">Папка появляется вместе с первым файлом, у которого в имени указан путь. Второй способ — перетащить папку целиком в Upload files; разложить файлы по папкам можно и поручить агенту.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Если шли по степперу — почти всё сделано. Проверьте результат по списку и добавьте то, чего не хватает.</p>
+  <ul class="checklist" data-id="k13-practice">
+    <li>Репозиторий <code>marketing</code> существует, рядом с именем значок <b>Private</b>, адрес — <code>github.com/мой-username/marketing</code>.</li>
+    <li>В корне есть <code>README.md</code> и <code>checklist.md</code> с 10–12 пунктами проверки поста.</li>
+    <li>В папке <code>posts/</code> не меньше четырёх постов с шапкой «дата, площадка, цель»; один из них — <code>post-rassylka.md</code> со ссылкой без UTM-метки.</li>
+    <li>В папке <code>campaigns/</code> лежит <code>campaigns.csv</code> с колонками «кампания; показы; клики; расход», в <code>templates/</code> — <code>otchet.md</code> с полями в фигурных скобках.</li>
+    <li>Ни в одном файле нет названий клиентов, реальных бюджетов и персональных данных из CRM — я проверил поиском по каждому файлу.</li>
+  </ul>
+
+  <div class="win"><p><strong>Рабочая папка готова:</strong> посты, чеклист, выгрузка и шаблон отчёта. В следующем уроке вы подключите репозиторий к Claude и ChatGPT — и дадите ИИ его прочитать.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>
