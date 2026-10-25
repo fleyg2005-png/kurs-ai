@@ -705,6 +705,7 @@
     if (PAGE === 'lesson' && CURRENT) buildLessonChrome();
     initCopy(); initSteppers(); initQuizzes(); initChecklists(); initReveals(); initTabs();
     initPromptBuilder(); initGitSim(); initControl(); initIndex(); initCertificate();
+    document.querySelectorAll('dfn[data-def]').forEach(d => { d.tabIndex = 0; d.setAttribute('role', 'button'); d.setAttribute('aria-label', d.textContent + ': ' + d.dataset.def); });
     document.querySelectorAll('.theme-btn').forEach(b => b.addEventListener('click', toggleTheme));
     refreshThemeButtons();
     window.AIKURS = { COURSE, LESSONS, store, percent, isDone, setDone };

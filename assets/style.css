@@ -135,13 +135,13 @@ dfn { font-style: normal; border-bottom: 1px dotted var(--accent); cursor: help;
 dfn[data-def]::after {
   content: attr(data-def);
   position: absolute; left: 0; bottom: 130%; z-index: 20;
-  width: max-content; max-width: 320px;
+  width: max-content; max-width: min(320px, calc(100vw - 48px));
   background: var(--fg); color: var(--bg);
-  padding: .5em .7em; border-radius: 8px; font-size: .85rem; line-height: 1.4;
-  box-shadow: var(--shadow); opacity: 0; pointer-events: none; transform: translateY(4px);
-  transition: opacity .15s, transform .15s;
+  padding: .5em .7em; border-radius: 8px; font-size: .85rem; line-height: 1.4; font-weight: 400;
+  box-shadow: var(--shadow); display: none; pointer-events: none;
 }
-dfn[data-def]:hover::after, dfn[data-def]:focus::after { opacity: 1; transform: translateY(0); }
+dfn[data-def]:hover::after, dfn[data-def]:focus::after, dfn[data-def]:focus-within::after { display: block; }
+dfn[data-def]:focus { outline: none; background: var(--accent-soft); border-radius: 4px; }
 
 /* ---------- Layout ---------- */
 .layout { display: flex; min-height: 100vh; }
