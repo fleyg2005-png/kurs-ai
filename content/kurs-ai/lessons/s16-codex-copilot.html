@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>То же в ChatGPT (Codex) и Copilot — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="s16-codex-copilot">
+<main class="content">
+<article>
+  <h1>То же в ChatGPT (Codex) и Copilot</h1>
+  <p class="lead">Основной инструмент курса — Claude Code: он сам делает задачу и сам сохраняет её в main. Codex от OpenAI и облачный агент Copilot на GitHub тоже умеют работать с вашим репозиторием. Это запасные исполнители, у них есть одна оговорка. Разберём её и пройдём одну задачу в любом из них.</p>
+
+  <h2>Честно о разнице</h2>
+  <p>Codex и Copilot читают репозиторий, правят файлы и сохраняют работу. Но до <code>main</code> сами её не доводят: результат остаётся pull request'ом, то есть заявкой «перенеси черновик в main», и сами они её не сливают. Правило 6 из <code>AGENTS.md</code> они прочитают и честно напишут, что слить не могут. Пока заявка не принята, сайт не меняется.</p>
+  <p>Чтобы ничего не делать на GitHub руками:</p>
+  <ul>
+    <li>в Codex нажмите его кнопку <b>Create PR</b> — это кнопка в самом Codex, а не на GitHub;</li>
+    <li>слить попросите Claude Code в его сессии: «Слей открытый pull request от Codex в main и удали его ветку»;</li>
+    <li>в Copilot задачу пишут в issue и назначают Copilot, это как написать задачу. Его pull request сливается так же, через Claude Code.</li>
+  </ul>
+  <div class="table-wrap"><table>
+    <thead><tr><th></th><th>Claude Code</th><th>Codex</th><th>Copilot cloud agent</th></tr></thead>
+    <tbody>
+      <tr><td><b>Где пишете задачу</b></td><td>Чат на claude.ai/code</td><td>Задача на chatgpt.com/codex</td><td>Issue в репозитории на GitHub</td></tr>
+      <tr><td><b>Кто сохраняет работу</b></td><td>Сам агент</td><td>Codex, после кнопки Create PR в Codex</td><td>Сам агент, в свой pull request</td></tr>
+      <tr><td><b>Кто сливает в main</b></td><td>Сам агент</td><td>Claude Code по вашей просьбе</td><td>Claude Code по вашей просьбе</td></tr>
+      <tr><td><b>Что нужно</b></td><td>Claude Pro ($20/мес), Max или Team</td><td>ChatGPT Plus ($20/мес), Pro или Business</td><td>Copilot Pro ($10/мес)</td></tr>
+    </tbody>
+  </table></div>
+  <p>Выходит, что для этого пути Claude Code нужен в любом случае: Codex и Copilot делают задачу, а сливает её Claude. Если Claude Code у вас нет, pull request от Codex пришлось бы сливать на GitHub руками. Так работают в пути «Сайт: git руками», урок 21.</p>
+
+  <h2>Одна задача для любого агента</h2>
+  <p>Агенты различаются кнопками, а не языком. Codex прочитает правила из <code>AGENTS.md</code>, Copilot — из обоих файлов правил, так что задача та же, что для Claude:</p>
+  <div class="prompt"><div class="prompt-label">Задача агенту</div><pre>Добавь на страницу index.html, в самый конец, раздел «Чем могу помочь» из трёх пунктов:
+— объясню, какие документы нужны для перехода на УСН;
+— подскажу, как подготовиться к сверке с налоговой;
+— покажу, как ускорить рутину с помощью ИИ.
+Оформи в том же стиле, что остальная страница. Остальное на странице и другие файлы не меняй.
+Сохрани результат сам, как в правилах.</pre></div>
+  <p>Пункты замените на свои: чем вы можете помочь людям своей профессии. Пока задача у Codex или Copilot, не давайте Claude Code другую задачу по <code>index.html</code>: два исполнителя на одном файле мешают друг другу. Что бывает в таком случае — в уроке 18.</p>
+
+  <h2>Два запасных пути</h2>
+  <div class="tabs" data-group="agent">
+    <div class="tab" data-tab="Codex">
+      <p>Нужен ChatGPT Plus ($20/мес), Pro или Business: на Free и Go агента нет. Откройте <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a> в соседней вкладке.</p>
+      <div class="stepper" data-id="s16-codex">
+        <section class="step" data-title="Откройте Codex" data-hint="Видите экран Codex с предложением подключить GitHub или начать задачу">
+          <p>Перейдите на <a href="https://chatgpt.com/codex" target="_blank" rel="noopener">chatgpt.com/codex</a>. В приложении ChatGPT тот же раздел: <b>Codex</b> → <b>Work in</b> → <b>Cloud</b>; на телефоне — раздел Codex.</p>
+        </section>
+        <section class="step" data-title="Подключите GitHub" data-hint="Репозиторий hello-ai доступен Codex">
+          <p>Нажмите <b>Connect GitHub</b>. GitHub предложит установить приложение Codex на ваш аккаунт и спросит, какие репозитории ему открыть: <b>Select repositories</b> → <code>hello-ai</code>. Это тот же принцип, что у Claude GitHub App в уроке 14.</p>
+        </section>
+        <section class="step" data-title="Создайте окружение" data-hint="В окружении выбран hello-ai">
+          <p><b>Select environment</b> → <b>Create environment</b> → выберите репозиторий <code>hello-ai</code>. <dfn data-def="Настроенная копия проекта в облаке OpenAI, в которой Codex выполняет задачи.">Окружение</dfn> создаётся один раз, дальше все задачи по этому репозиторию идут в нём.</p>
+          <div class="mock" data-title="chatgpt.com/codex — Create environment">
+            <div class="mock-body">
+              <div class="mock-field"><label>Repository</label><div class="mock-input">username/hello-ai ▾</div></div>
+              <div class="mock-row"><span class="mock-btn primary">Get started</span></div>
+            </div>
+          </div>
+        </section>
+        <section class="step" data-title="Get started → Publish" data-hint="Надпись Environment published">
+          <p>Нажмите <b>Get started</b>: Codex сам изучит проект. У сайта из простых файлов настраивать нечего, этап короткий. Проверьте, что выбран <code>hello-ai</code>, и нажмите <b>Publish</b>. Подтверждение <i>Environment published</i> значит, что окружение готово.</p>
+        </section>
+        <section class="step" data-title="Start a new task" data-hint="Задача отправлена, Codex начал работу">
+          <p>Нажмите <b>Start a new task</b>, вставьте задачу из начала урока и отправьте. Текст тот же, что для Claude, ничего не меняли.</p>
+        </section>
+        <section class="step" data-title="Посмотрите, что изменено" data-hint="В задаче Codex изменён один файл — index.html">
+          <p>Задача выполняется в отдельной среде с копией репозитория, обычно от 1 до 30 минут. Codex показывает изменённые файлы и логи команд. Файл должен быть один, <code>index.html</code>. Нужна правка — напишите её в той же задаче, Codex переделает.</p>
+          <div class="mock" data-title="chatgpt.com/codex — задача">
+            <div class="mock-body">
+              <p><b>Раздел «Чем могу помочь» на странице</b> <span class="badge ok">Done</span></p>
+              <p class="muted">index.html · +18 −0</p>
+              <div class="mock-row"><span class="mark"><span class="mock-btn primary">Create PR</span><span class="mark-label">1</span></span></div>
+            </div>
+          </div>
+        </section>
+        <section class="step" data-title="Create PR — кнопка в Codex" data-hint="Codex сообщил, что pull request открыт">
+          <p>Нажмите <b>Create PR</b> в самом Codex. Codex отправит работу в репозиторий и откроет pull request. На GitHub ничего не нажимайте и pull request не открывайте: сайт пока не изменился, работа ждёт слияния.</p>
+        </section>
+        <section class="step" data-title="Слить через Claude Code" data-hint="Claude отчитался, что слил pull request от Codex; через минуту-две раздел на сайте">
+          <p>Откройте claude.ai/code, новую сессию: <code>hello-ai</code>, main, full, Auto. Отправьте:</p>
+          <div class="prompt"><div class="prompt-label">Запрос к Claude Code</div><pre>Слей открытый pull request от Codex в main и удали его ветку. Перед этим коротко, простыми словами, напиши, что в нём изменено. Если в нём что-то кроме index.html — не сливай и объясни.</pre></div>
+          <p>Через минуту-две после отчёта откройте сайт и проверьте раздел «Чем могу помочь».</p>
+        </section>
+      </div>
+    </div>
+
+    <div class="tab" data-tab="Copilot cloud agent">
+      <p>Нужен <b>Copilot Pro</b> — $10/мес; бесплатно для студентов, преподавателей и мейнтейнеров популярных open source-проектов. Агент живёт на GitHub: задача — issue, результат — pull request.</p>
+      <div class="stepper" data-id="s16-copilot">
+        <section class="step" data-title="Создайте issue" data-hint="Открыта форма новой issue с полями заголовка и описания">
+          <p>В репозитории <code>hello-ai</code> откройте вкладку <b>Issues</b> → <b>New issue</b>. <dfn data-def="Карточка задачи в репозитории: заголовок, описание, исполнитель.">Issue</dfn> — задачник репозитория. Написать issue — то же, что написать задачу в чате.</p>
+        </section>
+        <section class="step" data-title="Заголовок и задача" data-hint="Issue создана, у неё появился номер">
+          <p>Заголовок: «Раздел „Чем могу помочь“ на странице». В описание вставьте задачу из начала урока целиком и создайте issue.</p>
+        </section>
+        <section class="step" data-title="Назначьте Copilot" data-hint="В блоке Assignees стоит Copilot">
+          <p>Справа в блоке <b>Assignees</b> выберите <b>Copilot</b>. Это и есть запуск: агент получил задачу.</p>
+          <div class="mock" data-title="github.com/username/hello-ai/issues/1">
+            <div class="mock-sidebar">
+              <div class="mock-side"><div><b>Assignees</b></div><div class="active">Copilot</div><div><b>Labels</b></div><div class="muted">None yet</div></div>
+              <div class="mock-main"><p><b>Раздел «Чем могу помочь» на странице</b> <span class="badge ok">Open</span></p><p class="muted">Добавь на страницу index.html, в самый конец, раздел «Чем могу помочь»…</p></div>
+            </div>
+          </div>
+        </section>
+        <section class="step" data-title="Copilot работает сам" data-hint="GitHub прислал уведомление, что Copilot закончил и просит ревью">
+          <p>Copilot откроет свой pull request и будет работать в нём. Работает он в <b>GitHub Actions</b> — облачных машинах GitHub, обычно от нескольких минут до получаса. Можно уйти. Когда закончит, GitHub пришлёт уведомление, что Copilot просит ревью. Открывать pull request не нужно: результат вы проверите на сайте.</p>
+        </section>
+        <section class="step" data-title="Слить через Claude Code" data-hint="Claude отчитался, что слил pull request от Copilot; через минуту-две раздел на сайте">
+          <p>Откройте claude.ai/code, новую сессию: <code>hello-ai</code>, main, full, Auto. Отправьте:</p>
+          <div class="prompt"><div class="prompt-label">Запрос к Claude Code</div><pre>Слей открытый pull request от Copilot в main и удали его ветку. Перед этим коротко, простыми словами, напиши, что в нём изменено. Если Copilot ещё работает или в pull request что-то кроме index.html — не сливай и объясни.</pre></div>
+          <p>Через минуту-две после отчёта откройте сайт и проверьте раздел. Issue закроется сама.</p>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <h2>Что выбрать</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Ситуация</th><th>Путь</th></tr></thead>
+    <tbody>
+      <tr><td>Есть Claude Pro, Max или Team</td><td>Claude Code для всего: делает и сохраняет сам, всё в одном чате</td></tr>
+      <tr><td>Есть ещё ChatGPT Plus или Pro</td><td>Codex — второй исполнитель, например чтобы сравнить два варианта раздела. Сливает Claude Code</td></tr>
+      <tr><td>Есть Copilot Pro или бесплатный доступ студента</td><td>Copilot — задача пишется в issue, удобно, если сайтом занимается команда. Сливает Claude Code</td></tr>
+    </tbody>
+  </table></div>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="s16-quiz">
+    <div class="q">
+      <p class="q-text">Чем Codex и Copilot отличаются от Claude Code в этом пути?</p>
+      <ul class="q-options">
+        <li>Они не умеют менять файлы</li>
+        <li data-correct>Результат они оставляют pull request'ом и сами его не сливают</li>
+        <li>Они работают только с приватными репозиториями</li>
+      </ul>
+      <p class="q-explain">Работу они делают, но до main не доводят. Слить их pull request можно попросить Claude Code.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Где находится кнопка Create PR, которую вы нажимаете в пути Codex?</p>
+      <ul class="q-options">
+        <li>На GitHub, во вкладке Pull requests</li>
+        <li data-correct>В самом Codex, на странице задачи</li>
+        <li>В настройках репозитория</li>
+      </ul>
+      <p class="q-explain">Это кнопка Codex: она отправляет его работу в репозиторий. На GitHub вы ничего не нажимаете.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Как поставить задачу облачному агенту Copilot?</p>
+      <ul class="q-options">
+        <li data-correct>Создать issue с задачей и назначить Copilot в блоке Assignees</li>
+        <li>Написать задачу в CLAUDE.md</li>
+        <li>Отправить задачу в чат Claude Code</li>
+      </ul>
+      <p class="q-explain">Issue — карточка задачи. Назначение на Copilot запускает агента.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Codex закончил задачу, вы нажали Create PR. Изменился ли сайт?</p>
+      <ul class="q-options">
+        <li>Да, сразу</li>
+        <li>Да, через минуту-две</li>
+        <li data-correct>Нет: сайт изменится, когда Claude Code сольёт pull request в main</li>
+      </ul>
+      <p class="q-explain">Сайт показывает только main. Pull request — заявка, которая ждёт слияния.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Пройдите один из двух путей, если у вас есть подписка. Нет ни ChatGPT Plus, ни Copilot Pro — отдайте задачу Claude Code, как в уроке 15, и прочитайте урок для понимания.</p>
+  <ul class="checklist" data-id="s16-practice">
+    <li>Задача отправлена Codex или Copilot слово в слово, с моими пунктами вместо примера.</li>
+    <li>Агент изменил только <code>index.html</code>.</li>
+    <li>Pull request открыт кнопкой в Codex или самим Copilot; на GitHub я ничего не нажимал(а).</li>
+    <li>Claude Code описал изменения простыми словами и слил pull request в main.</li>
+    <li>Раздел «Чем могу помочь» появился на сайте.</li>
+  </ul>
+
+  <div class="win"><p><strong>У вас есть запасные исполнители.</strong> Задача одна для всех, сливает всегда Claude Code. Следующий урок — как проверять результат любого из них, глядя на сайт, а не в код.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>

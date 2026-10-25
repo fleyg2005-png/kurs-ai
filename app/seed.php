@@ -19,7 +19,7 @@ function seed_settings(callable $log, string $adminEmail, string $defaultCourse)
     $defaults = [
         'site_name' => $site,
         'site_title' => $site,
-        'site_tagline' => 'Практические курсы. Бесплатные открываются сразу, без регистрации.',
+        'site_tagline' => 'Практические курсы. Начать можно сразу, без регистрации. А с аккаунтом прогресс сохранится и откроется на любом устройстве.',
         'registration' => '1',
         'default_course' => $defaultCourse,
         'mail_from' => trim((string)env('MAIL_FROM', '')),
