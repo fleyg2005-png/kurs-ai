@@ -9,19 +9,19 @@ require_once APP_DIR . '/importer.php';
 /* $log получает строки отчёта; $ask — вопрос в терминале, если он есть */
 function run_seeds(callable $log, ?callable $ask = null): void {
     $email = seed_admin($log, $ask);
-    seed_settings($log, $email);
-    seed_courses($log);
+    $slugs = seed_courses($log);
+    seed_settings($log, $email, (string)($slugs['kurs-ai'] ?? reset($slugs) ?: ''));
 }
 
 /* Настройки по умолчанию — только те, которых ещё нет */
-function seed_settings(callable $log, string $adminEmail): void {
+function seed_settings(callable $log, string $adminEmail, string $defaultCourse): void {
     $site = trim((string)env('SITE_NAME', '')) ?: 'Курсы';
     $defaults = [
         'site_name' => $site,
         'site_title' => $site,
         'site_tagline' => 'Практические курсы. Бесплатные открываются сразу, без регистрации.',
         'registration' => '1',
-        'default_course' => in_array('kurs-ai', content_dirs(), true) ? 'kurs-ai' : '',
+        'default_course' => $defaultCourse,
         'mail_from' => trim((string)env('MAIL_FROM', '')),
         'privacy_html' => default_privacy($site, $adminEmail),
     ];
@@ -75,17 +75,30 @@ function seed_password(): string {
     return $p;
 }
 
-/* Курсы из content/: загружаются те, которых ещё нет в базе. Дальше их правят в админке. */
-function seed_courses(callable $log): void {
+/* Курсы из content/: загружаются те, которых ещё нет в базе. Дальше их правят в админке.
+   Возвращает адреса курсов: папка в content/ => адрес на сайте. */
+function seed_courses(callable $log): array {
     $dirs = content_dirs();
-    if (!$dirs) { $log('курсов в content/ нет'); return; }
+    if (!$dirs) { $log('курсов в content/ нет'); return []; }
+    $slugs = [];
     foreach ($dirs as $dir) {
+        $state = content_import_state($dir);
+        if ($state['course']) { $log('курс уже есть: /' . $state['course']['slug'] . '/'); $slugs[$dir] = $state['course']['slug']; continue; }
+        if ($state['deleted']) { $log('курс из content/' . $dir . ' удалён в админке, заново не загружаю'); continue; }
         $meta = json_decode((string)file_get_contents(ROOT_DIR . '/content/' . $dir . '/course.json'), true);
         $slug = (string)($meta['slug'] ?? $dir);
-        if (course_by_slug($slug)) { $log('курс уже есть: /' . $slug . '/'); continue; }
-        $id = import_course_dir($dir);
-        $log('загружен курс /' . $slug . '/: ' . lesson_count($id) . ' ' . plural(lesson_count($id), 'урок', 'урока', 'уроков'));
+        $target = $slug;
+        if ($why = slug_problem($slug)) {
+            /* Например, на сервере лежит папка со старой версией курса — её не трогаем */
+            $target = $slug . '-new';
+            for ($n = 2; !slug_free($target); $n++) $target = $slug . '-new-' . $n;
+            $log($why . ' Курс загружен по адресу /' . $target . '/. Когда адрес освободится, поменяй его в админке: Курсы, курс, поле «Адрес».');
+        }
+        $id = import_course_dir($dir, $target === $slug ? null : $target);
+        $slugs[$dir] = $target;
+        $log('загружен курс /' . $target . '/: ' . lesson_count($id) . ' ' . plural(lesson_count($id), 'урок', 'урока', 'уроков'));
     }
+    return $slugs;
 }
 
 function default_privacy(string $site, string $email): string {
