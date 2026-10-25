@@ -14,6 +14,17 @@ function redirect(string $to, int $code = 302): void {
 }
 
 /* Безопасный адрес возврата после входа: только внутри сайта */
+/* Адрес сайта для писем: APP_URL из .env. Без него — по запросу (подделываемый заголовок Host,
+   поэтому на рабочем сервере APP_URL лучше задать). */
+function site_origin(): string {
+    $u = (string)config('app_url', '');
+    if ($u === '') {
+        $https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+        $u = ($https ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost');
+    }
+    return (string)preg_replace('~^(https?://[^/]+).*$~i', '$1', $u);
+}
+
 function safe_next(?string $next): string {
     $next = (string)$next;
     /* Только адреса этого сайта: «//host» и «/\host» браузеры считают чужим сайтом */

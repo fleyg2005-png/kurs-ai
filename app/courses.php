@@ -2,7 +2,7 @@
 /* Курсы: выборки, манифест для движка, доступ, прогресс. */
 defined('APP') || exit;
 
-const RESERVED_SLUGS = ['admin', 'account', 'api', 'assets', 'install', 'privacy', 'content', 'app', 'database', 'tools', 'tests', 'lessons', 'index.html', 'certificate.html', 'c', 'catalog', 'courses'];
+const RESERVED_SLUGS = ['admin', 'account', 'api', 'assets', 'install', 'privacy', 'content', 'app', 'bin', 'database', 'tools', 'tests', 'vendor', 'lessons', 'index.html', 'certificate.html', 'c', 'catalog', 'courses'];
 const ACCESS_LABELS = ['open' => 'Открытый', 'login' => 'По регистрации', 'closed' => 'Закрытый'];
 
 function course_by_slug(string $slug): ?array { return row('SELECT * FROM ' . t('courses') . ' WHERE slug = ?', [$slug]); }

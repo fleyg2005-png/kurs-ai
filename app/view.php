@@ -99,8 +99,8 @@ function gate_body(array $c, ?array $u): string {
 
 /* ---------- Страницы сайта: каталог, вход, кабинет ---------- */
 function site_header(): string {
-    $u = installed() ? current_user() : null;
-    $name = installed() ? setting('site_name', 'Курсы') : 'Курсы';
+    $u = configured() ? current_user() : null;
+    $name = configured() ? setting('site_name', 'Курсы') : 'Курсы';
     $nav = '<a href="' . e(url()) . '">Курсы</a>';
     if ($u && $u['role'] === 'admin') $nav .= '<a href="' . e(url('admin')) . '">Админка</a>';
     $nav .= $u ? '<a href="' . e(url('account')) . '">' . e($u['name'] ?: 'Кабинет') . '</a>' : '<a href="' . e(url('account/login')) . '">Войти</a><a class="btn small primary" href="' . e(url('account/register')) . '">Регистрация</a>';
@@ -109,15 +109,27 @@ function site_header(): string {
 }
 
 function render_site_page(string $title, string $body, array $o = []): void {
-    echo head_html($title . (installed() ? ' — ' . setting('site_name', 'Курсы') : ''), $o['description'] ?? '');
+    echo head_html($title . (configured() ? ' — ' . setting('site_name', 'Курсы') : ''), $o['description'] ?? '');
     echo '<body class="site">' . site_header() . '<main class="site-main' . (!empty($o['narrow']) ? ' narrow' : '') . '">' . flash_html() . $body . '</main>';
-    echo '<footer class="site-footer"><span>© ' . date('Y') . ' ' . e(installed() ? setting('site_name', 'Курсы') : 'Курсы') . '</span><a href="' . e(url('privacy')) . '">Политика обработки данных</a></footer>';
+    echo '<footer class="site-footer"><span>© ' . date('Y') . ' ' . e(configured() ? setting('site_name', 'Курсы') : 'Курсы') . '</span><a href="' . e(url('privacy')) . '">Политика обработки данных</a></footer>';
     echo '<script src="' . e(asset('site.js')) . '"></script></body></html>';
 }
 
 function render_message(string $title, string $text, int $code = 0): void {
     if ($code) http_response_code($code);
     render_site_page($title, '<div class="card msg-card"><h1 class="mt0">' . e($title) . '</h1><p>' . e($text) . '</p><a class="btn" href="' . e(url()) . '">На главную</a></div>', ['narrow' => true]);
+}
+
+/* Страница без обращения к базе: «сайт настраивается» и ошибки сервера */
+function plain_page(int $code, string $title, string $text): void {
+    while (ob_get_level() > 0) ob_end_clean();
+    if (!headers_sent()) {
+        http_response_code($code);
+        header('Content-Type: text/html; charset=utf-8');
+        header('Cache-Control: no-store');
+        if ($code === 503) header('Retry-After: 120');
+    }
+    echo head_html($title) . '<body class="site"><main class="site-main narrow"><div class="card msg-card"><h1 class="mt0">' . e($title) . '</h1><p>' . e($text) . '</p></div></main></body></html>';
 }
 
 function not_found(): void { render_message('Страница не найдена', 'Такой страницы нет. Возможно, адрес изменился или курс снят с публикации.', 404); exit; }
