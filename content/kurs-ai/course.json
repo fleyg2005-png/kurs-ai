@@ -282,12 +282,12 @@
             {
               "id": "s13-first-repo",
               "title": "Репозиторий для сайта",
-              "minutes": 8
+              "minutes": 5
             },
             {
               "id": "s14-connect",
               "title": "Подключить Claude и сделать первую страницу",
-              "minutes": 12
+              "minutes": 15
             },
             {
               "id": "sm4-control",
@@ -304,7 +304,7 @@
             {
               "id": "s15-pages",
               "title": "Сайт в интернете: GitHub Pages",
-              "minutes": 12
+              "minutes": 8
             },
             {
               "id": "s16-codex-copilot",
