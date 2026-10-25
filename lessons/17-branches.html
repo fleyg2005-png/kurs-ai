@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Коммиты, ветки, pull request — на симуляторе — Курс по ИИ</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<script>try{var t=localStorage.getItem('aikurs:theme');if(t)document.documentElement.setAttribute('data-theme',JSON.parse(t));}catch(e){}</script>
+</head>
+<body data-root="../" data-lesson="17-branches">
+<main class="content">
+<article>
+  <h1>Коммиты, ветки, pull request — на симуляторе</h1>
+  <p class="lead">Самая «программистская» часть курса. Разберём её на учебном симуляторе, где ничего нельзя сломать, а потом повторим в настоящем GitHub. После этого урока вы будете понимать, что именно делает ИИ-агент, когда «открывает PR».</p>
+
+  <h2>Зачем нужны ветки</h2>
+  <p>Представьте чистовик документа, который уже отправлен клиенту, и черновик, в котором вы пробуете новую редакцию раздела. Черновик можно испортить, бросить, переписать три раза — чистовик не пострадает. Когда редакция готова, вы переносите её в чистовик. В git это выглядит так:</p>
+  <ul>
+    <li><b>main</b> — чистовик. Именно его публикует GitHub Pages, именно его видят все.</li>
+    <li><b><dfn data-def="Отдельная линия изменений, которая начинается как копия main и живёт независимо, пока её не сольют обратно.">Ветка</dfn></b> — черновик. Копия main на момент создания. Всё, что вы коммитите в ветку, в main не попадает.</li>
+    <li><b><dfn data-def="Pull request: предложение влить изменения из ветки в main, со списком изменений и обсуждением.">Pull request (PR)</dfn></b> — записка «посмотри и утверди». К ней прилагается <dfn data-def="Diff: построчное сравнение версий. Зелёные строки добавлены, красные удалены.">diff</dfn> — точный список того, что изменится.</li>
+    <li><b><dfn data-def="Merge: перенос коммитов из ветки в main. После него ветка обычно удаляется.">Merge</dfn></b> — перенос в чистовик. После него main содержит изменения, а сайт обновляется.</li>
+  </ul>
+  <div class="flow">
+    <span class="node">main</span><span class="arrow">→</span>
+    <span class="node hl">ветка</span><span class="arrow">→</span>
+    <span class="node">коммиты</span><span class="arrow">→</span>
+    <span class="node hl">pull request</span><span class="arrow">→</span>
+    <span class="node">проверка</span><span class="arrow">→</span>
+    <span class="node hl">merge в main</span><span class="arrow">→</span>
+    <span class="node">сайт обновился</span>
+  </div>
+  <div class="why"><p><strong>Зачем это не-программисту?</strong> Потому что ИИ-агенты работают только так: каждая задача — своя ветка и свой pull request. Вы не разбираете их код построчно, вы смотрите diff, проверяете результат и нажимаете Merge. Или не нажимаете. В этом и есть контроль.</p></div>
+
+  <h2>Симулятор</h2>
+  <p>Слева — файл и кнопка коммита, справа — история. Жёлтая полоска сверху ведёт по заданиям: выполняйте их по порядку. Это учебная модель, в ней нет ни GitHub, ни интернета — только логика git.</p>
+  <div id="git-sim"></div>
+  <div class="tip"><p><strong>Обратите внимание</strong> на историю после merge: коммиты из ветки появились в main, плюс добавился коммит «Merge pull request». Ветка больше не нужна — её история никуда не делась.</p></div>
+
+  <h2>То же самое в настоящем GitHub</h2>
+  <p>Названия кнопок — как на экране. Делать это прямо сейчас не обязательно: в разделе «Практика» будет задание.</p>
+  <ol class="steps">
+    <li><p><b>Создать ветку.</b> В репозитории над списком файлов есть кнопка с названием текущей ветки — <b>main</b> ▾. Нажмите её, введите имя новой ветки (например, <code>update-list</code>) и нажмите <b>Create branch update-list from main</b>. Теперь вы «внутри» ветки — её имя написано на кнопке.</p>
+      <div class="mock" data-title="github.com/username/hello-ai">
+        <div class="mock-body">
+          <div class="mock-row"><span class="mock-btn mark">🌿 main ▾<span class="mark-label">1</span></span><span class="mock-btn">Add file ▾</span><span class="mock-btn primary">Code ▾</span></div>
+          <div class="mock-field"><label>Find or create a branch…</label><div class="mock-input">update-list</div></div>
+          <p class="muted">＋ Create branch <b>update-list</b> from main</p>
+        </div>
+      </div>
+    </li>
+    <li><p><b>Сделать коммит в ветку.</b> Откройте файл, нажмите карандаш, внесите изменение, нажмите <b>Commit changes…</b>. В окне проверьте: коммит идёт в ветку <code>update-list</code>, а не в main. Напишите сообщение, нажмите <b>Commit changes</b>.</p>
+      <div class="tip"><p><strong>Короткий путь.</strong> Если вы редактируете файл прямо в main, в окне коммита есть переключатель <b>Create a new branch for this commit and start a pull request</b>. GitHub создаст ветку и сразу откроет форму PR.</p></div>
+    </li>
+    <li><p><b>Открыть pull request.</b> Вернитесь на главную страницу репозитория: GitHub покажет жёлтую плашку с кнопкой <b>Compare &amp; pull request</b>. Нажмите, проверьте направление (<code>update-list</code> → <code>main</code>), напишите заголовок и пару слов о том, что и зачем изменили, нажмите <b>Create pull request</b>.</p>
+      <div class="mock" data-title="github.com/username/hello-ai/compare">
+        <div class="mock-body">
+          <p><b>Open a pull request</b></p>
+          <p class="muted">base: <b>main</b> ← compare: <b>update-list</b> · ✓ Able to merge</p>
+          <div class="mock-field"><label>Title</label><div class="mock-input">Добавить раздел «Контакты» на главную</div></div>
+          <span class="mock-btn primary">Create pull request</span>
+        </div>
+      </div>
+    </li>
+    <li><p><b>Проверить diff.</b> Во вкладке <b>Files changed</b> зелёным показаны добавленные строки, красным — удалённые. Наведите на строку и нажмите «+» — можно оставить комментарий прямо к ней. Так вы будете общаться с ИИ-агентами.</p></li>
+    <li><p><b>Слить.</b> Во вкладке <b>Conversation</b> нажмите <b>Merge pull request</b>, затем <b>Confirm merge</b>. Появится кнопка <b>Delete branch</b> — нажмите, ветка больше не нужна. Через несколько минут изменения появятся на сайте.</p></li>
+  </ol>
+
+  <h2>Три правила, которые избавят от проблем</h2>
+  <ul>
+    <li><b>Одна задача — одна ветка.</b> Не «ветка-на-всё», а <code>fix-header</code>, <code>add-calculator</code>, <code>update-contacts</code>. Маленькие PR легко проверять и легко откатывать.</li>
+    <li><b>В main — только через PR.</b> Даже если вы один. Привычка смотреть diff перед merge — та самая, которая спасёт, когда diff будет написан агентом.</li>
+    <li><b>Слили — удалили ветку.</b> История сохранится в коммитах, а список веток не превратится в свалку.</li>
+  </ul>
+
+  <h2>Проверьте себя</h2>
+  <div class="quiz" data-id="branches-quiz">
+    <div class="q">
+      <p class="q-text">Вы сделали три коммита в ветке <code>add-calculator</code>. Что видят посетители вашего сайта на GitHub Pages?</p>
+      <ul class="q-options">
+        <li>Новую версию с калькулятором</li>
+        <li data-correct>Старую версию: сайт собирается из main, а в main ещё ничего не слито</li>
+        <li>Ошибку, пока PR не закрыт</li>
+      </ul>
+      <p class="q-explain">Ветка не влияет на main, пока вы не сделаете merge. Это и есть смысл веток: можно работать, ничего не ломая.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Что такое pull request?</p>
+      <ul class="q-options">
+        <li>Команда скачать репозиторий на компьютер</li>
+        <li data-correct>Предложение влить изменения из ветки в main, с diff и обсуждением</li>
+        <li>Запрос на доступ к чужому репозиторию</li>
+      </ul>
+      <p class="q-explain">PR — это «посмотри и утверди». Пока его не слили, в main ничего не меняется.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">После merge вы удалили ветку. Что стало с её коммитами?</p>
+      <ul class="q-options">
+        <li>Удалились вместе с веткой</li>
+        <li data-correct>Остались в истории main — ветка была лишь указателем на них</li>
+        <li>Переместились в архив GitHub на 30 дней</li>
+      </ul>
+      <p class="q-explain">Merge переносит коммиты в main. Имя ветки после этого — просто ярлык, который можно убрать.</p>
+    </div>
+    <div class="q">
+      <p class="q-text">Почему ИИ-агент всегда работает в отдельной ветке и открывает PR, а не пишет сразу в main?</p>
+      <ul class="q-options">
+        <li>Потому что у него нет прав на main</li>
+        <li data-correct>Чтобы вы могли проверить diff и решить, принимать изменения или нет</li>
+        <li>Потому что main нельзя редактировать в браузере</li>
+      </ul>
+      <p class="q-explain">PR от агента — это контрольная точка. Никакие изменения не попадут на сайт, пока вы не нажмёте Merge.</p>
+    </div>
+  </div>
+
+  <h2>Практика</h2>
+  <p>Повторите цикл в своём репозитории <code>hello-ai</code> (или в том, что создали в контрольной 4).</p>
+  <ul class="checklist" data-id="branches-practice">
+    <li>Создана ветка с осмысленным именем, в ней — минимум один коммит.</li>
+    <li>Открыт pull request с заголовком и описанием; во вкладке Files changed я посмотрел(а) diff.</li>
+    <li>Оставлен хотя бы один комментарий к строке в diff.</li>
+    <li>PR слит (Merge pull request → Confirm merge), ветка удалена.</li>
+    <li>Через несколько минут изменение видно на сайте.</li>
+  </ul>
+
+  <div class="win"><p><strong>Вы умеете то, что отличает «пользуюсь GitHub» от «работаю с GitHub».</strong> Следующий урок — что делать, когда что-то пошло не так, и почему это почти всегда поправимо.</p></div>
+</article>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>
