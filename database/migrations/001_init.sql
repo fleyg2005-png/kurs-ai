@@ -1,5 +1,5 @@
--- Схема базы курсов. {p} заменяется на префикс таблиц из настроек установки.
--- MySQL 5.7+ / MariaDB 10.3+, кодировка utf8mb4.
+-- Начальная схема базы курсов. {p} заменяется на префикс таблиц (DB_PREFIX в .env).
+-- MySQL 5.7+ / MariaDB 10.3+, кодировка utf8mb4. Таблицы создаются, только если их ещё нет.
 
 CREATE TABLE IF NOT EXISTS {p}users (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,

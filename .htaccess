@@ -16,8 +16,8 @@ AddDefaultCharset UTF-8
   RewriteRule (^|/)\.(?!well-known/) - [F,L]
 
   # Служебные папки и файлы — запрещены
-  RewriteRule ^(app|database|content|tools|tests|vendor)(/|$) - [F,L]
-  RewriteRule ^(config\.php|config\.sample\.php|README\.md|.+\.md|.+\.sql|.+\.log)$ - [F,L]
+  RewriteRule ^(app|bin|database|content|tools|tests|vendor)(/|$) - [F,L]
+  RewriteRule ^(config\.php|composer\.(json|lock)|.+\.(md|sql|log|sh))$ - [F,L]
 
   # Статика из assets отдаётся как есть
   RewriteCond %{REQUEST_FILENAME} -f
@@ -34,7 +34,7 @@ AddDefaultCharset UTF-8
 </IfModule>
 
 # Запасной запрет на случай отключённого mod_rewrite
-<FilesMatch "^(config\.php|config\.sample\.php|.*\.md|.*\.sql|\..*)$">
+<FilesMatch "^(config\.php|composer\.(json|lock)|.*\.(md|sql|log|sh)|\..*)$">
   Require all denied
 </FilesMatch>
 <IfModule mod_alias.c>

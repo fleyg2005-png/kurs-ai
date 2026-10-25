@@ -12,19 +12,23 @@ if ($path === 'index.php') $path = '';
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: strict-origin-when-cross-origin');
 
-if (!installed()) {
-    require APP_DIR . '/installer.php';
-    installer_run();
+if (!configured()) {
+    plain_page(503, 'Сайт настраивается', 'Администратору: скопируйте .env.example в .env, укажите доступ к базе и запустите ./deploy.sh --seed.');
     exit;
 }
 
 require APP_DIR . '/router.php';
-require APP_DIR . '/migrations.php';
 try {
-    migrate();
     dispatch($path);
 } catch (Throwable $e) {
-    error_log('[kurs] ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine());
-    http_response_code(500);
-    render_message('Ошибка на сервере', 'Что-то пошло не так. Попробуйте обновить страницу чуть позже.');
+    error_log('[kurs] ' . get_class($e) . ': ' . $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine());
+    $detail = config('debug') ? ' ' . get_class($e) . ': ' . $e->getMessage() : '';
+    if ($e instanceof PDOException && in_array((string)$e->getCode(), ['42S02', '42S22'], true)) {
+        /* Код уже новый, а база ещё нет: после git pull не запустили миграции */
+        plain_page(503, 'Сайт обновляется', 'Зайдите через пару минут. Администратору: запустите ./deploy.sh — нужны миграции базы.' . $detail);
+    } elseif ($e instanceof PDOException) {
+        plain_page(503, 'База данных недоступна', 'Попробуйте обновить страницу чуть позже.' . $detail);
+    } else {
+        plain_page(500, 'Ошибка на сервере', 'Что-то пошло не так. Попробуйте обновить страницу чуть позже.' . $detail);
+    }
 }

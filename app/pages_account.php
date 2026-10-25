@@ -80,8 +80,7 @@ function page_reset_request(): void {
             $u = row('SELECT id, email, name FROM ' . t('users') . ' WHERE email = ?', [$email]);
             if ($u) {
                 $token = create_reset_token((int)$u['id']);
-                $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-                $link = $scheme . '://' . ($_SERVER['HTTP_HOST'] ?? 'localhost') . url('account/reset/' . $token);
+                $link = site_origin() . url('account/reset/' . $token);
                 send_mail($u['email'], 'Восстановление пароля', "Здравствуйте, {$u['name']}!\n\nЧтобы задать новый пароль, откройте ссылку (действует час):\n{$link}\n\nЕсли вы не запрашивали восстановление, просто удалите это письмо.");
             }
         }
