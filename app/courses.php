@@ -10,11 +10,17 @@ function course_by_id(int $id): ?array { return row('SELECT * FROM ' . t('course
 function course_url(array $c, string $path = ''): string { return url($c['slug'] . '/' . ltrim($path, '/')); }
 function lesson_url(array $c, string $lessonSlug): string { return course_url($c, 'lessons/' . $lessonSlug . '.html'); }
 function storage_key(array $c): string { return $c['storage_key'] !== '' ? $c['storage_key'] : 'kurs:' . $c['slug'] . ':'; }
-function slug_free(string $slug, ?int $exceptId = null): bool {
-    if (in_array($slug, RESERVED_SLUGS, true) || !valid_slug($slug)) return false;
+/* Почему курсу нельзя дать этот адрес; null — можно. $exceptId — курс, которому адрес уже принадлежит. */
+function slug_problem(string $slug, ?int $exceptId = null): ?string {
+    if (!valid_slug($slug)) return 'Адрес «' . $slug . '» недопустим: латиница, цифры и дефис.';
+    if (in_array($slug, RESERVED_SLUGS, true)) return 'Адрес «' . $slug . '» занят разделом сайта.';
     $id = val('SELECT id FROM ' . t('courses') . ' WHERE slug = ?', [$slug]);
-    return !$id || (int)$id === (int)$exceptId;
+    if ($id) return (int)$id === (int)$exceptId ? null : 'Адрес «' . $slug . '» уже занят другим курсом.';
+    /* Настоящая папка или файл в корне сайта отдаются сервером напрямую и перекрыли бы курс */
+    if (file_exists(ROOT_DIR . '/' . $slug)) return 'Адрес «' . $slug . '» занят папкой «' . $slug . '» в корне сайта на сервере.';
+    return null;
 }
+function slug_free(string $slug, ?int $exceptId = null): bool { return slug_problem($slug, $exceptId) === null; }
 
 function tracks_of(int $courseId): array { return rows('SELECT * FROM ' . t('tracks') . ' WHERE course_id = ? ORDER BY position, id', [$courseId]); }
 function modules_of(int $courseId): array { return rows('SELECT * FROM ' . t('modules') . ' WHERE course_id = ? ORDER BY (track_id IS NOT NULL), track_id, position, id', [$courseId]); }

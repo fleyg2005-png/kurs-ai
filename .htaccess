@@ -1,6 +1,6 @@
 # Курсы: всё идёт через index.php, служебное закрыто.
 Options -Indexes
-DirectoryIndex index.php
+DirectoryIndex index.php index.html
 AddDefaultCharset UTF-8
 
 <IfModule mod_headers.c>
@@ -23,8 +23,10 @@ AddDefaultCharset UTF-8
   RewriteCond %{REQUEST_FILENAME} -f
   RewriteRule ^assets/ - [L]
 
-  # Всё остальное — в index.php
+  # Всё остальное — в index.php. Настоящие файлы и папки на сервере, например
+  # старая статичная версия курса в папке kurs-ai, отдаются как есть
   RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^ index.php [L,QSA]
   RewriteRule ^(?!index\.php$|assets/).+\.php$ index.php [L,QSA]
 </IfModule>

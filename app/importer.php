@@ -33,7 +33,7 @@ function import_course_dir(string $slugDir, ?string $newSlug = null, bool $publi
     $meta = json_decode((string)@file_get_contents($dir . '/course.json'), true);
     if (!is_array($meta)) throw new RuntimeException('Нет или испорчен course.json в content/' . $slugDir);
     $slug = $newSlug ?: (string)($meta['slug'] ?? $slugDir);
-    if (!slug_free($slug)) throw new RuntimeException('Адрес «' . $slug . '» уже занят или недопустим.');
+    if ($why = slug_problem($slug)) throw new RuntimeException($why);
 
     $pdo = db();
     $pdo->beginTransaction();
@@ -77,11 +77,29 @@ function import_course_dir(string $slugDir, ?string $newSlug = null, bool $publi
             $addModules((array)($tr['modules'] ?? []), last_id());
         }
         $pdo->commit();
+        set_setting(content_marker($slugDir), (string)$courseId);
         return $courseId;
     } catch (Throwable $e) {
         $pdo->rollBack();
         throw $e;
     }
+}
+
+/* Отметка, из какой папки content/ загружен курс: повторные сиды не создают его заново,
+   даже если адрес курса потом поменяли в админке */
+function content_marker(string $dir): string { return 'content_course_' . substr(basename($dir), 0, 48); }
+
+/* Что стало с курсом из content/$dir: ['course' => курс или null, 'deleted' => удалён в админке] */
+function content_import_state(string $dir): array {
+    $id = (int)(val('SELECT v FROM ' . t('settings') . ' WHERE k = ?', [content_marker($dir)]) ?? 0);
+    if ($id) {
+        $c = course_by_id($id);
+        return ['course' => $c, 'deleted' => $c === null];
+    }
+    $meta = json_decode((string)@file_get_contents(ROOT_DIR . '/content/' . basename($dir) . '/course.json'), true);
+    $c = course_by_slug((string)($meta['slug'] ?? basename($dir)));
+    if ($c) set_setting(content_marker($dir), (string)$c['id']);   /* курс из прежней установки, без отметки */
+    return ['course' => $c, 'deleted' => false];
 }
 
 /* Экспорт курса в тот же формат (для переноса или резервной копии) */
@@ -114,7 +132,7 @@ function export_course(int $courseId): array {
 function import_course_json(array $pack, string $slug): int {
     $meta = $pack['course'] ?? null;
     if (!is_array($meta) || empty($meta['title'])) throw new RuntimeException('В файле нет описания курса.');
-    if (!slug_free($slug)) throw new RuntimeException('Адрес «' . $slug . '» уже занят или недопустим.');
+    if ($why = slug_problem($slug)) throw new RuntimeException($why);
     $pdo = db();
     $pdo->beginTransaction();
     try {

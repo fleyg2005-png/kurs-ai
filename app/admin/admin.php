@@ -92,7 +92,7 @@ function adm_courses(): void {
                 $title = trim((string)post('title'));
                 $slug = trim((string)post('slug')) ?: slugify($title);
                 if ($title === '') throw new RuntimeException('Укажите название курса.');
-                if (!slug_free($slug)) throw new RuntimeException('Адрес «' . $slug . '» занят или недопустим: латиница, цифры и дефис.');
+                if ($why = slug_problem($slug)) throw new RuntimeException($why);
                 q('INSERT INTO ' . t('courses') . ' (slug, title, brand, description, access, price_label, is_published, position, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, ?)',
                   [$slug, $title, mb_substr($title, 0, 80), '', 'open', 'Бесплатно', (int)val('SELECT COALESCE(MAX(position),0)+1 FROM ' . t('courses')), now(), now()]);
                 $id = last_id();
@@ -139,7 +139,7 @@ function adm_courses(): void {
         . adm_field('title', 'Название', '', 'text', 'required maxlength="200" data-slug-source="slug"')
         . adm_field('slug', 'Адрес', '', 'text', 'pattern="[a-z0-9][a-z0-9\-]*" maxlength="64"', 'Латиница, цифры, дефис. Курс будет по адресу <code>' . e(url('')) . 'адрес/</code>')
         . '<button class="btn primary" type="submit">Создать курс</button></form></section>';
-    $dirs = array_filter(content_dirs(), function ($d) { $m = json_decode((string)@file_get_contents(ROOT_DIR . '/content/' . $d . '/course.json'), true); return !course_by_slug((string)($m['slug'] ?? $d)); });
+    $dirs = array_filter(content_dirs(), function ($d) { return content_import_state($d)['course'] === null; });
     $h .= '<section class="panel"><h2>Импорт</h2><form method="post" enctype="multipart/form-data" class="form">' . csrf_field() . '<input type="hidden" name="action" value="import_file">'
         . '<label class="field"><span>Файл экспорта курса (.json)</span><input type="file" name="pack" accept=".json,application/json" required></label>'
         . adm_field('slug', 'Адрес нового курса', '', 'text', 'pattern="[a-z0-9][a-z0-9\-]*"', 'Пусто — возьмётся из файла') . '<button class="btn" type="submit">Загрузить</button></form>';
@@ -175,7 +175,7 @@ function adm_course(int $id): void {
         }
         if ($act === 'save') {
             $slug = trim((string)post('slug'));
-            if (!slug_free($slug, $id)) { flash('Адрес «' . $slug . '» занят или недопустим.', 'error'); redirect(url('admin/courses/' . $id)); }
+            if ($why = slug_problem($slug, $id)) { flash($why, 'error'); redirect(url('admin/courses/' . $id)); }
             $access = in_array(post('access'), ['open', 'login', 'closed'], true) ? post('access') : 'open';
             q('UPDATE ' . t('courses') . ' SET slug = ?, title = ?, brand = ?, brand_sub = ?, logo = ?, emoji = ?, category = ?, description = ?, access = ?, access_code = ?, price_label = ?, cert_title = ?, cert_sub = ?, common_skills = ?, home_html = ?, module_base = ?, is_published = ?, updated_at = ? WHERE id = ?', [
                 $slug, trim((string)post('title')), trim((string)post('brand')), trim((string)post('brand_sub')), mb_substr(trim((string)post('logo')), 0, 8), mb_substr(trim((string)post('emoji')), 0, 16),
