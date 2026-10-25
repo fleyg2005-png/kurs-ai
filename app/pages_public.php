@@ -10,7 +10,7 @@ function page_catalog(): void {
     $u = current_user();
 
     $h = '<section class="cat-hero"><h1>' . e(setting('site_title', 'Курсы')) . '</h1>'
-       . '<p class="lead">' . e(setting('site_tagline', 'Практические курсы. Бесплатные открываются сразу, без регистрации.')) . '</p>'
+       . '<p class="lead">' . e(setting('site_tagline', 'Практические курсы. Начать можно сразу, без регистрации. А с аккаунтом прогресс сохранится и откроется на любом устройстве.')) . '</p>'
        . '<form class="cat-search" method="get" action="' . e(url()) . '"><input type="search" name="q" value="' . e($f['q']) . '" placeholder="Найти курс" aria-label="Поиск курса">'
        . ($f['category'] !== '' ? '<input type="hidden" name="category" value="' . e($f['category']) . '">' : '')
        . '<button class="btn primary" type="submit">Найти</button></form></section>';
